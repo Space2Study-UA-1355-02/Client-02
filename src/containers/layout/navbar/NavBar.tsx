@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import MenuItem from '@mui/material/MenuItem'
@@ -26,7 +25,7 @@ import {
 import { studentRoutes } from '~/router/constants/studentRoutes'
 import { authRoutes } from '~/router/constants/authRoutes'
 
-import { SizeEnum, UserRoleEnum } from '~/types'
+import { UserRoleEnum } from '~/types'
 import { styles } from '~/containers/layout/navbar/NavBar.styles'
 
 const Navbar = () => {
@@ -101,14 +100,11 @@ const Navbar = () => {
 
   return (
     <Box sx={styles.header}>
-      <Button
-        component={Link}
-        size={SizeEnum.Small}
-        sx={styles.logoButton}
-        to={guestRoutes.home.path}
-      >
-        <Logo />
-      </Button>
+      <HashLink to='/#welcome'>
+        <Box sx={styles.logoButton}>
+          <Logo />
+        </Box>
+      </HashLink>
       {renderMenu(findOffersMenu, { autoFocus: false })}
       <List sx={styles.navList}>{navigationList}</List>
       <NavigationIcons setSidebarOpen={handleOpenSidebar} />
