@@ -25,30 +25,30 @@ module.exports = {
     }
   },
   rules: {
-    'prefer-arrow-callback': ['warn'],
-    'react/jsx-boolean-value': 'warn',
-    'react/jsx-closing-bracket-location': 'warn',
-    'react/jsx-equals-spacing': 'warn',
-    'react/jsx-first-prop-new-line': 'warn',
-    'react/jsx-handler-names': 'warn',
-    'react/jsx-key': 'warn',
+    'prefer-arrow-callback': ['error'],
+    'react/jsx-boolean-value': 'error',
+    'react/jsx-closing-bracket-location': 'error',
+    'react/jsx-equals-spacing': 'error',
+    'react/jsx-first-prop-new-line': 'error',
+    'react/jsx-handler-names': 'error',
+    'react/jsx-key': 'error',
     'react/react-in-jsx-scope': 'off',
-    'react/jsx-pascal-case': 'warn',
-    'react/jsx-sort-props': 'warn',
+    'react/jsx-pascal-case': 'error',
+    'react/jsx-sort-props': 'error',
     'react/jsx-no-useless-fragment': [
-      'warn',
+      'error',
       {
         allowExpressions: true
       }
     ],
     'react/jsx-max-depth': [
-      'warn',
+      'error',
       {
         max: 5
       }
     ],
     'react/jsx-wrap-multilines': [
-      'warn',
+      'error',
       {
         declaration: 'parens',
         assignment: 'parens',
@@ -59,7 +59,7 @@ module.exports = {
         prop: 'ignore'
       }
     ],
-    'react-hooks/rules-of-hooks': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off'
   },
