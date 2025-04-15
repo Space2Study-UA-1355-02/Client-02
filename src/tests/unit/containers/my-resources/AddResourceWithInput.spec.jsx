@@ -9,6 +9,7 @@ const fetchDataMock = vi.fn()
 const text = 'test search'
 const route = '/my-resources'
 
+
 const props = {
   btnText: 'myResourcesPage.quizzes.newQuizBtn',
   fetchData: fetchDataMock,
