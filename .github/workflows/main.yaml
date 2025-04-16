@@ -2,35 +2,40 @@ name: CI
 
 on:
   push:
-    branches: ['*']
+    branches:
+      - develop
+      - '*'
   pull_request:
-    branches: ['*']
+    types: [opened, synchronize, reopened]
+    branches:
+      - '*'
 
 jobs:
-  tests:
+  ci-tests-and-sonar:
+    name: Run Tests and Sonar Scan
     runs-on: ubuntu-latest
+
     steps:
       # Checkout the Repo
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # потрібно для Sonar
 
-      # Install Node 18
-      - name: Setup Node
+      # Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name : Npm Install
+      # Install dependencies
+      - name: NPM Install
         run: npm install
-        
-     # - name : Lint
-     #   run : npm run lint
-        
-      - name : Test
+
+      # Run tests
+      - name: Run Tests
         run: npm test
-        
-     # Generate sonar-project.properties dynamically
+
+      # Generate sonar-project.properties
       - name: Generate sonar-project.properties
         run: |
           echo "sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}" > sonar-project.properties
@@ -40,17 +45,15 @@ jobs:
           echo "sonar.coverage.exclusions=**/src/tests/**/*" >> sonar-project.properties
           echo "sonar.tests=./src/tests" >> sonar-project.properties
           echo "sonar.sourceEncoding=UTF-8" >> sonar-project.properties
-          # echo "sonar.javascript.lcov.reportPaths=./src/tests/coverage/lcov.info" >> sonar-project.properties
-          # echo "sonar.testExecutionReportPaths=./test-report.xml" >> sonar-project.properties
 
-      # Run SonarCloud Scan
+      # SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # Delete sonar-project.properties after scan
+      # Clean up
       - name: Remove sonar-project.properties
         if: always()
         run: rm sonar-project.properties
