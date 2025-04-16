@@ -1,6 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
 import FilterInput from '~/components/filter-input/FilterInput'
-import { vi } from 'vitest'
 
 describe('FilterInput', () => {
   it('renders the input field', () => {
@@ -9,37 +8,44 @@ describe('FilterInput', () => {
   })
 
   it('renders typed text correctly', () => {
-    const { getByRole } = render(
-      <FilterInput onChange={() => {}} value='hello' />
+    const { getByDisplayValue } = render(
+      <FilterInput value="search text" onChange={() => {}} />
     )
-    const input = getByRole('textbox')
-    expect(input.value).toBe('hello')
+    expect(getByDisplayValue('search text')).toBeInTheDocument()
   })
 
-  it('deletes typed text when delete button is clicked', () => {
+  it('calls onChange when user types', () => {
+    const handleChange = vi.fn()
+    const { getByRole } = render(<FilterInput onChange={handleChange} />)
+    const input = getByRole('textbox')
+    fireEvent.change(input, { target: { value: 'test' } })
+    expect(handleChange).toHaveBeenCalledWith('test')
+  })
+
+  it('clears the input when the clear button is clicked', () => {
     const handleChange = vi.fn()
     const { getByTestId } = render(
-      <FilterInput value='hello' onChange={handleChange} />
+      <FilterInput value="some text" onChange={handleChange} />
     )
-    const clearButton = getByTestId('clear-button')
-    fireEvent.click(clearButton)
+    fireEvent.click(getByTestId('clear-button'))
     expect(handleChange).toHaveBeenCalledWith('')
   })
 
-  it('calls updateFilter function on search icon (if used as button)', () => {
-    const handleChange = vi.fn()
-    render(<FilterInput value='' onChange={handleChange} />)
+  it('calls onSearch when search button is clicked', () => {
+    const onSearch = vi.fn()
+    const { getByTestId } = render(
+      <FilterInput value="" onChange={() => {}} onSearch={onSearch} />
+    )
+    fireEvent.click(getByTestId('search-button'))
+    expect(onSearch).toHaveBeenCalled()
   })
 
-  it('calls updateFilter function when Enter is pressed', () => {
-    const handleChange = vi.fn()
+  it('calls onSearch when Enter key is pressed', () => {
+    const onSearch = vi.fn()
     const { getByRole } = render(
-      <FilterInput value='typed' onChange={handleChange} />
+      <FilterInput value="some" onChange={() => {}} onSearch={onSearch} />
     )
-    const input = getByRole('textbox')
-
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
-
-    expect(handleChange).not.toHaveBeenCalledWith('typed')
+    fireEvent.keyDown(getByRole('textbox'), { key: 'Enter', code: 'Enter' })
+    expect(onSearch).toHaveBeenCalled()
   })
 })
