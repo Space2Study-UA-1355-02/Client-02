@@ -1,0 +1,100 @@
+import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
+import useForm from '~/hooks/use-form'
+import {
+  confirmPassword,
+  email,
+  firstName,
+  lastName,
+  password
+} from '~/utils/validations/login'
+import { useSignUpMutation } from '~/services/auth-service'
+import { useTranslation } from 'react-i18next'
+import { useModalContext } from '~/context/modal-context'
+import { useSnackBarContext } from '~/context/snackbar-context'
+import { signup, snackbarVariants } from '~/constants'
+import { ErrorResponse, SignupParams, UserRole, UserRoleEnum } from '~/types'
+import { FC } from 'react'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
+import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
+import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
+
+interface SignUpDialogProps {
+  role: UserRole
+}
+
+const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
+  const { t } = useTranslation()
+  const { closeModal } = useModalContext()
+  const { setAlert } = useSnackBarContext()
+  const [signUpUser] = useSignUpMutation()
+
+  const { handleSubmit, handleInputChange, handleBlur, data, errors } =
+    useForm<SignupParams>({
+      onSubmit: async () => {
+        try {
+          await signUpUser(data).unwrap()
+          closeModal()
+        } catch (e) {
+          const error = e as FetchBaseQueryError & { data: ErrorResponse }
+          setAlert({
+            severity: snackbarVariants.error,
+            message: `errors.${error.data.code}`
+          })
+        }
+      },
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: role
+      },
+      validations: { firstName, lastName, email, password, confirmPassword }
+    })
+
+  return (
+    <Box sx={styles.root}>
+      <Box sx={styles.imgContainer}>
+        <Box
+          alt='signup'
+          component='img'
+          src={
+            role === UserRoleEnum.Student ? studentSignUpImg : tutorSignUpImg
+          }
+          sx={styles.img}
+        />
+      </Box>
+
+      <Box sx={styles.formContainer}>
+        <Typography sx={styles.title} variant='h2'>
+          {t(
+            role === UserRoleEnum.Student
+              ? 'signup.head.student'
+              : 'signup.head.tutor'
+          )}
+        </Typography>
+        <Box sx={styles.form}>
+          <SignUpForm
+            data={data}
+            errors={errors}
+            handleBlur={handleBlur}
+            handleChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+          <GoogleLogin
+            buttonWidth={styles.form.maxWidth}
+            role={role}
+            type={signup}
+          />
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+export default SignUpDialog
