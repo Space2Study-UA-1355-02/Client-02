@@ -3,13 +3,15 @@ import IconButton from '@mui/material/IconButton'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import Box from '@mui/material/Box'
 import InputBase, { InputBaseProps } from '@mui/material/InputBase'
-import { SxProps } from '@mui/material'
+import { SxProps, Theme } from '@mui/material'
 
 import { styles } from '~/components/input-with-icon/InputWithIcon.styles'
 
-interface InputWithIconProps extends InputBaseProps {
+interface InputWithIconProps extends Omit<InputBaseProps, 'value'> {
   startIcon?: ReactNode
   onClear: () => void
+  sx?: SxProps<Theme>
+  value?: string | number | readonly string[]
 }
 
 const InputWithIcon: FC<InputWithIconProps> = ({
@@ -20,12 +22,21 @@ const InputWithIcon: FC<InputWithIconProps> = ({
   ...props
 }) => {
   return (
-    <Box sx={[styles.root, sx] as SxProps}>
+    <Box sx={[styles.root, ...(Array.isArray(sx) ? sx : [sx])]}>
       {startIcon}
-      <InputBase sx={styles.input} value={value} {...props} />
+
+      <InputBase
+        sx={styles.input}
+        value={value}
+        inputProps={{
+          className: value ? 'visible' : 'hidden',
+        }}
+        {...props}
+      />
+
       {value && (
         <IconButton
-          data-testid='clearIcon'
+          data-testid="clearIcon"
           onClick={onClear}
           sx={styles.clearIcon}
         >
