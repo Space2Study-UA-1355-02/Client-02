@@ -11,31 +11,45 @@ on:
       - '*'
 
 jobs:
-  ci-tests-and-sonar:
-    name: Run Tests and Sonar Scan
+  tests:
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the Repo
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # потрібно для Sonar
+          fetch-depth: 0
 
-      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Install dependencies
       - name: NPM Install
         run: npm install
 
-      # Run tests
       - name: Run Tests
         run: npm test
 
-      # Generate sonar-project.properties
+  sonar:
+    name: SonarCloud Analysis
+    needs: tests
+    if: always() 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: NPM Install
+        run: npm install
+
       - name: Generate sonar-project.properties
         run: |
           echo "sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}" > sonar-project.properties
@@ -46,14 +60,12 @@ jobs:
           echo "sonar.tests=./src/tests" >> sonar-project.properties
           echo "sonar.sourceEncoding=UTF-8" >> sonar-project.properties
 
-      # SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      # Clean up
       - name: Remove sonar-project.properties
         if: always()
         run: rm sonar-project.properties
