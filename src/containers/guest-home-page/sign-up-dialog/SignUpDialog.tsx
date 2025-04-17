@@ -1,8 +1,20 @@
-import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
+
+import { ErrorResponse, SignupParams, UserRole, UserRoleEnum } from '~/types'
+
+import { useModalContext } from '~/context/modal-context'
+import { useSnackBarContext } from '~/context/snackbar-context'
+
 import useForm from '~/hooks/use-form'
+import { useSignUpMutation } from '~/services/auth-service'
+
+import { signup, snackbarVariants } from '~/constants'
+
 import {
   confirmPassword,
   email,
@@ -10,17 +22,14 @@ import {
   lastName,
   password
 } from '~/utils/validations/login'
-import { useSignUpMutation } from '~/services/auth-service'
-import { useTranslation } from 'react-i18next'
-import { useModalContext } from '~/context/modal-context'
-import { useSnackBarContext } from '~/context/snackbar-context'
-import { signup, snackbarVariants } from '~/constants'
-import { ErrorResponse, SignupParams, UserRole, UserRoleEnum } from '~/types'
-import { FC } from 'react'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+
+import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
+import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
+
+import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
+
 import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
 import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
-import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 
 interface SignUpDialogProps {
   role: UserRole

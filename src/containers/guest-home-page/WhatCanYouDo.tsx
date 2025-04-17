@@ -1,18 +1,23 @@
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Box from '@mui/material/Box'
-import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
+
 import InfoCard from '~/components/info-card/InfoCard'
+import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
+
+import SignUpDialog from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog'
+
+import { useModalContext } from '~/context/modal-context'
 
 import { guestRoutes } from '~/router/constants/guestRoutes'
-import learnImg from '~/assets/img/guest-home-page/learnImg.png'
-import teachImg from '~/assets/img/guest-home-page/teachImg.png'
 
 import { UserRoleEnum } from '~/types'
+
 import { styles } from '~/containers/guest-home-page/styles/WhatCanYouDo.styles'
-import { useModalContext } from '~/context/modal-context'
-import { useCallback } from 'react'
-import SignUpDialog from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog'
+
+import learnImg from '~/assets/img/guest-home-page/learnImg.png'
+import teachImg from '~/assets/img/guest-home-page/teachImg.png'
 
 const cardData = [
   {

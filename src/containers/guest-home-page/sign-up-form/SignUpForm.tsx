@@ -1,16 +1,20 @@
-import Box from '@mui/material/Box'
-import AppTextField from '~/components/app-text-field/AppTextField'
-import { useTranslation } from 'react-i18next'
-import { styles } from '~/containers/guest-home-page/sign-up-form/SignUpForm.styles'
-import useInputVisibility from '~/hooks/use-input-visibility'
 import React, { useCallback, useState } from 'react'
-import { SignupParams } from '~/types'
-import Typography from '@mui/material/Typography'
+import { useTranslation } from 'react-i18next'
+
+import Box from '@mui/material/Box'
 import ButtonBase from '@mui/material/ButtonBase'
-import AppButton from '~/components/app-button/AppButton'
-import { useAppSelector } from '~/hooks/use-redux'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import Typography from '@mui/material/Typography'
+
+import AppButton from '~/components/app-button/AppButton'
+import AppTextField from '~/components/app-text-field/AppTextField'
+
+import { styles } from '~/containers/guest-home-page/sign-up-form/SignUpForm.styles'
+import useInputVisibility from '~/hooks/use-input-visibility'
+import { useAppSelector } from '~/hooks/use-redux'
+
+import { SignupParams } from '~/types'
 
 interface SignUpFormProps {
   handleSubmit: (event: React.FormEvent<HTMLDivElement>) => void
@@ -61,7 +65,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           required
           size='small'
           sx={{ mb: '5px' }}
-          type='firstName'
+          type='text'
           value={data.firstName}
         />
 
@@ -75,7 +79,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           required
           size='small'
           sx={{ mb: '5px' }}
-          type='lastName'
+          type='text'
           value={data.lastName}
         />
       </Box>
