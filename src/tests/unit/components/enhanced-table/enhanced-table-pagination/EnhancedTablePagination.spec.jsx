@@ -1,5 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 import EnhancedTablePagination from '~/components/enhanced-table/enhanced-table-pagination/EnhancedTablePagination'
 
 vi.mock('react-i18next', () => ({
@@ -35,10 +36,10 @@ describe('EnhancedTablePagination', () => {
     expect(paginationInput).toHaveValue(1)
   })
 
-  it('should change page from 1 to 2', () => {
+  it('should change page from 1 to 2', async () => {
     const page2Button = screen.getByRole('button', { name: /Go to page 2/i })
 
-    fireEvent.click(page2Button)
+    await userEvent.click(page2Button)
 
     expect(handleChangePage).toHaveBeenCalledWith(expect.anything(), 2)
   })
