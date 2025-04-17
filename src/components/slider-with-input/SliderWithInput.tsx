@@ -57,8 +57,10 @@ const SliderWithInput: FC<SliderWithInputProps> = ({
       min,
       max
     })
-
-    setChangedPrice(constrainedNumber)
+    if (constrainedNumber !== Number(changedPrice)) {
+      setChangedPrice(constrainedNumber)
+      debouncedOnChange(constrainedNumber)
+    }
   }
 
   return (
