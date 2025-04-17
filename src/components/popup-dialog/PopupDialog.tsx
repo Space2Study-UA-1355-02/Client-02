@@ -24,11 +24,11 @@ const PopupDialog: FC<PopupDialogProps> = ({
   const { isMobile } = useBreakpoints()
 
   const handleMouseOver = () => {
-    if (timerId) clearTimeout(timerId)
+    clearTimeout(timerId!)
   }
 
   const handleMouseLeave = () => {
-    if (timerId) closeModalAfterDelay()
+    closeModalAfterDelay()
   }
 
   return (
