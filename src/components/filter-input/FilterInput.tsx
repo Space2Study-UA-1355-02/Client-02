@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, KeyboardEvent } from 'react'
 import IconButton from '@mui/material/IconButton'
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
@@ -8,12 +8,24 @@ import AppTextField from '~/components/app-text-field/AppTextField'
 
 interface FilterInputProps extends Omit<TextFieldProps, 'onChange'> {
   onChange: (value: string) => void
+  onSearch?: () => void 
   value?: string
 }
 
-const FilterInput: FC<FilterInputProps> = ({ value, onChange, ...props }) => {
+const FilterInput: FC<FilterInputProps> = ({
+  value,
+  onChange,
+  onSearch,
+  ...props
+}) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value)
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && onSearch) {
+      onSearch()
+    }
   }
 
   const inputProps = {
@@ -26,7 +38,13 @@ const FilterInput: FC<FilterInputProps> = ({ value, onChange, ...props }) => {
         <ClearIcon color='secondary' />
       </IconButton>
     ) : (
-      <SearchIcon color='primary' />
+      <IconButton
+        data-testid='search-button'
+        onClick={onSearch}
+        sx={{ p: 0 }}
+      >
+        <SearchIcon color='primary' />
+      </IconButton>
     )
   }
 
@@ -34,6 +52,7 @@ const FilterInput: FC<FilterInputProps> = ({ value, onChange, ...props }) => {
     <AppTextField
       InputProps={inputProps}
       onChange={handleInputChange}
+      onKeyDown={handleKeyDown}
       size='small'
       value={value}
       {...props}
