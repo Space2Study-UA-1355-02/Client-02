@@ -49,7 +49,7 @@
         "description": "Finding a tutor is very easy, select a subject from the list, and then pick the tutor, or enter his name and find directly."
       },
       "sendRequest": {
-        "title": "Send Request",
+        "title": "Send a Request",
         "description": "Write a request to the tutor in two clicks, where you indicate/confirm the price and the desired level of training."
       },
       "startLearning": {
