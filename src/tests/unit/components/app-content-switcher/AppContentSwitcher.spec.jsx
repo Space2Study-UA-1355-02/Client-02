@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import AppContentSwitcher from '~/components/app-content-switcher/AppContentSwitcher'
-import '@testing-library/jest-dom'
-import jest from 'jest-mock'
+import { vi } from 'vitest'
 
 const switchOptions = {
   left: { text: 'Left Option', tooltip: 'Left tooltip' },
@@ -13,7 +12,7 @@ describe('AppContentSwitcher', () => {
     render(
       <AppContentSwitcher
         active
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         switchOptions={switchOptions}
         typographyVariant='body1'
       />
@@ -25,7 +24,7 @@ describe('AppContentSwitcher', () => {
   })
 
   it('should call the onChange function when the switch is clicked', () => {
-    const handleChange = jest.fn()
+    const handleChange = vi.fn()
 
     render(
       <AppContentSwitcher
@@ -45,7 +44,7 @@ describe('AppContentSwitcher', () => {
     render(
       <AppContentSwitcher
         active
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         switchOptions={switchOptions}
         typographyVariant='body1'
       />
