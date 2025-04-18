@@ -1,5 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 
 import SearchAutocomplete from '~/components/search-autocomplete/SearchAutocomplete'
 
@@ -26,60 +27,65 @@ describe('SearchAutocomplete', () => {
     expect(input).toBeInTheDocument()
   })
 
-  it('should update search input on typing', () => {
+  it('should update search input on typing', async () => {
     const input = screen.getByLabelText('Search')
-    fireEvent.change(input, { target: { value: 'Banana' } })
+    await userEvent.type(input, 'Banana')
     expect(input).toHaveValue('Banana')
   })
 
-  it('should filter options on typing', () => {
+  it('should filter options on typing', async () => {
     const input = screen.getByLabelText('Search')
-    fireEvent.change(input, { target: { value: 'a' } })
+    await userEvent.type(input, 'a')
 
     const option = screen.getByText('Banana')
     expect(option).toBeInTheDocument()
   })
 
-  it('should select an option on click', () => {
+  it('should select an option on click', async () => {
     const input = screen.getByLabelText('Search')
-    fireEvent.change(input, { target: { value: 'Ch' } })
+    await userEvent.type(input, 'Ch')
 
     const option = screen.getByText('Cherry')
-    fireEvent.click(option)
+    await userEvent.click(option)
 
     expect(mockSetSearch).toHaveBeenCalledWith('Cherry')
     expect(mockOnSearchChange).toHaveBeenCalled()
   })
 
-  it('should clear search input on clear icon click', () => {
+  it('should clear search input on clear icon click', async () => {
     const input = screen.getByLabelText('Search')
-    fireEvent.change(input, { target: { value: 'Apple' } })
+    await userEvent.type(input, 'Apple')
 
-    const clearButton = screen.getByTestId('ClearIcon')
-    fireEvent.click(clearButton)
+    const clearIcon = screen.getByTestId('ClearIcon')
+    const clearButton = clearIcon.closest('button')
+    await userEvent.click(clearButton)
 
-    expect(mockSetSearch).toHaveBeenCalledWith('')
-    expect(mockOnSearchChange).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(mockSetSearch).toHaveBeenCalledWith('')
+      expect(mockOnSearchChange).toHaveBeenCalled()
+    })
   })
 
-  it('should trigger search on search button click', () => {
+  it('should trigger search on search button click', async () => {
     const input = screen.getByLabelText('Search')
-    fireEvent.change(input, { target: { value: 'Banana' } })
+    await userEvent.type(input, 'Banana')
 
     const button = screen.getByRole('button', { name: /search/i })
-    fireEvent.click(button)
+    await userEvent.click(button)
 
-    expect(mockSetSearch).toHaveBeenCalledWith('Banana')
-    expect(mockOnSearchChange).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(mockSetSearch).toHaveBeenCalledWith('Banana')
+      expect(mockOnSearchChange).toHaveBeenCalled()
+    })
   })
 
-  it('should show clear icon only when input has text', () => {
+  it('should show clear icon only when input has text', async () => {
     const input = screen.getByLabelText('Search')
     const clearButton = screen.getByTestId('ClearIcon')
 
     expect(clearButton).toHaveStyle('visibility: hidden')
 
-    fireEvent.change(input, { target: { value: 'Apple' } })
+    await userEvent.type(input, 'Apple')
     expect(clearButton).toHaveStyle('visibility: visible')
   })
 })
