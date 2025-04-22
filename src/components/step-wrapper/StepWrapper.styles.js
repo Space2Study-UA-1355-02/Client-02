@@ -1,9 +1,12 @@
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 
 const btnStyle = {
-  padding: '10px 20px',
   display: 'flex',
-  columnGap: 1
+  flex: 1,
+  justifyContent: 'space-between',
+  height: '5vh',
+  minHeight: '40px',
+  minWidth: '96px'
 }
 
 export const styles = {
@@ -41,14 +44,22 @@ export const styles = {
   },
   stepContent: {
     display: { xs: 'flex', sm: 'block' },
-    justifyContent: 'center',
-    flex: 1,
+    justifyContent: 'space-between',
+    maxHeight: '100px',
     mt: { xs: '24px', sm: '30px' }
   },
   btnWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
-    mt: '10px'
+    mt: '10px',
+    maxHeight: '60px'
+  },
+  btnLeft: {
+    ...btnStyle,
+    marginRight: '15vw'
+  },
+  btnRight: {
+    ...btnStyle
   },
   btn: btnStyle,
   finishBtn: {

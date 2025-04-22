@@ -42,7 +42,12 @@ const StepWrapper = ({ children, steps }) => {
       {t('common.finish')}
     </AppButton>
   ) : (
-    <AppButton onClick={next} size='small' sx={styles.btn} variant='contained'>
+    <AppButton
+      onClick={next}
+      size='small'
+      sx={styles.btnRight}
+      variant='contained'
+    >
       {t('common.next')}
       <EastIcon fontSize='small' />
     </AppButton>
@@ -54,7 +59,7 @@ const StepWrapper = ({ children, steps }) => {
         disabled={activeStep === 0}
         onClick={back}
         size='small'
-        sx={styles.btn}
+        sx={styles.btnLeft}
         variant='outlined'
       >
         <WestIcon fontSize='small' />
