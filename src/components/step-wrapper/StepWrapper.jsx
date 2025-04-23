@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Container from '@mui/material/Container'
@@ -11,14 +11,18 @@ import AppButton from '~/components/app-button/AppButton'
 import useSteps from '~/hooks/use-steps'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 
-const StepWrapper = ({ children, steps }) => {
+const StepWrapper = ({ children, steps, onStepChange }) => {
   const { activeStep, stepErrors, isLastStep, loading, stepOperation } =
     useSteps({
       steps
     })
   const { next, back, setActiveStep, handleSubmit } = stepOperation
   const { t } = useTranslation()
-
+  useEffect(() => {
+    if (onStepChange) {
+      onStepChange(activeStep)
+    }
+  }, [activeStep, onStepChange])
   const stepLabels = steps.map((step, index) => (
     <Box
       color={stepErrors[index] ? 'error.500' : 'primary.500'}

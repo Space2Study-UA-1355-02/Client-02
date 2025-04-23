@@ -10,6 +10,8 @@ import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoSt
 import SubjectsStep from '~/containers/tutor-home-page/subjects-step/SubjectsStep'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 import generalImg from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
+import interestImg from '~/assets/img/tutor-home-page/become-tutor/study-category.svg'
+import languageImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import {
   tutorStepLabels,
   initialValues
@@ -19,7 +21,8 @@ import { styles } from './InfoGeneralStep.styles'
 const UserStepsModal = () => {
   const [open, setOpen] = useState(true)
   const [isUserFetched, setIsUserFetched] = useState(false)
-
+  const imageArr = [generalImg, interestImg, languageImg] // Add the images for each step here
+  const [activeStep, setActiveStep] = useState(0)
   const childrenArr = [
     <GeneralInfoStep
       isUserFetched={isUserFetched}
@@ -40,11 +43,10 @@ const UserStepsModal = () => {
           <CloseIcon />
         </IconButton>
 
-        {/* Left: Illustration */}
         <Box
           alt='Stepper illustration'
           component='img'
-          src={generalImg}
+          src={imageArr[activeStep]}
           sx={styles.imageBox}
         />
 
@@ -54,7 +56,9 @@ const UserStepsModal = () => {
           initialValues={initialValues}
           stepLabels={tutorStepLabels}
         >
-          <StepWrapper steps={tutorStepLabels}>{childrenArr}</StepWrapper>
+          <StepWrapper onStepChange={setActiveStep} steps={tutorStepLabels}>
+            {childrenArr}
+          </StepWrapper>
         </StepProvider>
       </Box>
     </Modal>
