@@ -17,9 +17,11 @@ import {
   initialValues
 } from '~/components/user-steps-wrapper/constants'
 import { styles } from './InfoGeneralStep.styles'
+import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
 const UserStepsModal = () => {
   const [open, setOpen] = useState(true)
+  const [openConfirm, setOpenConfirm] = useState(false)
   const [isUserFetched, setIsUserFetched] = useState(false)
   const imageArr = [generalImg, interestImg, languageImg] // Add the images for each step here
   const [activeStep, setActiveStep] = useState(0)
@@ -34,34 +36,50 @@ const UserStepsModal = () => {
     <AddPhotoStep key='4' />
   ]
 
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpenConfirm(true)
+  }
 
   return (
-    <Modal onClose={handleClose} open={open} sx={styles.modalBox}>
-      <Box sx={styles.modalBox}>
-        <IconButton onClick={handleClose} sx={styles.closeButton}>
-          <CloseIcon />
-        </IconButton>
+    <>
+      <Modal onClose={handleClose} open={open} sx={styles.modalBox}>
+        <Box sx={styles.modalBox}>
+          <IconButton onClick={handleClose} sx={styles.closeButton}>
+            <CloseIcon />
+          </IconButton>
 
-        <Box
-          alt='Stepper illustration'
-          component='img'
-          src={imageArr[activeStep]}
-          sx={styles.imageBox}
-        />
+          <Box
+            alt='Stepper illustration'
+            component='img'
+            src={imageArr[activeStep]}
+            sx={styles.imageBox}
+          />
 
-        {/* Right: Stepper form */}
+          {/* Right: Stepper form */}
 
-        <StepProvider
-          initialValues={initialValues}
-          stepLabels={tutorStepLabels}
-        >
-          <StepWrapper onStepChange={setActiveStep} steps={tutorStepLabels}>
-            {childrenArr}
-          </StepWrapper>
-        </StepProvider>
-      </Box>
-    </Modal>
+          <StepProvider
+            initialValues={initialValues}
+            stepLabels={tutorStepLabels}
+          >
+            <StepWrapper onStepChange={setActiveStep} steps={tutorStepLabels}>
+              {childrenArr}
+            </StepWrapper>
+          </StepProvider>
+        </Box>
+      </Modal>
+      <ConfirmDialog
+        message='Are you sure you want exit?'
+        onConfirm={() => {
+          setOpenConfirm(false)
+          setOpen(false)
+        }}
+        onDismiss={() => {
+          setOpenConfirm(false)
+        }}
+        open={openConfirm}
+        title='Confirmation'
+      />
+    </>
   )
 }
 
