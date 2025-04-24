@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC } from 'react'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -7,8 +7,6 @@ import { PaperProps } from '@mui/material'
 
 import useBreakpoints from '~/hooks/use-breakpoints'
 import { styles } from '~/components/popup-dialog/PopupDialog.styles'
-import { useTranslation } from 'react-i18next'
-import useConfirm from '~/hooks/use-confirm'
 
 interface PopupDialogProps {
   content: React.ReactNode
@@ -26,22 +24,9 @@ const PopupDialog: FC<PopupDialogProps> = ({
   onClose
 }) => {
   const { isMobile } = useBreakpoints()
-  const { t } = useTranslation()
-  const { checkConfirmation } = useConfirm()
 
   const handleMouseOver = () => timerId && clearTimeout(timerId)
   const handleMouseLeave = () => timerId && closeModalAfterDelay()
-
-  const closeWithConfirmation = useCallback(async () => {
-    const confirmed = checkConfirmation({
-      title: t('titles.confirmTitle'),
-      message: t('questions.unsavedChanges'),
-      check: true
-    })
-    if (await confirmed) {
-      onClose()
-    }
-  }, [])
 
   return (
     <Dialog
@@ -51,6 +36,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
       fullScreen={isMobile}
       maxWidth='xl'
       open
+      onClose={onClose}
     >
       <Box
         data-testid='popupContent'
@@ -58,7 +44,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
         onMouseOver={handleMouseOver}
         sx={styles.box}
       >
-        <IconButton sx={styles.icon} onClick={closeWithConfirmation}>
+        <IconButton sx={styles.icon} onClick={onClose}>
           <CloseIcon />
         </IconButton>
         <Box sx={styles.contentWraper}>{content}</Box>

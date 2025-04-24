@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
@@ -30,6 +30,8 @@ import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.sty
 
 import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
 import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
+import EmailVerificationModal from '~/containers/guest-home-page/email-verification-modal/EmailVerificationModal'
+import useConfirm from '~/hooks/use-confirm'
 
 interface SignUpDialogProps {
   role: UserRole
@@ -37,11 +39,12 @@ interface SignUpDialogProps {
 
 const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
   const { t } = useTranslation()
-  const { closeModal } = useModalContext()
+  const { closeModal, openModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
+  const { setNeedConfirmation } = useConfirm()
   const [signUpUser] = useSignUpMutation()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } =
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
     useForm<SignupParams>({
       onSubmit: async () => {
         try {
@@ -52,6 +55,10 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
           setAlert({
             severity: snackbarVariants.error,
             message: `errors.${error.data.code}`
+          })
+        } finally {
+          openModal({
+            component: <EmailVerificationModal email={data.email} />
           })
         }
       },
@@ -65,6 +72,10 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
       },
       validations: { firstName, lastName, email, password, confirmPassword }
     })
+
+  useEffect(() => {
+    setNeedConfirmation(isDirty)
+  }, [isDirty])
 
   return (
     <Box sx={styles.root}>
