@@ -26,12 +26,12 @@ import {
 import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
 
+import useConfirm from '~/hooks/use-confirm'
+
 import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
 
 import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
 import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
-import EmailVerificationModal from '~/containers/guest-home-page/email-verification-modal/EmailVerificationModal'
-import useConfirm from '~/hooks/use-confirm'
 
 interface SignUpDialogProps {
   role: UserRole
@@ -39,7 +39,7 @@ interface SignUpDialogProps {
 
 const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
   const { t } = useTranslation()
-  const { closeModal, openModal } = useModalContext()
+  const { closeModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
   const { setNeedConfirmation } = useConfirm()
   const [signUpUser] = useSignUpMutation()
@@ -55,10 +55,6 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
           setAlert({
             severity: snackbarVariants.error,
             message: `errors.${error.data.code}`
-          })
-        } finally {
-          openModal({
-            component: <EmailVerificationModal email={data.email} />
           })
         }
       },
