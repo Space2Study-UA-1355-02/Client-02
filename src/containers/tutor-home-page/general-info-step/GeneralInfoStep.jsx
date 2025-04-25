@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox'
 
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 
-const GeneralInfoStep = ({ btnsBox }) => {
+const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   const countries = ['USA', 'Canada', 'UK']
   const cities = ['New York', 'Toronto', 'London']
   const [form, setForm] = useState({
@@ -19,6 +19,11 @@ const GeneralInfoStep = ({ btnsBox }) => {
     description: '',
     confirmAge: false
   })
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    description: false
+  })
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -27,6 +32,23 @@ const GeneralInfoStep = ({ btnsBox }) => {
       [name]: type === 'checkbox' ? checked : value
     }))
   }
+
+  const validateForm = () => {
+    const newErrors = {
+      firstName: form.firstName === '',
+      lastName: form.lastName === '',
+      description: form.description.length > 100
+    }
+    setErrors(newErrors)
+    onErrorChange(Object.values(newErrors).includes(true))
+  }
+  const handleDescriptionChange = (e) => {
+    const { value } = e.target
+    if (value.length <= 100) {
+      setForm((prev) => ({ ...prev, description: value }))
+    }
+  }
+
   return (
     <>
       <Typography variant='body1'>
@@ -35,17 +57,23 @@ const GeneralInfoStep = ({ btnsBox }) => {
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
+          error={errors.firstName}
           fullWidth
+          helperText={errors.firstName && 'First name is required'}
           label='First Name'
           name='firstName'
+          onBlur={() => validateForm()}
           onChange={handleChange}
           required
           value={form.firstName}
         />
         <TextField
+          error={errors.lastName}
           fullWidth
+          helperText={errors.lastName && 'Last name is required'}
           label='Last Name'
           name='lastName'
+          onBlur={() => validateForm()}
           onChange={handleChange}
           required
           value={form.lastName}
@@ -82,13 +110,14 @@ const GeneralInfoStep = ({ btnsBox }) => {
         </TextField>
       </Box>
       <TextField
+        error={errors.description}
         fullWidth
-        helperText={`${form.description.length}/200`}
-        inputProps={{ maxLength: 200 }}
+        helperText={`${form.description.length}/100`}
+        inputProps={{ maxLength: 100 }}
         label='Describe in short your professional status'
         multiline
         name='description'
-        onChange={handleChange}
+        onChange={handleDescriptionChange}
         rows={3}
         value={form.description}
       />
