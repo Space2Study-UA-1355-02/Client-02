@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Box from '@mui/material/Box'
@@ -46,9 +46,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   const { t } = useTranslation()
   const [agreementConfirmed, setAgreementConfirmed] = useState<boolean>(false)
 
-  const changeAgreementConfirmation = useCallback(
-    () => setAgreementConfirmed((prev) => !prev),
-    []
+  const isDisabled = useMemo(
+    () =>
+      Object.values(data).some((field: string) => field.trim() === '') ||
+      Object.values(errors).some((error) => error.trim() !== '') ||
+      !agreementConfirmed,
+    [data, errors, agreementConfirmed]
   )
 
   return (
@@ -146,12 +149,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
               </Typography>
             </Typography>
           }
-          onChange={changeAgreementConfirmation}
+          onChange={() => setAgreementConfirmed((prev) => !prev)}
         />
       </Box>
 
       <AppButton
-        disabled // disabled for now
+        disabled={isDisabled}
         loading={authLoading}
         sx={styles.signUpButton}
         type='submit'

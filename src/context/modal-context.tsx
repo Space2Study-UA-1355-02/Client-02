@@ -73,7 +73,7 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
     if (await confirmed) {
       closeModal()
     }
-  }, [checkConfirmation])
+  }, [checkConfirmation, t, closeModal])
 
   return (
     <ModalContext.Provider value={contextValue}>
@@ -81,8 +81,8 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
       {modal && (
         <PopupDialog
           closeModalAfterDelay={closeModalAfterDelay}
-          onClose={closeWithConfirmation}
           content={modal}
+          onClose={closeWithConfirmation}
           paperProps={paperProps}
           timerId={timer}
         />

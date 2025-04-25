@@ -13,11 +13,11 @@ describe('SearchAutocomplete', () => {
   beforeEach(() => {
     render(
       <SearchAutocomplete
+        onSearchChange={mockOnSearchChange}
+        options={options}
         search=''
         setSearch={mockSetSearch}
-        onSearchChange={mockOnSearchChange}
         textFieldProps={{ label: 'Search' }}
-        options={options}
       />
     )
   })
