@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
@@ -26,6 +26,8 @@ import {
 import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
 
+import useConfirm from '~/hooks/use-confirm'
+
 import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
 
 import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
@@ -39,9 +41,10 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
   const { t } = useTranslation()
   const { closeModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
+  const { setNeedConfirmation } = useConfirm()
   const [signUpUser] = useSignUpMutation()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } =
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
     useForm<SignupParams>({
       onSubmit: async () => {
         try {
@@ -65,6 +68,10 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
       },
       validations: { firstName, lastName, email, password, confirmPassword }
     })
+
+  useEffect(() => {
+    setNeedConfirmation(isDirty)
+  }, [isDirty])
 
   return (
     <Box sx={styles.root}>
