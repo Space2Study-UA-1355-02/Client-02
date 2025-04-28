@@ -5,6 +5,9 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import Button from '@mui/material/Button'
 
 import AppButton from '~/components/app-button/AppButton'
 import { ButtonVariantEnum } from '~/types'
@@ -17,32 +20,30 @@ const SubjectsStep = ({ btnsBox }) => {
   const [mainCategory, setMainCategory] = useState(null)
   const [selectedSubject, setSelectedSubject] = useState(null)
   const [subjects, setSubjects] = useState([])
+  const [showAllSubjects, setShowAllSubjects] = useState(false)
+
+  const isAddDisabled =
+    !selectedSubject || subjects.some((s) => s.name === selectedSubject.name)
 
   const addSubject = () => {
-    if (!selectedSubject) {
-      alert(categories.emptyFields)
-      return
-    }
-
-    const isDuplicate = subjects.some((s) => s.name === selectedSubject.name)
-    if (isDuplicate) {
-      alert(categories.sameSubject)
-      return
-    }
+    if (isAddDisabled) return
 
     setSubjects([...subjects, { name: selectedSubject.name }])
     setSelectedSubject(null)
   }
 
-  const displayedSubjects = subjects.slice(0, 2)
-  const hiddenCount = subjects.length - displayedSubjects.length
+  const displayedSubjects = showAllSubjects ? subjects : subjects.slice(0, 2)
+  const hiddenCount = subjects.length - 2
+
+  const toggleShowAll = () => {
+    setShowAllSubjects((prev) => !prev)
+  }
 
   return (
     <Box sx={styles.container}>
       <Box sx={styles.rigthBox}>
         <Stack spacing={2}>
           <Typography variant='body1'>{categories.title}</Typography>
-
           <Autocomplete
             fullWidth
             getOptionLabel={(option) => option.name}
@@ -73,7 +74,11 @@ const SubjectsStep = ({ btnsBox }) => {
             value={selectedSubject}
           />
 
-          <AppButton onClick={addSubject} variant={ButtonVariantEnum.Outlined}>
+          <AppButton
+            disabled={isAddDisabled}
+            onClick={addSubject}
+            variant={ButtonVariantEnum.Outlined}
+          >
             {categories.btnText}
           </AppButton>
 
@@ -87,7 +92,30 @@ const SubjectsStep = ({ btnsBox }) => {
                 }
               />
             ))}
-            {hiddenCount > 0 && <Chip label={`+${hiddenCount}`} />}
+
+            {hiddenCount > 0 && !showAllSubjects && (
+              <Chip
+                clickable
+                icon={<ArrowDropDownIcon />}
+                label={`+${hiddenCount}`}
+                onClick={toggleShowAll}
+              />
+            )}
+
+            {showAllSubjects && (
+              <Button
+                onClick={toggleShowAll}
+                startIcon={<ArrowDropUpIcon />}
+                sx={{
+                  fontSize: '14px',
+                  padding: '6px 16px',
+                  textTransform: 'none'
+                }}
+                variant='outlined'
+              >
+                Згорнути
+              </Button>
+            )}
           </Stack>
 
           {btnsBox}
