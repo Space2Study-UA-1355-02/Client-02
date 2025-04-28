@@ -15,14 +15,13 @@ const EmailVerificationModal: React.FC<EmailVerificationModalProps> = ({
 
   return (
     <ImgTitleDescription
-      title={t('signup.confirmEmailTitle')}
       description={
-        <Typography variant='body2' component='text'>
+        <Typography component='text' variant='body2'>
           {t('signup.confirmEmailMessage')}
           <Typography
-            variant='body2'
             component='span'
             sx={{ fontWeight: 'medium' }}
+            variant='body2'
           >
             {email}
           </Typography>
@@ -30,6 +29,7 @@ const EmailVerificationModal: React.FC<EmailVerificationModalProps> = ({
         </Typography>
       }
       img={infoImg}
+      title={t('signup.confirmEmailTitle')}
     />
   )
 }

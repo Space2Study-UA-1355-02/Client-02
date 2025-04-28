@@ -26,11 +26,11 @@ const InputWithIcon: FC<InputWithIconProps> = ({
       {startIcon}
 
       <InputBase
-        sx={styles.input}
-        value={value}
         inputProps={{
           className: value ? 'visible' : 'hidden'
         }}
+        sx={styles.input}
+        value={value}
         {...props}
       />
 

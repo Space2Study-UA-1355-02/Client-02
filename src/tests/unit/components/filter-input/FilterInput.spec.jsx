@@ -9,7 +9,7 @@ describe('FilterInput', () => {
 
   it('renders typed text correctly', () => {
     const { getByDisplayValue } = render(
-      <FilterInput value="search text" onChange={() => {}} />
+      <FilterInput onChange={() => {}} value='search text' />
     )
     expect(getByDisplayValue('search text')).toBeInTheDocument()
   })
@@ -25,7 +25,7 @@ describe('FilterInput', () => {
   it('clears the input when the clear button is clicked', () => {
     const handleChange = vi.fn()
     const { getByTestId } = render(
-      <FilterInput value="some text" onChange={handleChange} />
+      <FilterInput onChange={handleChange} value='some text' />
     )
     fireEvent.click(getByTestId('clear-button'))
     expect(handleChange).toHaveBeenCalledWith('')
@@ -34,7 +34,7 @@ describe('FilterInput', () => {
   it('calls onSearch when search button is clicked', () => {
     const onSearch = vi.fn()
     const { getByTestId } = render(
-      <FilterInput value="" onChange={() => {}} onSearch={onSearch} />
+      <FilterInput onChange={() => {}} onSearch={onSearch} value='' />
     )
     fireEvent.click(getByTestId('search-button'))
     expect(onSearch).toHaveBeenCalled()
@@ -43,7 +43,7 @@ describe('FilterInput', () => {
   it('calls onSearch when Enter key is pressed', () => {
     const onSearch = vi.fn()
     const { getByRole } = render(
-      <FilterInput value="some" onChange={() => {}} onSearch={onSearch} />
+      <FilterInput onChange={() => {}} onSearch={onSearch} value='some' />
     )
     fireEvent.keyDown(getByRole('textbox'), { key: 'Enter', code: 'Enter' })
     expect(onSearch).toHaveBeenCalled()

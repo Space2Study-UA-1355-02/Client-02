@@ -35,8 +35,8 @@ const PopupDialog: FC<PopupDialogProps> = ({
       disableRestoreFocus
       fullScreen={isMobile}
       maxWidth='xl'
-      open
       onClose={onClose}
+      open
     >
       <Box
         data-testid='popupContent'
@@ -44,7 +44,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
         onMouseOver={handleMouseOver}
         sx={styles.box}
       >
-        <IconButton sx={styles.icon} onClick={onClose}>
+        <IconButton onClick={onClose} sx={styles.icon}>
           <CloseIcon />
         </IconButton>
         <Box sx={styles.contentWraper}>{content}</Box>
