@@ -113,7 +113,7 @@ const SubjectsStep = ({ btnsBox }) => {
                 }}
                 variant='outlined'
               >
-                Згорнути
+                Collapse
               </Button>
             )}
           </Stack>
