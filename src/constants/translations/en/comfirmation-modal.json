@@ -1,0 +1,6 @@
+{
+  "title": "Confirmation",
+  "message": "Are you sure you want exit?",
+  "confirmButton": "Yes",
+  "cancelButton": "No"
+}

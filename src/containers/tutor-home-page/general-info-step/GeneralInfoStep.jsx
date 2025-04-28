@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
@@ -11,6 +12,7 @@ import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralIn
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   const countries = ['USA', 'Canada', 'UK']
   const cities = ['New York', 'Toronto', 'London']
+  const { t } = useTranslation()
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -52,15 +54,16 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   return (
     <>
       <Typography variant='body1'>
-        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-        sint.
+        {t('becomeTutor.generalInfo.title')}
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
           error={errors.firstName}
           fullWidth
-          helperText={errors.firstName && 'First name is required'}
-          label='First Name'
+          helperText={
+            errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
+          }
+          label={t('becomeTutor.generalInfo.firstNameLabel')}
           name='firstName'
           onBlur={() => validateForm()}
           onChange={handleChange}
@@ -70,8 +73,10 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.lastName}
           fullWidth
-          helperText={errors.lastName && 'Last name is required'}
-          label='Last Name'
+          helperText={
+            errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
+          }
+          label={t('becomeTutor.generalInfo.lastNameLabel')}
           name='lastName'
           onBlur={() => validateForm()}
           onChange={handleChange}
@@ -82,7 +87,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       <Box sx={styles.inputs}>
         <TextField
           fullWidth
-          label='Country'
+          label={t('becomeTutor.generalInfo.country')}
           name='country'
           onChange={handleChange}
           select
@@ -96,7 +101,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         </TextField>
         <TextField
           fullWidth
-          label='City'
+          label={t('becomeTutor.generalInfo.city')}
           name='city'
           onChange={handleChange}
           select
@@ -114,7 +119,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         fullWidth
         helperText={`${form.description.length}/100`}
         inputProps={{ maxLength: 100 }}
-        label='Describe in short your professional status'
+        label={t('becomeTutor.generalInfo.textFieldLabel')}
         multiline
         name='description'
         onChange={handleDescriptionChange}
@@ -130,11 +135,11 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
             onChange={handleChange}
           />
         }
-        label='I confirm that I am over 18 years old'
+        label={t('becomeTutor.generalInfo.ageComfir')}
       />
 
       <Typography sx={styles.assign} variant='caption'>
-        Inputs with the * sign are required
+        {t('becomeTutor.generalInfo.helperText')}
       </Typography>
       <Box sx={styles.container}>{btnsBox}</Box>
     </>

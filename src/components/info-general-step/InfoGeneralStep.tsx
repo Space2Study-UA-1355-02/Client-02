@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Box, Modal, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -20,6 +21,7 @@ import { styles } from './InfoGeneralStep.styles'
 import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
 const UserStepsModal = () => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(true)
   const [openConfirm, setOpenConfirm] = useState(false)
   const [isUserFetched, setIsUserFetched] = useState(false)
@@ -68,7 +70,7 @@ const UserStepsModal = () => {
         </Box>
       </Modal>
       <ConfirmDialog
-        message='Are you sure you want exit?'
+        message={t('comfirmModal.message')}
         onConfirm={() => {
           setOpenConfirm(false)
           setOpen(false)
@@ -77,7 +79,7 @@ const UserStepsModal = () => {
           setOpenConfirm(false)
         }}
         open={openConfirm}
-        title='Confirmation'
+        title={t('comfirmModal.title')}
       />
     </>
   )
