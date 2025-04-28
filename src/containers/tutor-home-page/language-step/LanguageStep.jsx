@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
@@ -7,6 +8,7 @@ import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import { languagesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 const LanguageStep = ({ btnsBox }) => {
+  const { t } = useTranslation()
   const [form, setForm] = useState({
     nativeLang: 'Ukrainian'
   })
@@ -22,13 +24,12 @@ const LanguageStep = ({ btnsBox }) => {
   return (
     <>
       <Typography variant='body1'>
-        Velit officia consequat duis enim velit mollit. Other categories you can
-        add in your account settings later.
+        {t('becomeTutor.languages.title')}
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
           fullWidth
-          label='Your native language'
+          label={t('becomeTutor.languages.autocompleteLabel')}
           name='nativeLang'
           onChange={handleChange}
           select
