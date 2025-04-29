@@ -28,7 +28,7 @@ import cookiePolicyPage from './cookie-policy-page.json'
 import guestHomePage from './guest-home-page.json'
 import table from './table.json'
 import subjectsPage from './subjects-page.json'
-import comfirmModal from './comfirmation-modal.json'
+import question from './questions.json'
 const ua = {
   translations: {
     common,
@@ -61,7 +61,7 @@ const ua = {
     guestHomePage,
     table,
     subjectsPage,
-    comfirmModal
+    question
   }
 }
 

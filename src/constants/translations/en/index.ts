@@ -31,7 +31,7 @@ import cooperationsPage from './cooperations-page.json'
 import myResourcesPage from './my-resources-page.json'
 import questionPage from './question-page.json'
 import subjectsPage from './subjects-page.json'
-import comfirmModal from './comfirmation-modal.json'
+import question from './questions.json'
 const en = {
   translations: {
     common,
@@ -67,7 +67,7 @@ const en = {
     myResourcesPage,
     questionPage,
     subjectsPage,
-    comfirmModal
+    question
   }
 }
 

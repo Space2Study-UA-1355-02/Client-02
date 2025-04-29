@@ -70,7 +70,7 @@ const UserStepsModal = () => {
         </Box>
       </Modal>
       <ConfirmDialog
-        message={t('comfirmModal.message')}
+        message={t('question.confirmation')}
         onConfirm={() => {
           setOpenConfirm(false)
           setOpen(false)
@@ -79,7 +79,7 @@ const UserStepsModal = () => {
           setOpenConfirm(false)
         }}
         open={openConfirm}
-        title={t('comfirmModal.title')}
+        title={t('titles.confirmTitle')}
       />
     </>
   )
