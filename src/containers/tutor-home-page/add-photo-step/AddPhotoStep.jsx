@@ -1,5 +1,7 @@
 import { Box, Typography, Button } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import DeleteIcon from '@mui/icons-material/Delete'
+import IconButton from '@mui/material/IconButton'
 import { useState, useEffect } from 'react'
 import useUpload from '~/hooks/use-upload'
 import { validationData } from './constants'
@@ -55,32 +57,45 @@ const AddPhotoStep = ({ btnsBox }) => {
     }
   }
 
+  const handleDelete = () => {
+    setImagePreview(null) // Clear the image preview
+    setFiles([]) // Optionally clear the file list
+  }
+
   return (
     <Box sx={style.root}>
       {/* Left Block for Drag-and-Drop */}
-      <Box sx={style.leftBox}>
+      <Box sx={style.imgContainer}>
         <Box
           onDragLeave={dragLeave}
-          onDragOver={(e) => e.preventDefault()}
-          onDragStart={dragStart}
+          onDragOver={(e) => {
+            e.preventDefault()
+            dragStart(e)
+          }}
           onDrop={handleDrop}
           sx={{
             ...style.uploadBox,
-            ...(isDrag ? style.activeDrag : {})
+            ...(isDrag && style.activeDrag),
+            position: 'relative'
           }}
         >
           {imagePreview ? (
-            <img
-              alt='Profile'
-              onLoad={() => {
-                // Revoke the object URL after the image is loaded
-                if (imagePreview) {
-                  URL.revokeObjectURL(imagePreview)
-                }
-              }}
-              src={imagePreview}
-              style={style.img}
-            />
+            <>
+              <Box
+                alt='Profile preview'
+                component='img'
+                src={imagePreview}
+                sx={style.img}
+              />
+              {/* Delete Button on Image Preview */}
+              <IconButton
+                aria-label='delete'
+                onClick={handleDelete}
+                sx={style.deleteButton}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </>
           ) : (
             <Typography sx={style.photoPreviewText}>Photo Preview</Typography>
           )}
@@ -91,8 +106,8 @@ const AddPhotoStep = ({ btnsBox }) => {
       <Box sx={style.rightBox}>
         {/* Description Text */}
         <Typography sx={style.description}>
-          Velit officia consequat duis enim velit mollit. Exercitation veniam
-          consequat sunt nostrud amet.
+          Upload a photo of yourself to complete your profile. A clear, friendly
+          picture helps others recognize and connect with you!
         </Typography>
 
         {/* File Upload Button with MUI Button and VisuallyHiddenInput */}
@@ -100,15 +115,14 @@ const AddPhotoStep = ({ btnsBox }) => {
           component='label'
           role={undefined}
           startIcon={<CloudUploadIcon />}
+          sx={style.uploadButton}
           tabIndex={-1}
           variant='contained'
-          sx={style.uploadButton}
         >
           Upload your profile photo
           <input
             accept='image/*'
             hidden
-            multiple
             onChange={handleFileChange}
             type='file'
           />
