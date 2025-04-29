@@ -63,7 +63,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           helperText={
             errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
           }
-          label={t('becomeTutor.generalInfo.firstNameLabel')}
+          label={t('common.labels.firstName')}
           name='firstName'
           onBlur={() => validateForm()}
           onChange={handleChange}
@@ -76,7 +76,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           helperText={
             errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
           }
-          label={t('becomeTutor.generalInfo.lastNameLabel')}
+          label={t('common.labels.lastName')}
           name='lastName'
           onBlur={() => validateForm()}
           onChange={handleChange}
@@ -87,7 +87,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       <Box sx={styles.inputs}>
         <TextField
           fullWidth
-          label={t('becomeTutor.generalInfo.country')}
+          label={t('common.labels.country')}
           name='country'
           onChange={handleChange}
           select
@@ -101,7 +101,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         </TextField>
         <TextField
           fullWidth
-          label={t('becomeTutor.generalInfo.city')}
+          label={t('common.labels.city')}
           name='city'
           onChange={handleChange}
           select
