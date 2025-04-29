@@ -14,7 +14,10 @@ import { ButtonVariantEnum } from '~/types'
 
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
-import { categories } from '~/constants/translations/en/become-tutor.json'
+
+import categoriesTranslationsRaw from '~/constants/translations/en/become-tutor.json'
+
+const categoriesTranslations = categoriesTranslationsRaw.categories
 
 const SubjectsStep = ({ btnsBox }) => {
   const [mainCategory, setMainCategory] = useState(null)
@@ -43,7 +46,10 @@ const SubjectsStep = ({ btnsBox }) => {
     <Box sx={styles.container}>
       <Box sx={styles.rigthBox}>
         <Stack spacing={2}>
-          <Typography variant='body1'>{categories.title}</Typography>
+          <Typography variant='body1'>
+            {categoriesTranslations.title}
+          </Typography>
+
           <Autocomplete
             fullWidth
             getOptionLabel={(option) => option.name}
@@ -52,7 +58,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categories.mainSubjectsLabel}
+                label={categoriesTranslations.mainSubjectsLabel}
                 variant='outlined'
               />
             )}
@@ -67,7 +73,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categories.subjectLabel}
+                label={categoriesTranslations.subjectLabel}
                 variant='outlined'
               />
             )}
@@ -79,7 +85,7 @@ const SubjectsStep = ({ btnsBox }) => {
             onClick={addSubject}
             variant={ButtonVariantEnum.Outlined}
           >
-            {categories.btnText}
+            {categoriesTranslations.btnText}
           </AppButton>
 
           <Stack direction='row' flexWrap='wrap' spacing={1}>
