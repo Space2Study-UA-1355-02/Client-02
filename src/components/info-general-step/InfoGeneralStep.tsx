@@ -68,12 +68,14 @@ const UserStepsModal = ({ role = 'tutor' }) => {
             <CloseIcon />
           </IconButton>
 
-          <Box
-            alt='Stepper illustration'
-            component='img'
-            src={imageArr[activeStep]}
-            sx={styles.imageBox}
-          />
+          {activeStep !== 3 && (
+            <Box
+              alt='Stepper illustration'
+              component='img'
+              src={imageArr[activeStep]}
+              sx={styles.imageBox}
+            />
+          )}
 
           {/* Right: Stepper form */}
 
