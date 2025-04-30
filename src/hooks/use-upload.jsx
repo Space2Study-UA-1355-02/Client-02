@@ -8,10 +8,12 @@ const useUpload = ({ files, validationData, emitter }) => {
     e.preventDefault()
     setIsDrag(true)
   }
+
   const dragLeave = (e) => {
     e.preventDefault()
     setIsDrag(false)
   }
+
   const dragDrop = (e) => {
     e.preventDefault()
     const newFiles = [...files, ...e.dataTransfer.files].slice(
