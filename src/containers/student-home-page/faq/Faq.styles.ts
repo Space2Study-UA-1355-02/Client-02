@@ -15,5 +15,8 @@ export const styles = {
     description: {
       typography: { xs: 'subtitle1' }
     }
+  },
+  accordionItem: {
+    mb: '12px'
   }
 }
