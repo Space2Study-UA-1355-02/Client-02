@@ -1,7 +1,9 @@
 import React from 'react'
 import { Grid, Typography, Box, Button } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { howItWorksCards } from '../student-how-it-works/HowItWorksCards'
 import HowItWorksCard from '~/components/how-it-works-card/HowItWorksCard'
+import { authRoutes } from '~/router/constants/authRoutes'
 import { styles } from '../how-it-works-block/HowItWorksBlock.style'
 
 const HowItWorksBlock = () => {
@@ -21,7 +23,12 @@ const HowItWorksBlock = () => {
         ))}
       </Grid>
       <Box>
-        <Button sx={styles.button} variant='contained'>
+        <Button
+          component={Link}
+          sx={styles.button}
+          to={authRoutes.findOffers.path}
+          variant='contained'
+        >
           Find Tutor
         </Button>
       </Box>
