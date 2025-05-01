@@ -5,15 +5,18 @@ import { howItWorksCards } from '../student-how-it-works/HowItWorksCards'
 import HowItWorksCard from '~/components/how-it-works-card/HowItWorksCard'
 import { authRoutes } from '~/router/constants/authRoutes'
 import { styles } from '../how-it-works-block/HowItWorksBlock.style'
+import { useTranslation } from 'react-i18next'
 
 const HowItWorksBlock = () => {
+  const { t } = useTranslation()
+
   return (
     <Box sx={styles.container}>
       <Typography gutterBottom sx={styles.title} variant='h4'>
-        How it works
+        {t('studentHomePage.howItWorks.title')}
       </Typography>
       <Typography paragraph sx={styles.description} variant='body1'>
-        4 steps to easy and funny learning with Space2Study
+        {t('studentHomePage.howItWorks.description')}
       </Typography>
       <Grid container justifyContent='center' spacing={1}>
         {howItWorksCards.map((card, index) => (
@@ -29,7 +32,7 @@ const HowItWorksBlock = () => {
           to={authRoutes.findOffers.path}
           variant='contained'
         >
-          Find Tutor
+          {t('studentHomePage.findTutorBlock.button')}
         </Button>
       </Box>
     </Box>

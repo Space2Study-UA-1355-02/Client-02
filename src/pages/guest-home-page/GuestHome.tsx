@@ -9,7 +9,6 @@ import EmailConfirmModal from '~/containers/email-confirm-modal/EmailConfirmModa
 import FeatureBlock from '~/containers/guest-home-page/FeatureBlock'
 import Welcome from '~/containers/guest-home-page/Welcome'
 import WhatCanYouDo from '~/containers/guest-home-page/WhatCanYouDo'
-import HowItWorksBlock from '~/containers/student-home-page/how-it-works-block/HowItWorksBlock'
 import HowItWorks from '~/containers/guest-home-page/how-it-works/HowItWorks'
 import LoginDialog from '~/containers/guest-home-page/login-dialog/LoginDialog'
 import ResetPassword from '~/containers/guest-home-page/reset-password/ResetPassword'
@@ -51,7 +50,6 @@ const GuestHomePage = () => {
       <PageWrapper sx={styles.sectionsWrapper}>
         <FeatureBlock items={descriptionTimes} />
         <WhatCanYouDo />
-        <HowItWorksBlock />
         <HowItWorks />
         <WhoWeAre />
       </PageWrapper>
