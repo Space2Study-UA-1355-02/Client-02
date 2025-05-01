@@ -7,8 +7,11 @@
   },
   "generalInfo": {
     "title": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-    "textFieldLabel": "Коротко опишіть свій професійний статус",
-    "helperText": "Поля зі знаком * є обов'язковими"
+    "textFieldLabel": "Опишіть у короткій формі свій професійний статус",
+    "helperText": "Поля з позначкою * є обов'язковими",
+    "ageComfir": "Я підтверджую, що мені більше 18 років",
+    "firstNameLabelReq": "Ім'я є обов'язковим",
+    "lastNameLabelReq": "Прізвище є обов'язковим"
   },
   "experience": {
     "title": "Опишіть свій професійний досвід. Максимум 70 символів.",
