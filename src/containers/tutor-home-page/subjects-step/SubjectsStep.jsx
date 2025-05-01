@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -15,11 +16,9 @@ import { ButtonVariantEnum } from '~/types'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 
-import categoriesTranslationsRaw from '~/constants/translations/en/become-tutor.json'
+const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
+  const { t } = useTranslation()
 
-const categoriesTranslations = categoriesTranslationsRaw.categories
-
-const SubjectsStep = ({ btnsBox }) => {
   const [mainCategory, setMainCategory] = useState(null)
   const [selectedSubject, setSelectedSubject] = useState(null)
   const [subjects, setSubjects] = useState([])
@@ -28,26 +27,36 @@ const SubjectsStep = ({ btnsBox }) => {
   const isAddDisabled =
     !selectedSubject || subjects.some((s) => s.name === selectedSubject.name)
 
-  const addSubject = () => {
-    if (isAddDisabled) return
+  const updateSubjects = (newSubjects) => {
+    setSubjects(newSubjects)
+    if (typeof onSubjectsChange === 'function') {
+      onSubjectsChange(newSubjects)
+    }
+  }
 
-    setSubjects([...subjects, { name: selectedSubject.name }])
+  const addSubject = () => {
+    if (isAddDisabled || !selectedSubject) return
+    const updated = [...subjects, { name: selectedSubject.name }]
+    updateSubjects(updated)
     setSelectedSubject(null)
   }
 
+  const removeSubject = (name) => {
+    const updated = subjects.filter((s) => s.name !== name)
+    updateSubjects(updated)
+  }
+
+  const toggleShowAll = () => setShowAllSubjects((prev) => !prev)
+
   const displayedSubjects = showAllSubjects ? subjects : subjects.slice(0, 2)
   const hiddenCount = subjects.length - 2
-
-  const toggleShowAll = () => {
-    setShowAllSubjects((prev) => !prev)
-  }
 
   return (
     <Box sx={styles.container}>
       <Box sx={styles.rigthBox}>
         <Stack spacing={2}>
           <Typography variant='body1'>
-            {categoriesTranslations.title}
+            {t('becomeTutor.categories.title')}
           </Typography>
 
           <Autocomplete
@@ -58,7 +67,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categoriesTranslations.mainSubjectsLabel}
+                label={t('becomeTutor.categories.mainSubjectsLabel')}
                 variant='outlined'
               />
             )}
@@ -73,7 +82,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categoriesTranslations.subjectLabel}
+                label={t('becomeTutor.categories.subjectLabel')}
                 variant='outlined'
               />
             )}
@@ -85,17 +94,15 @@ const SubjectsStep = ({ btnsBox }) => {
             onClick={addSubject}
             variant={ButtonVariantEnum.Outlined}
           >
-            {categoriesTranslations.btnText}
+            {t('becomeTutor.categories.btnText')}
           </AppButton>
 
           <Stack direction='row' flexWrap='wrap' spacing={1}>
             {displayedSubjects.map((subject, index) => (
               <Chip
-                key={index}
+                key={`${subject.name}-${index}`}
                 label={subject.name}
-                onDelete={() =>
-                  setSubjects(subjects.filter((s) => s.name !== subject.name))
-                }
+                onDelete={() => removeSubject(subject.name)}
               />
             ))}
 
@@ -119,7 +126,7 @@ const SubjectsStep = ({ btnsBox }) => {
                 }}
                 variant='outlined'
               >
-                Collapse
+                {t('becomeTutor.categories.collapse')}
               </Button>
             )}
           </Stack>
