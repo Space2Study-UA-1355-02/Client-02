@@ -2,7 +2,8 @@ export const styles = {
   container: {
     flexDirection: 'column',
     mb: 0,
-    pb: 10
+    pb: 10,
+    display: 'flex'
   },
   titleWithDescription: {
     wrapper: {
@@ -15,5 +16,8 @@ export const styles = {
     description: {
       typography: { xs: 'subtitle1' }
     }
+  },
+  accordionItem: {
+    mb: '12px'
   }
 }
