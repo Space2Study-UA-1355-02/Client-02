@@ -6,7 +6,8 @@ const btnStyle = {
   justifyContent: 'space-between',
   height: '5vh',
   minHeight: '40px',
-  minWidth: '96px'
+  minWidth: '96px',
+  maxWidth: '120px'
 }
 
 export const styles = {
