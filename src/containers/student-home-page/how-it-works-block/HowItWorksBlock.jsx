@@ -1,10 +1,10 @@
 import React from 'react'
 import { Grid, Typography, Box, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { howItWorksCards } from '../student-how-it-works/HowItWorksCards'
+import { howItWorksCards } from '~/containers/student-home-page/student-how-it-works/HowItWorksCards'
 import HowItWorksCard from '~/components/how-it-works-card/HowItWorksCard'
 import { authRoutes } from '~/router/constants/authRoutes'
-import { styles } from '../how-it-works-block/HowItWorksBlock.style'
+import { styles } from '~/containers/student-home-page/how-it-works-block/HowItWorksBlock.style'
 import { useTranslation } from 'react-i18next'
 
 const HowItWorksBlock = () => {

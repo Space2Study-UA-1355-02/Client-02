@@ -1,4 +1,3 @@
-// ~/containers/tutor-home-page/HowItWorksBlockTutor.js
 import { Grid, Typography, Box, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { howItWorksCardsTutor } from '~/containers/tutor-home-page/tutor-how-it-works/HowItWorksCardsTutor'

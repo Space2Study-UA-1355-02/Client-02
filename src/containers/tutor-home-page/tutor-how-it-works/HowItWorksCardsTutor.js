@@ -1,5 +1,3 @@
-// ~/containers/tutor-home-page/HowItWorksCardsTutor.js
-
 import tutorHowItWorksFirst from '~/assets/img/guest-home-page/howItWorksTutorFirst.svg'
 import tutorHowItWorksSecond from '~/assets/img/guest-home-page/howItWorksTutorSecond.svg'
 import tutorHowItWorksThird from '~/assets/img/guest-home-page/howItWorksTutorThird.svg'
