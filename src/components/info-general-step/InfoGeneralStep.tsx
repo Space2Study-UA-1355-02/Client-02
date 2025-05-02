@@ -22,7 +22,6 @@ import {
 import { styles } from './InfoGeneralStep.styles'
 import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
-
 const UserStepsModal = ({ role = 'tutor' }) => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(true)

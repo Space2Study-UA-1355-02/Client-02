@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -11,22 +12,22 @@ import { ButtonVariantEnum } from '~/types'
 
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
-import { categories } from '~/constants/translations/en/become-tutor.json'
 
 const SubjectsStep = ({ btnsBox }) => {
+  const { t } = useTranslation()
   const [mainCategory, setMainCategory] = useState(null)
   const [selectedSubject, setSelectedSubject] = useState(null)
   const [subjects, setSubjects] = useState([])
 
   const addSubject = () => {
     if (!selectedSubject) {
-      alert(categories.emptyFields)
+      alert(t('becomeTutor.categories.emptyFields'))
       return
     }
 
     const isDuplicate = subjects.some((s) => s.name === selectedSubject.name)
     if (isDuplicate) {
-      alert(categories.sameSubject)
+      alert(t('becomeTutor.categories.sameSubject'))
       return
     }
 
@@ -41,7 +42,9 @@ const SubjectsStep = ({ btnsBox }) => {
     <Box sx={styles.container}>
       <Box sx={styles.rigthBox}>
         <Stack spacing={2}>
-          <Typography variant='body1'>{categories.title}</Typography>
+          <Typography variant='body1'>
+            {t('becomeTutor.categories.title')}
+          </Typography>
 
           <Autocomplete
             fullWidth
@@ -51,7 +54,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categories.mainSubjectsLabel}
+                label={t('becomeTutor.categories.mainSubjectsLabel')}
                 variant='outlined'
               />
             )}
@@ -66,7 +69,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={categories.subjectLabel}
+                label={t('becomeTutor.categories.subjectLabel')}
                 variant='outlined'
               />
             )}
@@ -74,7 +77,7 @@ const SubjectsStep = ({ btnsBox }) => {
           />
 
           <AppButton onClick={addSubject} variant={ButtonVariantEnum.Outlined}>
-            {categories.btnText}
+            {t('becomeTutor.categories.btnText')}
           </AppButton>
 
           <Stack direction='row' flexWrap='wrap' spacing={1}>
