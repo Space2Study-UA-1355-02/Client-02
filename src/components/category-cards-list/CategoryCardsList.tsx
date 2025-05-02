@@ -1,5 +1,5 @@
 import LanguageIcon from '@mui/icons-material/Language'
-import FunctionsIcon from '@mui/icons-material/Functions'
+import Grid3x3Icon from '@mui/icons-material/Grid3x3'
 import { Box, Grid } from '@mui/material'
 import CategoryCard from '~/components/category-card/CategoryCard'
 
@@ -20,7 +20,7 @@ const CategoryCardsList = () => {
         <Grid item md={4} sm={6} xs={12}>
           <CategoryCard
             categoryId='math'
-            icon={FunctionsIcon}
+            icon={Grid3x3Icon}
             iconBgColor='#fff3cd'
             iconColor='#ffb300'
             offersCount={234}
