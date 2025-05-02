@@ -8,6 +8,8 @@ import {
 } from 'react'
 import PopupDialog from '~/components/popup-dialog/PopupDialog'
 import { PaperProps } from '@mui/material/Paper'
+import { useTranslation } from 'react-i18next'
+import useConfirm from '~/hooks/use-confirm'
 
 interface Component {
   component: React.ReactElement
@@ -31,6 +33,8 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   const [modal, setModal] = useState<React.ReactElement | null>(null)
   const [paperProps, setPaperProps] = useState<PaperProps>({})
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
+  const { t } = useTranslation()
+  const { checkConfirmation } = useConfirm()
 
   const closeModal = useCallback(() => {
     setModal(null)
@@ -61,6 +65,16 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
     [closeModal, openModal]
   )
 
+  const closeWithConfirmation = useCallback(async () => {
+    const confirmed = checkConfirmation({
+      title: t('titles.confirmTitle'),
+      message: t('questions.unsavedChanges')
+    })
+    if (await confirmed) {
+      closeModal()
+    }
+  }, [checkConfirmation, t, closeModal])
+
   return (
     <ModalContext.Provider value={contextValue}>
       {children}
@@ -68,6 +82,7 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
         <PopupDialog
           closeModalAfterDelay={closeModalAfterDelay}
           content={modal}
+          onClose={closeWithConfirmation}
           paperProps={paperProps}
           timerId={timer}
         />

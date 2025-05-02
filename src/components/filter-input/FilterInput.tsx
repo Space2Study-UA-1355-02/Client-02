@@ -8,7 +8,7 @@ import AppTextField from '~/components/app-text-field/AppTextField'
 
 interface FilterInputProps extends Omit<TextFieldProps, 'onChange'> {
   onChange: (value: string) => void
-  onSearch?: () => void 
+  onSearch?: () => void
   value?: string
 }
 
@@ -38,11 +38,7 @@ const FilterInput: FC<FilterInputProps> = ({
         <ClearIcon color='secondary' />
       </IconButton>
     ) : (
-      <IconButton
-        data-testid='search-button'
-        onClick={onSearch}
-        sx={{ p: 0 }}
-      >
+      <IconButton data-testid='search-button' onClick={onSearch} sx={{ p: 0 }}>
         <SearchIcon color='primary' />
       </IconButton>
     )

@@ -13,15 +13,18 @@ import loginImg from '~/assets/img/login-dialog/login.svg'
 import { login, snackbarVariants } from '~/constants'
 
 import styles from '~/containers/guest-home-page/login-dialog/LoginDialog.styles'
+import { useEffect } from 'react'
+import useConfirm from '~/hooks/use-confirm'
 
 const LoginDialog = () => {
   const { t } = useTranslation()
   const { closeModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
+  const { setNeedConfirmation } = useConfirm()
   const [loginUser] = useLoginMutation()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
+    useForm({
       onSubmit: async () => {
         try {
           await loginUser(data).unwrap()
@@ -35,8 +38,11 @@ const LoginDialog = () => {
       },
       initialValues: { email: '', password: '' },
       validations: { email }
-    }
-  )
+    })
+
+  useEffect(() => {
+    setNeedConfirmation(isDirty)
+  }, [isDirty])
 
   return (
     <Box sx={styles.root}>
