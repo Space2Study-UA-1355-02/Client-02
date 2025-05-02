@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { howItWorksCardsTutor } from '~/containers/tutor-home-page/tutor-how-it-works/HowItWorksCardsTutor'
 import HowItWorksCard from '~/components/how-it-works-card/HowItWorksCard'
 import { authRoutes } from '~/router/constants/authRoutes'
-import { styles } from './HowItWorksBlockTutor.style'
+import { styles } from '~/containers/student-home-page/how-it-works-block/HowItWorksBlock.style'
 import { useTranslation } from 'react-i18next'
 
 const HowItWorksBlockTutor = () => {
