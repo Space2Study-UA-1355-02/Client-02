@@ -15,6 +15,7 @@ import ResetPassword from '~/containers/guest-home-page/reset-password/ResetPass
 import WhoWeAre from '~/containers/guest-home-page/who-we-are/WhoWeAre'
 import { useModalContext } from '~/context/modal-context'
 import { styles } from '~/pages/guest-home-page/GuestHome.styles'
+import InfoGeneralStep from '~/components/info-general-step/InfoGeneralStep'
 
 const GuestHomePage = () => {
   const { openModal } = useModalContext()
@@ -52,6 +53,7 @@ const GuestHomePage = () => {
         <WhatCanYouDo />
         <HowItWorks />
         <WhoWeAre />
+        <InfoGeneralStep role='tutor' />
       </PageWrapper>
     </Box>
   )

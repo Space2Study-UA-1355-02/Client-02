@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Container from '@mui/material/Container'
@@ -11,13 +11,21 @@ import AppButton from '~/components/app-button/AppButton'
 import useSteps from '~/hooks/use-steps'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 
-const StepWrapper = ({ children, steps }) => {
+const StepWrapper = ({ children, steps, onStepChange }) => {
   const { activeStep, stepErrors, isLastStep, loading, stepOperation } =
     useSteps({
       steps
     })
   const { next, back, setActiveStep, handleSubmit } = stepOperation
   const { t } = useTranslation()
+  const [stepErrorState, setStepErrorState] = useState(false)
+  useEffect(() => {
+    if (onStepChange) {
+      onStepChange(activeStep)
+    }
+  }, [activeStep, onStepChange])
+
+  const isNextDisabled = stepErrorState || stepErrors[activeStep]
 
   const stepLabels = steps.map((step, index) => (
     <Box
@@ -33,6 +41,7 @@ const StepWrapper = ({ children, steps }) => {
 
   const nextButton = isLastStep ? (
     <AppButton
+      disabled={loading}
       loading={loading}
       onClick={handleSubmit}
       size='small'
@@ -42,7 +51,13 @@ const StepWrapper = ({ children, steps }) => {
       {t('common.finish')}
     </AppButton>
   ) : (
-    <AppButton onClick={next} size='small' sx={styles.btn} variant='contained'>
+    <AppButton
+      disabled={isNextDisabled}
+      onClick={next}
+      size='small'
+      sx={styles.btnRight}
+      variant='contained'
+    >
       {t('common.next')}
       <EastIcon fontSize='small' />
     </AppButton>
@@ -54,7 +69,7 @@ const StepWrapper = ({ children, steps }) => {
         disabled={activeStep === 0}
         onClick={back}
         size='small'
-        sx={styles.btn}
+        sx={styles.btnLeft}
         variant='outlined'
       >
         <WestIcon fontSize='small' />
@@ -70,7 +85,8 @@ const StepWrapper = ({ children, steps }) => {
       <Box sx={styles.stepContent}>
         {cloneElement(children[activeStep], {
           btnsBox,
-          stepLabel: steps[activeStep]
+          stepLabel: steps[activeStep],
+          onErrorChange: setStepErrorState
         })}
       </Box>
     </Container>

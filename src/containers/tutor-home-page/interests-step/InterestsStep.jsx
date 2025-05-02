@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography'
 import AppButton from '~/components/app-button/AppButton'
 import { ButtonVariantEnum } from '~/types'
 
-import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
+import { styles } from '~/containers/tutor-home-page/interests-step/InterestsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 
-const SubjectsStep = ({ btnsBox }) => {
+const InterestsStep = ({ btnsBox }) => {
   const { t } = useTranslation()
   const [mainCategory, setMainCategory] = useState(null)
   const [selectedSubject, setSelectedSubject] = useState(null)
@@ -54,7 +54,7 @@ const SubjectsStep = ({ btnsBox }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t('becomeTutor.categories.mainSubjectsLabel')}
+                label={t('becomeTutor.categories.mainInterestsLabel')}
                 variant='outlined'
               />
             )}
@@ -99,5 +99,4 @@ const SubjectsStep = ({ btnsBox }) => {
     </Box>
   )
 }
-
-export default SubjectsStep
+export default InterestsStep
