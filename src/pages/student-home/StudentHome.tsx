@@ -8,6 +8,7 @@ import FindBlock from '~/components/find-block/FindBlock'
 import Faq from '~/containers/student-home-page/faq/Faq'
 import { translationKey } from '~/components/find-block/find-tutor-constants'
 import { accordionItems } from '~/containers/student-home-page/faq/accordionItems'
+import CategoryCardsList from '~/components/category-cards-list/CategoryCardsList'
 
 const StudentHome = () => {
   const { openModal } = useModalContext()
@@ -32,6 +33,7 @@ const StudentHome = () => {
   return (
     <Container data-testid='studentHome' sx={{ flex: 1 }}>
       <FindBlock translationKey={translationKey} />
+      <CategoryCardsList />
       <Faq accordionItems={accordionItems} />
     </Container>
   )
