@@ -6,6 +6,9 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import Button from '@mui/material/Button'
 
 import AppButton from '~/components/app-button/AppButton'
 import { ButtonVariantEnum } from '~/types'
@@ -13,30 +16,40 @@ import { ButtonVariantEnum } from '~/types'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 
-const SubjectsStep = ({ btnsBox }) => {
+const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
   const { t } = useTranslation()
+
   const [mainCategory, setMainCategory] = useState(null)
   const [selectedSubject, setSelectedSubject] = useState(null)
   const [subjects, setSubjects] = useState([])
+  const [showAllSubjects, setShowAllSubjects] = useState(false)
+
+  const isAddDisabled =
+    !selectedSubject || subjects.some((s) => s.name === selectedSubject.name)
+
+  const updateSubjects = (newSubjects) => {
+    setSubjects(newSubjects)
+    if (typeof onSubjectsChange === 'function') {
+      onSubjectsChange(newSubjects)
+    }
+  }
 
   const addSubject = () => {
-    if (!selectedSubject) {
-      alert(t('becomeTutor.categories.emptyFields'))
-      return
-    }
-
-    const isDuplicate = subjects.some((s) => s.name === selectedSubject.name)
-    if (isDuplicate) {
-      alert(t('becomeTutor.categories.sameSubject'))
-      return
-    }
-
-    setSubjects([...subjects, { name: selectedSubject.name }])
+    if (isAddDisabled || !selectedSubject) return
+    const updated = [...subjects, { name: selectedSubject.name }]
+    updateSubjects(updated)
     setSelectedSubject(null)
   }
 
-  const displayedSubjects = subjects.slice(0, 2)
-  const hiddenCount = subjects.length - displayedSubjects.length
+  const removeSubject = (name) => {
+    const updated = subjects.filter((s) => s.name !== name)
+    updateSubjects(updated)
+  }
+
+  const toggleShowAll = () => setShowAllSubjects((prev) => !prev)
+
+  const displayedSubjects = showAllSubjects ? subjects : subjects.slice(0, 2)
+  const hiddenCount = subjects.length - 2
 
   return (
     <Box sx={styles.container}>
@@ -76,21 +89,46 @@ const SubjectsStep = ({ btnsBox }) => {
             value={selectedSubject}
           />
 
-          <AppButton onClick={addSubject} variant={ButtonVariantEnum.Outlined}>
+          <AppButton
+            disabled={isAddDisabled}
+            onClick={addSubject}
+            variant={ButtonVariantEnum.Outlined}
+          >
             {t('becomeTutor.categories.btnText')}
           </AppButton>
 
           <Stack direction='row' flexWrap='wrap' spacing={1}>
             {displayedSubjects.map((subject, index) => (
               <Chip
-                key={index}
+                key={`${subject.name}-${index}`}
                 label={subject.name}
-                onDelete={() =>
-                  setSubjects(subjects.filter((s) => s.name !== subject.name))
-                }
+                onDelete={() => removeSubject(subject.name)}
               />
             ))}
-            {hiddenCount > 0 && <Chip label={`+${hiddenCount}`} />}
+
+            {hiddenCount > 0 && !showAllSubjects && (
+              <Chip
+                clickable
+                icon={<ArrowDropDownIcon />}
+                label={`+${hiddenCount}`}
+                onClick={toggleShowAll}
+              />
+            )}
+
+            {showAllSubjects && (
+              <Button
+                onClick={toggleShowAll}
+                startIcon={<ArrowDropUpIcon />}
+                sx={{
+                  fontSize: '14px',
+                  padding: '6px 16px',
+                  textTransform: 'none'
+                }}
+                variant='outlined'
+              >
+                {t('becomeTutor.categories.collapse')}
+              </Button>
+            )}
           </Stack>
 
           {btnsBox}

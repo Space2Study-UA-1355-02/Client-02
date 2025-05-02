@@ -44,6 +44,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
     setErrors(newErrors)
     onErrorChange(Object.values(newErrors).includes(true))
   }
+
   const handleDescriptionChange = (e) => {
     const { value } = e.target
     if (value.length <= 100) {
@@ -60,12 +61,10 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.firstName}
           fullWidth
-          helperText={
-            errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
-          }
+          helperText={errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')}
           label={t('common.labels.firstName')}
           name='firstName'
-          onBlur={() => validateForm()}
+          onBlur={validateForm}
           onChange={handleChange}
           required
           value={form.firstName}
@@ -73,12 +72,10 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.lastName}
           fullWidth
-          helperText={
-            errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
-          }
+          helperText={errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')}
           label={t('common.labels.lastName')}
           name='lastName'
-          onBlur={() => validateForm()}
+          onBlur={validateForm}
           onChange={handleChange}
           required
           value={form.lastName}
@@ -126,7 +123,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         rows={3}
         value={form.description}
       />
-
       <FormControlLabel
         control={
           <Checkbox
@@ -137,7 +133,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         }
         label={t('becomeTutor.generalInfo.ageComfir')}
       />
-
       <Typography sx={styles.assign} variant='caption'>
         {t('becomeTutor.generalInfo.helperText')}
       </Typography>

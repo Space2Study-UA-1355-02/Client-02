@@ -27,8 +27,9 @@ const UserStepsModal = ({ role = 'tutor' }) => {
   const [open, setOpen] = useState(true)
   const [openConfirm, setOpenConfirm] = useState(false)
   const [isUserFetched, setIsUserFetched] = useState(false)
-  const imageArr = [generalImg, interestImg, languageImg] // Add the images for each step here
+  const imageArr = [generalImg, interestImg, languageImg]
   const [activeStep, setActiveStep] = useState(0)
+
   const childrenArr = [
     <GeneralInfoStep
       isUserFetched={isUserFetched}
@@ -39,6 +40,7 @@ const UserStepsModal = ({ role = 'tutor' }) => {
     <LanguageStep key='3' />,
     <AddPhotoStep key='4' />
   ]
+
   const childrenArrStud = [
     <GeneralInfoStep
       isUserFetched={isUserFetched}
@@ -49,6 +51,7 @@ const UserStepsModal = ({ role = 'tutor' }) => {
     <LanguageStep key='3' />,
     <AddPhotoStep key='4' />
   ]
+
   let tempChildrenArr = []
   let tempStepLabels = []
   if (role === 'tutor') {
@@ -58,6 +61,7 @@ const UserStepsModal = ({ role = 'tutor' }) => {
     tempChildrenArr = childrenArrStud
     tempStepLabels = studentStepLabels
   }
+
   const handleClose = () => {
     setOpenConfirm(true)
   }
@@ -78,8 +82,6 @@ const UserStepsModal = ({ role = 'tutor' }) => {
               sx={styles.imageBox}
             />
           )}
-
-          {/* Right: Stepper form */}
 
           <StepProvider
             initialValues={initialValues}
