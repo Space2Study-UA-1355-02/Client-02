@@ -12,7 +12,7 @@ import { snackbarVariants } from '~/constants'
 const useSteps = ({ steps }) => {
   const [activeStep, setActiveStep] = useState(0)
   const { closeModal } = useModalContext()
-  const { stepData } = useStepContext()
+  const { stepData, setStepError } = useStepContext()
   const { setAlert } = useSnackBarContext()
   const { userId } = useAppSelector((state) => state.appMain)
 
@@ -85,7 +85,8 @@ const useSteps = ({ steps }) => {
     next,
     back,
     handleSubmit,
-    setActiveStep
+    setActiveStep,
+    setStepError
   }
 
   return { activeStep, stepErrors, isLastStep, stepOperation, loading }

@@ -9,8 +9,23 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
   })
   const [subject, setSubject] = useState([])
   const [language, setLanguage] = useState(null)
-  const [photo, setPhoto] = useState([])
+  const [photo, setPhoto] = useState({
+    data: [],
+    errors: {}
+  })
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = stepLabels
+
+  const setStepError = useCallback(
+    (stepLabel, errors) => {
+      if (stepLabel === generalLabel) {
+        setGeneralData((prev) => ({ ...prev, errors }))
+      }
+      if (stepLabel === photoLabel) {
+        setPhoto((prev) => ({ ...prev, errors }))
+      }
+    },
+    [generalLabel, photoLabel]
+  )
 
   const stepData = {
     [generalLabel]: generalData,
@@ -32,7 +47,7 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
           setLanguage(data)
           break
         case photoLabel:
-          setPhoto(data)
+          setPhoto({ data, errors })
           break
         default:
           return
@@ -42,7 +57,7 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
   )
 
   return (
-    <StepContext.Provider value={{ stepData, handleStepData }}>
+    <StepContext.Provider value={{ stepData, handleStepData, setStepError }}>
       {children}
     </StepContext.Provider>
   )

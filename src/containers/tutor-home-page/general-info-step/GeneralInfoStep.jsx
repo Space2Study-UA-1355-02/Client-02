@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -7,50 +7,48 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
+import { useForm } from '~/hooks/use-form'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   const countries = ['USA', 'Canada', 'UK']
   const cities = ['New York', 'Toronto', 'London']
   const { t } = useTranslation()
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    country: '',
-    city: '',
-    description: '',
-    confirmAge: false
-  })
-  const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    description: false
-  })
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
-  }
-
-  const validateForm = () => {
-    const newErrors = {
-      firstName: form.firstName === '',
-      lastName: form.lastName === '',
-      description: form.description.length > 100
+  const {
+    data,
+    errors,
+    handleInputChange,
+    handleNonInputValueChange,
+    handleBlur
+  } = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      city: '',
+      description: '',
+      confirmAge: false
+    },
+    validations: {
+      firstName: (val) =>
+        !val ? t('becomeTutor.generalInfo.firstNameLabelReq') : undefined,
+      lastName: (val) =>
+        !val ? t('becomeTutor.generalInfo.lastNameLabelReq') : undefined,
+      description: (val) =>
+        typeof val === 'string' && val.length > 100
+          ? t('becomeTutor.generalInfo.descriptionMaxLength')
+          : undefined
     }
-    setErrors(newErrors)
-    onErrorChange(Object.values(newErrors).includes(true))
-  }
+  })
 
-  const handleDescriptionChange = (e) => {
-    const { value } = e.target
-    if (value.length <= 100) {
-      setForm((prev) => ({ ...prev, description: value }))
-    }
-  }
+  useEffect(() => {
+    onErrorChange(Boolean(errors.firstName || errors.lastName))
+  }, [errors, onErrorChange])
+
+  useEffect(() => {
+    const input = document.querySelector('input[name="firstName"]')
+    input?.focus()
+  }, [])
 
   return (
     <>
@@ -59,26 +57,26 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
-          error={errors.firstName}
+          error={Boolean(errors.firstName)}
           fullWidth
-          helperText={errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')}
+          helperText={errors.firstName}
           label={t('common.labels.firstName')}
           name='firstName'
-          onBlur={validateForm}
-          onChange={handleChange}
+          onBlur={handleBlur('firstName')}
+          onChange={handleInputChange('firstName')}
           required
-          value={form.firstName}
+          value={data.firstName}
         />
         <TextField
-          error={errors.lastName}
+          error={Boolean(errors.lastName)}
           fullWidth
-          helperText={errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')}
+          helperText={errors.lastName}
           label={t('common.labels.lastName')}
           name='lastName'
-          onBlur={validateForm}
-          onChange={handleChange}
+          onBlur={handleBlur('lastName')}
+          onChange={handleInputChange('lastName')}
           required
-          value={form.lastName}
+          value={data.lastName}
         />
       </Box>
       <Box sx={styles.inputs}>
@@ -86,9 +84,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           fullWidth
           label={t('common.labels.country')}
           name='country'
-          onChange={handleChange}
+          onChange={(e) => handleNonInputValueChange('country', e.target.value)}
           select
-          value={form.country}
+          value={data.country}
         >
           {countries.map((c) => (
             <MenuItem key={c} value={c}>
@@ -100,9 +98,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           fullWidth
           label={t('common.labels.city')}
           name='city'
-          onChange={handleChange}
+          onChange={(e) => handleNonInputValueChange('city', e.target.value)}
           select
-          value={form.city}
+          value={data.city}
         >
           {cities.map((c) => (
             <MenuItem key={c} value={c}>
@@ -112,23 +110,25 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         </TextField>
       </Box>
       <TextField
-        error={errors.description}
+        error={Boolean(errors.description)}
         fullWidth
-        helperText={`${form.description.length}/100`}
+        helperText={`${data.description.length}/100`}
         inputProps={{ maxLength: 100 }}
         label={t('becomeTutor.generalInfo.textFieldLabel')}
         multiline
         name='description'
-        onChange={handleDescriptionChange}
+        onChange={handleInputChange('description')}
         rows={3}
-        value={form.description}
+        value={data.description}
       />
       <FormControlLabel
         control={
           <Checkbox
-            checked={form.confirmAge}
+            checked={data.confirmAge}
             name='confirmAge'
-            onChange={handleChange}
+            onChange={(e) =>
+              handleNonInputValueChange('confirmAge', e.target.checked)
+            }
           />
         }
         label={t('becomeTutor.generalInfo.ageComfir')}
