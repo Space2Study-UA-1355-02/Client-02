@@ -1,10 +1,11 @@
 import { FC } from 'react'
 import { Grid, Box } from '@mui/material'
 import AppButton from '~/components/app-button/AppButton'
-import { styles } from '~/components/list-of-subjects/ListOfSubjects.styles'
 import { ButtonVariantEnum, SubjectInterface } from '~/types'
 import { ListOfSubjectsCard } from '~/components/list-of-subjects-card/ListOfSubjectsCard'
 import NotFoundResults from '~/components/not-found-results/NotFoundResults'
+
+import { styles } from '~/components/list-of-subjects/ListOfSubjects.styles'
 
 interface ListOfSubjectProps {
   items: SubjectInterface[]
@@ -42,7 +43,7 @@ export const ListOfSubjects: FC<ListOfSubjectProps> = ({ onClick, items }) => {
       ) : (
         <NotFoundResults
           description={
-            "We couldn't find what you were searching for. Please try again or suggest a new category that you were looking for."
+            "We couldn't find what you were searching for. Please try again."
           }
         />
       )}
