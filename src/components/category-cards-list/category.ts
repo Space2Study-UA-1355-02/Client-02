@@ -1,176 +1,112 @@
-import LanguageIcon from '@mui/icons-material/Language'
-import Grid3x3Icon from '@mui/icons-material/Grid3x3'
-import CodeIcon from '@mui/icons-material/Code'
-import ScienceIcon from '@mui/icons-material/Science'
-import BrushIcon from '@mui/icons-material/Brush'
-import MusicNoteIcon from '@mui/icons-material/MusicNote'
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu'
-import BusinessIcon from '@mui/icons-material/Business'
-import PsychologyIcon from '@mui/icons-material/Psychology'
-import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety'
-import EmojiNatureIcon from '@mui/icons-material/EmojiNature'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
-import TravelExploreIcon from '@mui/icons-material/TravelExplore'
-import PetsIcon from '@mui/icons-material/Pets'
-import EngineeringIcon from '@mui/icons-material/Engineering'
-import PublicIcon from '@mui/icons-material/Public'
-import LocalDiningIcon from '@mui/icons-material/LocalDining'
-import { SvgIconComponent } from '@mui/icons-material'
-
-export type Category = {
-  categoryId: string
-  icon: SvgIconComponent
-  title: string
-  offersCount: number
-  iconBgColor?: string
-  iconColor?: string
-  offerText?: string
-}
+import { icons } from '~/components/_icons/icons'
 
 export const allCategories = [
   {
     categoryId: 'languages',
-    icon: LanguageIcon,
+    icon: icons.Language,
     title: 'Languages',
-    offersCount: 234,
-    iconBgColor: '#e5f4ea',
-    iconColor: '#4CAF50'
+    offersCount: 234
   },
   {
     categoryId: 'math',
-    icon: Grid3x3Icon,
+    icon: icons.Math,
     title: 'Mathematics',
-    offersCount: 120,
-    iconBgColor: '#fff3cd',
-    iconColor: '#ffb300'
+    offersCount: 120
   },
   {
     categoryId: 'programming',
-    icon: CodeIcon,
+    icon: icons.Programming,
     title: 'Programming',
-    offersCount: 98,
-    iconBgColor: '#e3f2fd',
-    iconColor: '#2196F3'
+    offersCount: 98
   },
   {
     categoryId: 'science',
-    icon: ScienceIcon,
+    icon: icons.Science,
     title: 'Science',
-    offersCount: 76,
-    iconBgColor: '#f3e5f5',
-    iconColor: '#9C27B0'
+    offersCount: 76
   },
   {
     categoryId: 'art',
-    icon: BrushIcon,
+    icon: icons.Art,
     title: 'Art',
-    offersCount: 45,
-    iconBgColor: '#fff8e1',
-    iconColor: '#ff9800'
+    offersCount: 45
   },
   {
     categoryId: 'music',
-    icon: MusicNoteIcon,
+    icon: icons.Music,
     title: 'Music',
-    offersCount: 64,
-    iconBgColor: '#fce4ec',
-    iconColor: '#E91E63'
+    offersCount: 64
   },
   {
     categoryId: 'sports',
-    icon: SportsSoccerIcon,
+    icon: icons.Sports,
     title: 'Sports',
-    offersCount: 89,
-    iconBgColor: '#e8f5e9',
-    iconColor: '#4CAF50'
+    offersCount: 89
   },
   {
     categoryId: 'history',
-    icon: HistoryEduIcon,
+    icon: icons.History,
     title: 'History',
-    offersCount: 52,
-    iconBgColor: '#ede7f6',
-    iconColor: '#673AB7'
+    offersCount: 52
   },
   {
     categoryId: 'business',
-    icon: BusinessIcon,
+    icon: icons.Business,
     title: 'Business',
-    offersCount: 110,
-    iconBgColor: '#fffde7',
-    iconColor: '#FBC02D'
+    offersCount: 110
   },
   {
     categoryId: 'psychology',
-    icon: PsychologyIcon,
+    icon: icons.Psychology,
     title: 'Psychology',
-    offersCount: 70,
-    iconBgColor: '#e1f5fe',
-    iconColor: '#03A9F4'
+    offersCount: 70
   },
   {
     categoryId: 'health',
-    icon: HealthAndSafetyIcon,
+    icon: icons.Health,
     title: 'Health',
-    offersCount: 92,
-    iconBgColor: '#fbe9e7',
-    iconColor: '#FF5722'
+    offersCount: 92
   },
   {
     categoryId: 'nature',
-    icon: EmojiNatureIcon,
+    icon: icons.Nature,
     title: 'Nature',
-    offersCount: 36,
-    iconBgColor: '#f1f8e9',
-    iconColor: '#689F38'
+    offersCount: 36
   },
   {
     categoryId: 'photography',
-    icon: CameraAltIcon,
+    icon: icons.Photography,
     title: 'Photography',
-    offersCount: 59,
-    iconBgColor: '#eceff1',
-    iconColor: '#607D8B'
+    offersCount: 59
   },
   {
     categoryId: 'travel',
-    icon: TravelExploreIcon,
+    icon: icons.Travel,
     title: 'Travel',
-    offersCount: 44,
-    iconBgColor: '#e0f7fa',
-    iconColor: '#00ACC1'
+    offersCount: 44
   },
   {
     categoryId: 'pets',
-    icon: PetsIcon,
+    icon: icons.Pets,
     title: 'Pets',
-    offersCount: 30,
-    iconBgColor: '#fce4ec',
-    iconColor: '#EC407A'
+    offersCount: 30
   },
   {
     categoryId: 'engineering',
-    icon: EngineeringIcon,
+    icon: icons.Engineering,
     title: 'Engineering',
-    offersCount: 80,
-    iconBgColor: '#f3e5f5',
-    iconColor: '#8E24AA'
+    offersCount: 80
   },
   {
     categoryId: 'geography',
-    icon: PublicIcon,
+    icon: icons.Geography,
     title: 'Geography',
-    offersCount: 48,
-    iconBgColor: '#f1f8e9',
-    iconColor: '#43A047'
+    offersCount: 48
   },
   {
     categoryId: 'cooking',
-    icon: LocalDiningIcon,
+    icon: icons.Cooking,
     title: 'Cooking',
-    offersCount: 67,
-    iconBgColor: '#fff3e0',
-    iconColor: '#FB8C00'
+    offersCount: 67
   }
 ]

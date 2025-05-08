@@ -1,0 +1,41 @@
+import {
+  Language as LanguageIcon,
+  Grid3x3 as Grid3x3Icon,
+  Code as CodeIcon,
+  Science as ScienceIcon,
+  Brush as BrushIcon,
+  MusicNote as MusicNoteIcon,
+  SportsSoccer as SportsSoccerIcon,
+  HistoryEdu as HistoryEduIcon,
+  Business as BusinessIcon,
+  Psychology as PsychologyIcon,
+  HealthAndSafety as HealthAndSafetyIcon,
+  EmojiNature as EmojiNatureIcon,
+  CameraAlt as CameraAltIcon,
+  TravelExplore as TravelExploreIcon,
+  Pets as PetsIcon,
+  Engineering as EngineeringIcon,
+  Public as PublicIcon,
+  LocalDining as LocalDiningIcon
+} from '@mui/icons-material'
+
+export const icons = {
+  Language: LanguageIcon,
+  Math: Grid3x3Icon,
+  Programming: CodeIcon,
+  Science: ScienceIcon,
+  Art: BrushIcon,
+  Music: MusicNoteIcon,
+  Sports: SportsSoccerIcon,
+  History: HistoryEduIcon,
+  Business: BusinessIcon,
+  Psychology: PsychologyIcon,
+  Health: HealthAndSafetyIcon,
+  Nature: EmojiNatureIcon,
+  Photography: CameraAltIcon,
+  Travel: TravelExploreIcon,
+  Pets: PetsIcon,
+  Engineering: EngineeringIcon,
+  Geography: PublicIcon,
+  Cooking: LocalDiningIcon
+}

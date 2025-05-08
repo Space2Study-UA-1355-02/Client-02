@@ -20,9 +20,7 @@ type CategoryCardProps = {
   iconColor?: string
   offerText?: string
 }
-
 const CategoryCard = ({
-  // categoryId,
   icon: Icon,
   title,
   offersCount,
@@ -32,8 +30,6 @@ const CategoryCard = ({
   offerText = 'Offers'
 }: CategoryCardProps) => {
   return (
-    // TODO: обгорнути в <Link to={`/subjects?category=${categoryId}`}> коли буде роутинг
-    // cardContent
     <Card sx={{ ...defaultCardStyles, ...cardStyles }}>
       <Box sx={iconBoxStyles(iconBgColor)}>
         <Icon sx={iconStyles(iconColor)} />
@@ -54,7 +50,6 @@ const CategoryCard = ({
         </Typography>
       </Box>
     </Card>
-    // </Link>
   )
 }
 

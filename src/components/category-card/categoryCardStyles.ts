@@ -1,4 +1,45 @@
-export const cardStyles = {
+// export const cardStyles = {
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: 2,
+//   borderRadius: 3,
+//   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
+//   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+//   '&:hover': {
+//     transform: 'scale(1.02)',
+//     boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.08)'
+//   }
+// }
+
+// export const iconBoxStyles = (bgColor: string) => ({
+//   width: 56,
+//   height: 56,
+//   borderRadius: 2,
+//   display: 'flex',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+//   backgroundColor: bgColor,
+//   marginRight: 2
+// })
+
+// export const iconStyles = (color: string) => ({
+//   fontSize: 30,
+//   color
+// })
+
+// export const titleStyles = {
+//   fontWeight: 600,
+//   color: '#2E3A59'
+// }
+
+// export const offersCountStyles = {
+//   color: '#607D8B',
+//   fontWeight: 500
+// }
+
+import { SxProps, Theme } from '@mui/material'
+
+export const cardStyles: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   padding: 2,
@@ -11,7 +52,7 @@ export const cardStyles = {
   }
 }
 
-export const iconBoxStyles = (bgColor: string) => ({
+export const iconBoxStyles = (bgColor: string): SxProps<Theme> => ({
   width: 56,
   height: 56,
   borderRadius: 2,
@@ -22,17 +63,17 @@ export const iconBoxStyles = (bgColor: string) => ({
   marginRight: 2
 })
 
-export const iconStyles = (color: string) => ({
+export const iconStyles = (color: string): SxProps<Theme> => ({
   fontSize: 30,
   color
 })
 
-export const titleStyles = {
+export const titleStyles: SxProps<Theme> = {
   fontWeight: 600,
   color: '#2E3A59'
 }
 
-export const offersCountStyles = {
+export const offersCountStyles: SxProps<Theme> = {
   color: '#607D8B',
   fontWeight: 500
 }

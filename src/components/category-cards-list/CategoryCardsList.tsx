@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Grid, Button, Typography } from '@mui/material'
-import {
-  allCategories,
-  Category
-} from '~/components/category-cards-list/category'
+import { allCategories } from '~/components/category-cards-list/category'
+import { SvgIconComponent } from '@mui/icons-material'
 
 import CategoryCard from '~/components/category-card/CategoryCard'
+
+type Category = {
+  categoryId: string
+  icon: SvgIconComponent
+  title: string
+  offersCount: number
+}
 
 const CategoryCardsList = () => {
   const [showAll, setShowAll] = useState(false)
