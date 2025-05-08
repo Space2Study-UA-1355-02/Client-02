@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Grid } from '@mui/material'
+
 import UserProfile from '~/components/offer-card/offer-card-square/offer-card-rectangle/UserProfile'
 import CourseDetails from '~/components/offer-card/offer-card-square/offer-card-rectangle/CourseDetails'
 import PriceSection from '~/components/offer-card/offer-card-square/offer-card-rectangle/PriceSection'
+
 import SendMessageModal from '~/components/send-message-modal/SendMessageModal'
-import { styles } from './OfferCardRectagle.styles'
+
+import { styles } from '~/components/offer-card/offer-card-square/offer-card-rectangle/OfferCardRectangle.styles'
 
 const OfferCardRectangle = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,13 +23,13 @@ const OfferCardRectangle = () => {
       <Card sx={styles.card}>
         <CardContent>
           <Grid alignItems='flex-start' container spacing={2}>
-            <Grid item xs={2}>
+            <Grid item md={2} sm={4} sx={{ height: '100%' }} xs={12}>
               <UserProfile />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item md={7} sm={8} sx={{ height: '100%' }} xs={12}>
               <CourseDetails />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item md={3} sm={12} sx={{ height: '100%' }} xs={12}>
               <PriceSection onOpenMessage={handleOpenMessage} />
             </Grid>
           </Grid>

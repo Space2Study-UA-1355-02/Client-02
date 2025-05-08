@@ -2,12 +2,15 @@ import { lightGreen } from '@mui/material/colors'
 
 export const styles = {
   card: {
-    padding: '2px',
+    p: { xs: 1, sm: 2, md: 3 },
     borderRadius: 3,
     boxShadow: 3,
-    maxWidth: '900px',
-    margin: 'auto',
-    marginBottom: '50px'
+    width: '100%',
+    maxWidth: { xs: '100%', sm: '95%', md: '900px' },
+    ml: 'auto',
+    mr: '100px',
+    mb: { xs: 4, sm: 5 },
+    overflowX: 'visible'
   },
   leftColumn: {
     display: 'flex',
@@ -80,10 +83,11 @@ export const styles = {
     alignItems: 'flex-start'
   },
   buttons: {
-    marginTop: 3,
+    mt: 3,
     display: 'flex',
     flexDirection: 'column',
-    gap: 1
+    gap: 1,
+    flexWrap: 'wrap'
   },
   buttonSendMessage: {
     backgroundColor: 'primary.50',
