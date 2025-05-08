@@ -17,7 +17,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   useEffect(() => {
     locantionsService.getCountries().then((response) => {
       if (response.status === 200) {
-        //console.log('countries', response.data.data.countries)
         setCountries1(response.data.data.countries)
       }
     })
@@ -37,7 +36,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       .getCities(form.country)
       .then((response) => {
         if (response.status === 200) {
-          //console.log('cities', response)
           if (response.data.data.cities.length > 0) {
             setCities(response.data.data.cities)
           } else {
