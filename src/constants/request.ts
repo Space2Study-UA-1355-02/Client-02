@@ -41,5 +41,9 @@ export const URLs = {
       post: '/resources-categories',
       delete: 'resources-categories'
     }
+  },
+  locantions: {
+    countries: '/locations/countries',
+    cities: '/locations/cities'
   }
 }
