@@ -1,7 +1,12 @@
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
+import SearchCategories from '~/containers/student-categories-page/search-categories/SearchCategories'
 
 const Categories = () => {
-  return <PageWrapper>Categories</PageWrapper>
+  return (
+    <PageWrapper>
+      <SearchCategories onSearch={() => {}} />
+    </PageWrapper>
+  )
 }
 
 export default Categories
