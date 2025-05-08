@@ -61,7 +61,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.firstName}
           fullWidth
-          helperText={errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')}
+          helperText={
+            errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
+          }
           label={t('common.labels.firstName')}
           name='firstName'
           onBlur={validateForm}
@@ -72,7 +74,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.lastName}
           fullWidth
-          helperText={errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')}
+          helperText={
+            errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
+          }
           label={t('common.labels.lastName')}
           name='lastName'
           onBlur={validateForm}
