@@ -43,7 +43,9 @@ const Faq: React.FC<FaqProps> = ({ accordionItems }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant='body2'>{t(item.description)}</Typography>
+            <Typography sx={styles.answerText}>
+              {t(item.description)}
+            </Typography>
           </AccordionDetails>
         </Accordion>
       )),
@@ -61,7 +63,6 @@ const Faq: React.FC<FaqProps> = ({ accordionItems }) => {
         style={styles.titleWithDescription}
         title={t('studentHomePage.faq.title')}
       />
-
       <Box sx={boxStyles}>{renderedAccordionItems}</Box>
     </Box>
   )

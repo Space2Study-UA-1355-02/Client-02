@@ -15,6 +15,7 @@ import ResetPassword from '~/containers/guest-home-page/reset-password/ResetPass
 import WhoWeAre from '~/containers/guest-home-page/who-we-are/WhoWeAre'
 import { useModalContext } from '~/context/modal-context'
 import { styles } from '~/pages/guest-home-page/GuestHome.styles'
+import InfoGeneralStep from '~/components/info-general-step/InfoGeneralStep'
 
 const GuestHomePage = () => {
   const { openModal } = useModalContext()
@@ -23,7 +24,8 @@ const GuestHomePage = () => {
   useEffect(() => {
     const confirmToken = searchParams.get('confirmToken')
     const resetToken = searchParams.get('resetToken')
-    confirmToken &&
+
+    if (confirmToken) {
       openModal({
         component: (
           <EmailConfirmModal
@@ -32,14 +34,19 @@ const GuestHomePage = () => {
           />
         )
       })
-    resetToken &&
+    }
+
+    if (resetToken) {
       openModal({
         component: (
           <ResetPassword openModal={openModal} resetToken={resetToken} />
         )
       })
-    searchParams.get('login') !== null &&
+    }
+
+    if (searchParams.get('login') !== null) {
       openModal({ component: <LoginDialog /> })
+    }
 
     setSearchParams([])
   }, [searchParams, setSearchParams, openModal])
@@ -52,8 +59,10 @@ const GuestHomePage = () => {
         <WhatCanYouDo />
         <HowItWorks />
         <WhoWeAre />
+        <InfoGeneralStep role='tutor' />
       </PageWrapper>
     </Box>
   )
 }
+
 export default GuestHomePage
