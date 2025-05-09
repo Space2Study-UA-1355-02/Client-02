@@ -31,7 +31,7 @@ const Faq: React.FC<FaqProps> = ({ accordionItems }) => {
 
   const renderedAccordionItems = useMemo(
     () =>
-      accordionItems.map((item, index) => (
+      accordionItems.map((item: AccordionItem, index: number) => (
         <Accordion key={index} sx={styles.accordionItem}>
           <AccordionSummary
             aria-controls={`faq-panel-${index}`}
