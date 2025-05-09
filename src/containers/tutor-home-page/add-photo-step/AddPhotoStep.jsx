@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import useUpload from '~/hooks/use-upload'
 import { validationData } from './constants'
 import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
-
+const STORAGE_KEY = 'addPhotoStepForm'
 const AddPhotoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
   const [files, setFiles] = useState([])
@@ -20,7 +20,27 @@ const AddPhotoStep = ({ btnsBox }) => {
       }
     }
   }, [imagePreview])
-
+  useEffect(() => {
+    const savedImage = localStorage.getItem(STORAGE_KEY)
+    if (savedImage) {
+      setImagePreview(savedImage)
+    }
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+  }, [])
+  const readAndSaveFile = (file) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const base64 = reader.result
+      setImagePreview(base64)
+      localStorage.setItem(STORAGE_KEY, base64)
+    }
+    reader.readAsDataURL(file)
+    addFiles({ target: { files: [file] } }) // Simulate native input event
+  }
   const { dragStart, dragLeave, addFiles, isDrag } = useUpload({
     files,
     validationData,
@@ -33,6 +53,7 @@ const AddPhotoStep = ({ btnsBox }) => {
   })
   const handleFileChange = (e) => {
     const file = e.target.files[0]
+    if (file) readAndSaveFile(file)
     if (file) {
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview)
@@ -46,6 +67,7 @@ const AddPhotoStep = ({ btnsBox }) => {
   const handleDrop = (e) => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
+    if (file) readAndSaveFile(file)
     if (file) {
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview)

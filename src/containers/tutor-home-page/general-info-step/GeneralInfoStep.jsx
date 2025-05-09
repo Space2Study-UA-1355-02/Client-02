@@ -21,14 +21,22 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       }
     })
   }, [])
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    country: '',
-    city: '',
-    description: '',
-    confirmAge: false
+  const [form, setForm] = useState(() => {
+    const savedForm = localStorage.getItem('generalInfoForm')
+    return savedForm
+      ? JSON.parse(savedForm)
+      : {
+          firstName: '',
+          lastName: '',
+          country: '',
+          city: '',
+          description: '',
+          confirmAge: false
+        }
   })
+  useEffect(() => {
+    localStorage.setItem('generalInfoForm', JSON.stringify(form))
+  }, [form])
   useEffect(() => {
     if (!form.country) return
     setCities(['waiting...'])
@@ -55,11 +63,13 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
-    setForm((prev) => ({
-      ...prev,
+    const newForm = {
+      ...form,
       [name]: type === 'checkbox' ? checked : value,
       ...(name === 'country' ? { city: '' } : {})
-    }))
+    }
+    setForm(newForm)
+    localStorage.setItem('generalInfoForm', JSON.stringify(newForm))
   }
 
   const validateForm = () => {

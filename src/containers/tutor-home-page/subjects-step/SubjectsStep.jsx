@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -15,14 +15,25 @@ import { ButtonVariantEnum } from '~/types'
 
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
-
+const STORAGE_KEY = 'subjectsStepForm'
 const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
   const { t } = useTranslation()
 
-  const [mainCategory, setMainCategory] = useState(null)
-  const [selectedSubject, setSelectedSubject] = useState(null)
-  const [subjects, setSubjects] = useState([])
+  const savedForm = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+
+  const [mainCategory, setMainCategory] = useState(
+    savedForm.mainCategory || null
+  )
+  const [selectedSubject, setSelectedSubject] = useState(
+    savedForm.selectedSubject || null
+  )
+  const [subjects, setSubjects] = useState(savedForm.subjects || [])
   const [showAllSubjects, setShowAllSubjects] = useState(false)
+
+  useEffect(() => {
+    const formState = { mainCategory, selectedSubject, subjects }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formState))
+  }, [mainCategory, selectedSubject, subjects])
 
   const isAddDisabled =
     !selectedSubject || subjects.some((s) => s.name === selectedSubject.name)
