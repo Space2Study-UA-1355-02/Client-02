@@ -66,8 +66,12 @@ export const SearchToolbar: FC<SearchToolbarProps> = ({
 
   return (
     <Box sx={styles.container}>
-      <Typography sx={styles.title}>{title}</Typography>
-      <Typography sx={styles.subtitle}>{subtitle}</Typography>
+      <Typography sx={styles.title} variant={'h5'}>
+        {title}
+      </Typography>
+      <Typography sx={styles.subtitle} variant={'body2'}>
+        {subtitle}
+      </Typography>
 
       <Stack direction={'row'} sx={styles.linksContainer}>
         {isBackLink && backLink ? (

@@ -8,13 +8,11 @@ export const styles = {
   title: {
     fontWeight: 'bold',
     mb: 1,
-    textAlign: 'center',
-    variant: 'h5'
+    textAlign: 'center'
   },
   subtitle: {
     mb: 2,
-    textAlign: 'center',
-    variant: 'body2'
+    textAlign: 'center'
   },
   linksContainer: {
     flexWrap: 'wrap',
