@@ -2,13 +2,13 @@ import { axiosClient } from '~/plugins/axiosClient'
 
 import { URLs } from '~/constants/request'
 
-export const locantionsService = {
-  getCountries: () => {
-    return axiosClient.get(URLs.locantions.countries + '?limit=260')
+export const locationsService = {
+  getCountries: (limit = 260) => {
+    return axiosClient.get(`${URLs.locations.countries}?limit=${limit}`)
   },
-  getCities: (country) => {
+  getCities: (country, limit = 1000) => {
     return axiosClient.get(
-      URLs.locantions.cities + '?country=' + country + '&limit=1000'
+      `${URLs.locations.cities}?country=${country}&limit=${limit}`
     )
   }
 }

@@ -14,7 +14,7 @@ const PaginatedSelect = ({
 }) => {
   const [page, setPage] = useState(1)
 
-  const visibleOptions = options.slice(0, page * itemsPerPage)
+  const visibleOptions = (options || []).slice(0, page * itemsPerPage)
 
   const handleScroll = (event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
@@ -45,8 +45,8 @@ const PaginatedSelect = ({
       select
       value={value}
     >
-      {visibleOptions.map((option, id) => (
-        <MenuItem key={id} value={option}>
+      {visibleOptions.map((option, index) => (
+        <MenuItem key={index} value={option}>
           {option}
         </MenuItem>
       ))}

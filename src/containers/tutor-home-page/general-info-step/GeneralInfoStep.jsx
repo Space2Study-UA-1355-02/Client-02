@@ -7,17 +7,17 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-import { locantionsService } from '~/services/location-service'
+import { locationsService } from '~/services/location-service'
 import PaginatedSelect from '~/components/paginated-select/PaginatedSelect'
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
-  const [countries1, setCountries1] = useState([])
+  const [countries, setCountries] = useState([])
   const [cities, setCities] = useState([])
 
   const { t } = useTranslation()
   useEffect(() => {
-    locantionsService.getCountries().then((response) => {
+    locationsService.getCountries().then((response) => {
       if (response.status === 200) {
-        setCountries1(response.data.data.countries)
+        setCountries(response.data.data.countries)
       }
     })
   }, [])
@@ -32,7 +32,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   useEffect(() => {
     if (!form.country) return
     setCities(['waiting...'])
-    locantionsService
+    locationsService
       .getCities(form.country)
       .then((response) => {
         if (response.status === 200) {
@@ -118,7 +118,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           label={t('common.labels.country')}
           name='country'
           onChange={handleChange}
-          options={countries1}
+          options={countries}
           value={form.country}
         />
         <PaginatedSelect

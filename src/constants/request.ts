@@ -42,7 +42,7 @@ export const URLs = {
       delete: 'resources-categories'
     }
   },
-  locantions: {
+  locations: {
     countries: '/locations/countries',
     cities: '/locations/cities'
   }
