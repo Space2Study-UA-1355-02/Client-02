@@ -1,48 +1,68 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Grid, Button, Typography } from '@mui/material'
-import { allCategories } from '~/components/category-cards-list/category'
-import { SvgIconComponent } from '@mui/icons-material'
+import { Box, Grid, Button } from '@mui/material'
+import { useNavigate, useLocation } from 'react-router-dom'
 
+import { authRoutes } from '~/router/constants/authRoutes'
 import CategoryCard from '~/components/category-card/CategoryCard'
+import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
+import { CategoryInterface } from '~/types'
+import { styles } from '~/containers/student-home-page/faq/Faq.styles'
 
-type Category = {
-  categoryId: string
-  icon: SvgIconComponent
-  title: string
-  offersCount: number
+interface CategoryCardsListProps {
+  items: CategoryInterface[]
+  hideTexts?: boolean
 }
 
-const CategoryCardsList = () => {
+const CategoryCardsList: React.FC<CategoryCardsListProps> = ({
+  items,
+  hideTexts
+}) => {
   const [showAll, setShowAll] = useState(false)
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const visibleCategories: Category[] = showAll
-    ? allCategories
-    : allCategories.slice(0, 6)
+  const isOnCategoriesPage = location.pathname === authRoutes.categories.path
+
+  const visibleCategories: CategoryInterface[] = isOnCategoriesPage
+    ? showAll
+      ? items
+      : items.slice(0, 9)
+    : items.slice(0, 6)
 
   return (
     <Box sx={{ mt: 6 }}>
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Typography fontWeight='bold' gutterBottom variant='h4'>
-          {t('studentHomePage.popularCategories.title')}
-        </Typography>
-        <Typography color='text.secondary' variant='body1'>
-          {t('studentHomePage.popularCategories.description')}
-        </Typography>
-      </Box>
+      {!hideTexts && !isOnCategoriesPage && (
+        <TitleWithDescription
+          title={t('studentHomePage.popularCategories.title')}
+          description={t('studentHomePage.popularCategories.description')}
+          style={styles.titleWithDescription}
+        />
+      )}
 
       <Grid container spacing={3}>
-        {visibleCategories.map((cat) => (
-          <Grid item key={cat.categoryId} md={4} sm={6} xs={12}>
-            <CategoryCard {...cat} />
+        {visibleCategories.map((item) => (
+          <Grid item key={item._id} md={4} sm={6} xs={12}>
+            <CategoryCard {...item} />
           </Grid>
         ))}
       </Grid>
 
-      {!showAll && (
+      {!isOnCategoriesPage && (
         <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Button onClick={() => setShowAll(true)} variant='contained'>
+          <Button
+            variant='outlined'
+            onClick={() => navigate(authRoutes.categories.path)}
+          >
+            {t('studentHomePage.popularCategories.showAllCategories')}
+          </Button>
+        </Box>
+      )}
+
+      {isOnCategoriesPage && !showAll && items.length > 12 && (
+        <Box sx={{ textAlign: 'center', mt: 4 }}>
+          <Button onClick={() => setShowAll(true)} variant='outlined'>
             {t('studentHomePage.popularCategories.viewMore')}
           </Button>
         </Box>

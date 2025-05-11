@@ -1,6 +1,7 @@
 // import { Link } from 'react-router-dom' // TODO: активувати, коли зʼявиться роутинг
-import { Card, Typography, Box } from '@mui/material'
-import { SvgIconComponent } from '@mui/icons-material'
+import { Card, Typography, Box, SxProps } from '@mui/material'
+import { CategoryInterface } from '~/types'
+import { icons } from '~/components/_icons/icons'
 
 import {
   cardStyles as defaultCardStyles,
@@ -9,30 +10,29 @@ import {
   titleStyles,
   offersCountStyles
 } from './categoryCardStyles'
+import { useTranslation } from 'react-i18next'
 
-type CategoryCardProps = {
-  categoryId: string
-  icon: SvgIconComponent
-  title: string
-  offersCount: number
-  cardStyles?: object
-  iconBgColor?: string
-  iconColor?: string
+interface CategoryCardsProps extends CategoryInterface {
+  bgColor?: string
   offerText?: string
+  cardStyles?: SxProps
 }
-const CategoryCard = ({
-  icon: Icon,
-  title,
-  offersCount,
-  cardStyles,
-  iconBgColor = '#e5f4ea',
-  iconColor = '#4CAF50',
-  offerText = 'Offers'
-}: CategoryCardProps) => {
+
+const CategoryCard: React.FC<CategoryCardsProps> = ({
+  bgColor,
+  name,
+  appearance,
+  totalOffers,
+  offerText,
+  cardStyles
+}) => {
+  const { t } = useTranslation()
+  const Icon: React.ElementType = icons[appearance.icon]
+
   return (
     <Card sx={{ ...defaultCardStyles, ...cardStyles }}>
-      <Box sx={iconBoxStyles(iconBgColor)}>
-        <Icon sx={iconStyles(iconColor)} />
+      <Box sx={iconBoxStyles(bgColor ? bgColor : `${appearance.color}60`)}>
+        <Icon sx={iconStyles(appearance.color)} />
       </Box>
 
       <Box
@@ -43,10 +43,10 @@ const CategoryCard = ({
         }}
       >
         <Typography sx={titleStyles} variant='subtitle1'>
-          {title}
+          {name}
         </Typography>
         <Typography sx={offersCountStyles} variant='body2'>
-          {offersCount} {offerText}
+          {totalOffers.student} {offerText ? offerText : t('offers')}
         </Typography>
       </Box>
     </Card>

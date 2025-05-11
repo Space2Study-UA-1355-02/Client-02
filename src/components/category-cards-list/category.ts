@@ -1,112 +1,182 @@
-import { icons } from '~/components/_icons/icons'
-
 export const allCategories = [
   {
-    categoryId: 'languages',
-    icon: icons.Language,
-    title: 'Languages',
-    offersCount: 234
+    _id: 'languages',
+    appearance: { icon: 'Language', color: '#234567' },
+    name: 'Languages',
+    totalOffers: { student: 10 }
   },
   {
-    categoryId: 'math',
-    icon: icons.Math,
-    title: 'Mathematics',
-    offersCount: 120
+    _id: 'math',
+    appearance: { icon: 'Math', color: '#00695c' },
+    name: 'Mathematics',
+    totalOffers: { student: 8 }
   },
   {
-    categoryId: 'programming',
-    icon: icons.Programming,
-    title: 'Programming',
-    offersCount: 98
+    _id: 'programming',
+    appearance: { icon: 'Programming', color: '#2e7d32' },
+    name: 'Programming',
+    totalOffers: { student: 14 }
   },
   {
-    categoryId: 'science',
-    icon: icons.Science,
-    title: 'Science',
-    offersCount: 76
+    _id: 'science',
+    appearance: { icon: 'Science', color: '#283593' },
+    name: 'Science',
+    totalOffers: { student: 9 }
   },
   {
-    categoryId: 'art',
-    icon: icons.Art,
-    title: 'Art',
-    offersCount: 45
+    _id: 'art',
+    appearance: { icon: 'Art', color: '#6a1b9a' },
+    name: 'Art & Illustration',
+    totalOffers: { student: 5 }
   },
   {
-    categoryId: 'music',
-    icon: icons.Music,
-    title: 'Music',
-    offersCount: 64
+    _id: 'music',
+    appearance: { icon: 'Music', color: '#d32f2f' },
+    name: 'Music',
+    totalOffers: { student: 11 }
   },
   {
-    categoryId: 'sports',
-    icon: icons.Sports,
-    title: 'Sports',
-    offersCount: 89
+    _id: 'sports',
+    appearance: { icon: 'Sports', color: '#f57c00' },
+    name: 'Sports',
+    totalOffers: { student: 6 }
   },
   {
-    categoryId: 'history',
-    icon: icons.History,
-    title: 'History',
-    offersCount: 52
+    _id: 'history',
+    appearance: { icon: 'History', color: '#795548' },
+    name: 'History',
+    totalOffers: { student: 4 }
   },
   {
-    categoryId: 'business',
-    icon: icons.Business,
-    title: 'Business',
-    offersCount: 110
+    _id: 'business',
+    appearance: { icon: 'Business', color: '#1565c0' },
+    name: 'Business',
+    totalOffers: { student: 12 }
   },
   {
-    categoryId: 'psychology',
-    icon: icons.Psychology,
-    title: 'Psychology',
-    offersCount: 70
+    _id: 'psychology',
+    appearance: { icon: 'Psychology', color: '#8e24aa' },
+    name: 'Psychology',
+    totalOffers: { student: 7 }
   },
   {
-    categoryId: 'health',
-    icon: icons.Health,
-    title: 'Health',
-    offersCount: 92
+    _id: 'health',
+    appearance: { icon: 'Health', color: '#c62828' },
+    name: 'Health & Wellness',
+    totalOffers: { student: 10 }
   },
   {
-    categoryId: 'nature',
-    icon: icons.Nature,
-    title: 'Nature',
-    offersCount: 36
+    _id: 'nature',
+    appearance: { icon: 'Nature', color: '#43a047' },
+    name: 'Nature Studies',
+    totalOffers: { student: 3 }
   },
   {
-    categoryId: 'photography',
-    icon: icons.Photography,
-    title: 'Photography',
-    offersCount: 59
+    _id: 'photography',
+    appearance: { icon: 'Photography', color: '#37474f' },
+    name: 'Photography',
+    totalOffers: { student: 9 }
   },
   {
-    categoryId: 'travel',
-    icon: icons.Travel,
-    title: 'Travel',
-    offersCount: 44
+    _id: 'travel',
+    appearance: { icon: 'Travel', color: '#0277bd' },
+    name: 'Travel & Culture',
+    totalOffers: { student: 6 }
   },
   {
-    categoryId: 'pets',
-    icon: icons.Pets,
-    title: 'Pets',
-    offersCount: 30
+    _id: 'pets',
+    appearance: { icon: 'Pets', color: '#5d4037' },
+    name: 'Animal Care',
+    totalOffers: { student: 2 }
   },
   {
-    categoryId: 'engineering',
-    icon: icons.Engineering,
-    title: 'Engineering',
-    offersCount: 80
+    _id: 'engineering',
+    appearance: { icon: 'Engineering', color: '#1a237e' },
+    name: 'Engineering',
+    totalOffers: { student: 11 }
   },
   {
-    categoryId: 'geography',
-    icon: icons.Geography,
-    title: 'Geography',
-    offersCount: 48
+    _id: 'geography',
+    appearance: { icon: 'Geography', color: '#00838f' },
+    name: 'Geography',
+    totalOffers: { student: 5 }
   },
   {
-    categoryId: 'cooking',
-    icon: icons.Cooking,
-    title: 'Cooking',
-    offersCount: 67
+    _id: 'cooking',
+    appearance: { icon: 'Cooking', color: '#ef6c00' },
+    name: 'Cooking',
+    totalOffers: { student: 7 }
+  },
+  {
+    _id: 'robotics',
+    appearance: { icon: 'Engineering', color: '#3949ab' },
+    name: 'Robotics',
+    totalOffers: { student: 6 }
+  },
+  {
+    _id: 'media',
+    appearance: { icon: 'Photography', color: '#263238' },
+    name: 'Media',
+    totalOffers: { student: 4 }
+  },
+  {
+    _id: 'fitness',
+    appearance: { icon: 'Health', color: '#ad1457' },
+    name: 'Fitness',
+    totalOffers: { student: 5 }
+  },
+  {
+    _id: 'gaming',
+    appearance: { icon: 'Programming', color: '#00acc1' },
+    name: 'Game Dev',
+    totalOffers: { student: 8 }
+  },
+  {
+    _id: 'philosophy',
+    appearance: { icon: 'Psychology', color: '#6d4c41' },
+    name: 'Philosophy',
+    totalOffers: { student: 3 }
+  },
+  {
+    _id: 'culture',
+    appearance: { icon: 'Travel', color: '#512da8' },
+    name: 'Cultural Studies',
+    totalOffers: { student: 6 }
+  },
+  {
+    _id: 'environment',
+    appearance: { icon: 'Nature', color: '#388e3c' },
+    name: 'Environment',
+    totalOffers: { student: 7 }
+  },
+  {
+    _id: 'analytics',
+    appearance: { icon: 'Math', color: '#5c6bc0' },
+    name: 'Analytics',
+    totalOffers: { student: 9 }
+  },
+  {
+    _id: 'writing',
+    appearance: { icon: 'History', color: '#9e9d24' },
+    name: 'Creative Writing',
+    totalOffers: { student: 5 }
+  },
+  {
+    _id: 'ai',
+    appearance: { icon: 'Science', color: '#1e88e5' },
+    name: 'AI & Machine Learning',
+    totalOffers: { student: 8 }
+  },
+  {
+    _id: 'economics',
+    appearance: { icon: 'Business', color: '#4e342e' },
+    name: 'Economics',
+    totalOffers: { student: 4 }
+  },
+  {
+    _id: 'logic',
+    appearance: { icon: 'Math', color: '#616161' },
+    name: 'Logic & Reasoning',
+    totalOffers: { student: 6 }
   }
 ]
