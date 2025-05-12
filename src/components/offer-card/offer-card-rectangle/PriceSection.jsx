@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton, Button } from '@mui/material'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import { styles } from '~/components/offer-card/offer-card-square/offer-card-rectangle/OfferCardRectangle.styles'
+import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 import { useTranslation } from 'react-i18next'
 
 const PriceSection = ({ price = 75, onOpenMessage }) => {

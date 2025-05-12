@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
-import { styles } from '~/components/offer-card/offer-card-square/offer-card-rectangle/OfferCardRectangle.styles'
+import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const CourseDetails = ({
   title = 'Advanced Quantum Mechanics: Theoretical Concepts, Mathematical Formulations in Modern Physics',
