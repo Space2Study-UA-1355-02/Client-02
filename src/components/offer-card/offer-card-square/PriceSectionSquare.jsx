@@ -40,14 +40,14 @@ const PriceSectionSquare = ({
                 name='read-only'
                 readOnly
                 size='large'
-                value={1}
+                value={rating > 0 ? 1 : 0}
               />
               <Typography sx={styles.ratingNumber} variant='h6'>
                 {rating}
               </Typography>
             </Box>
             <Typography sx={styles.reviews} variant='caption'>
-              {reviewCount} reviews
+              {reviewCount} {t('common.reviews')}
             </Typography>
           </Box>
         </Box>

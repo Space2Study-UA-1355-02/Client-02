@@ -9,7 +9,7 @@ import OfferCardRectangle from '~/components/offer-card/offer-card-rectangle/Off
 import OfferCardSquare from '~/components/offer-card/offer-card-square/OfferCardSquare'
 import AvatarSrc from '~/assets/img/tutor-profile-page/avatar.png'
 
-import styles from '~/containers/find-offer/offers-block/OffersBlock.styles'
+import { styles } from '~/containers/find-offer/offers-block/OffersBlock.styles'
 
 const mockOffers = [
   {
