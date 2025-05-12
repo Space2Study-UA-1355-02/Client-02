@@ -6,7 +6,7 @@ const Categories = () => {
   return (
     <PageWrapper>
       <h1>Categories</h1>
-      <CategoryCardsList items={allCategories} hideTexts />
+      <CategoryCardsList hideTexts items={allCategories} />
     </PageWrapper>
   )
 }

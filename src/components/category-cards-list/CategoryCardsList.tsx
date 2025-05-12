@@ -10,13 +10,13 @@ import { CategoryInterface } from '~/types'
 import { styles } from '~/containers/student-home-page/faq/Faq.styles'
 
 interface CategoryCardsListProps {
-  items: CategoryInterface[]
   hideTexts?: boolean
+  items: CategoryInterface[]
 }
 
 const CategoryCardsList: React.FC<CategoryCardsListProps> = ({
-  items,
-  hideTexts
+  hideTexts,
+  items
 }) => {
   const [showAll, setShowAll] = useState(false)
   const { t } = useTranslation()
@@ -35,9 +35,9 @@ const CategoryCardsList: React.FC<CategoryCardsListProps> = ({
     <Box sx={{ mt: 6 }}>
       {!hideTexts && !isOnCategoriesPage && (
         <TitleWithDescription
-          title={t('studentHomePage.popularCategories.title')}
           description={t('studentHomePage.popularCategories.description')}
           style={styles.titleWithDescription}
+          title={t('studentHomePage.popularCategories.title')}
         />
       )}
 
@@ -52,8 +52,8 @@ const CategoryCardsList: React.FC<CategoryCardsListProps> = ({
       {!isOnCategoriesPage && (
         <Box sx={{ textAlign: 'center', mt: 4 }}>
           <Button
-            variant='outlined'
             onClick={() => navigate(authRoutes.categories.path)}
+            variant='outlined'
           >
             {t('studentHomePage.popularCategories.showAllCategories')}
           </Button>
