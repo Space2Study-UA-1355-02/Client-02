@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Grid } from '@mui/material'
 
-import UserProfile from '~/components/offer-card/offer-card-square/offer-card-rectangle/UserProfile'
-import CourseDetails from '~/components/offer-card/offer-card-square/offer-card-rectangle/CourseDetails'
-import PriceSection from '~/components/offer-card/offer-card-square/offer-card-rectangle/PriceSection'
+import UserProfile from '~/components/offer-card/offer-card-rectangle/UserProfile'
+import CourseDetails from '~/components/offer-card/offer-card-rectangle/CourseDetails'
+import PriceSection from '~/components/offer-card/offer-card-rectangle/PriceSection'
 
 import SendMessageModal from '~/components/send-message-modal/SendMessageModal'
 
-import { styles } from '~/components/offer-card/offer-card-square/offer-card-rectangle/OfferCardRectangle.styles'
+import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const OfferCardRectangle = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)

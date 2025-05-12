@@ -1,5 +1,5 @@
 import { Box, Typography, Avatar, Rating } from '@mui/material'
-import { styles } from '~/components/offer-card/offer-card-square/offer-card-rectangle/OfferCardRectangle.styles'
+import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const UserProfile = ({
   name = 'Jennifer W.',
