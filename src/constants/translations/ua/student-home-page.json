@@ -11,6 +11,7 @@
   "popularCategories": {
     "title": "Популярні категорії",
     "description": "Досліджуйте навчальні категорії, які вас цікавлять.",
+    "showAllCategories": "Усі категорії",
     "viewMore": "Дивитися більше"
   },
   "howItWorks": {
