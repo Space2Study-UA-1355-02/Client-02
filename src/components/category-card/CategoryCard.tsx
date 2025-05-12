@@ -1,4 +1,3 @@
-// import { Link } from 'react-router-dom' // TODO: активувати, коли зʼявиться роутинг
 import { Card, Typography, Box, SxProps } from '@mui/material'
 import { CategoryInterface } from '~/types'
 import { icons } from '~/components/_icons/icons'
