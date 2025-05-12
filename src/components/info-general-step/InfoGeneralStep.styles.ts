@@ -9,11 +9,11 @@ export const styles = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: 2,
-    width: '70vw',
+    width: '80vw',
     height: '80vh',
     maxHeight: '95vh',
     maxWidth: '95vw',
-    overflow: 'hidden',
+    overflowY: { xs: 'auto', md: 'hidden' },
     p: 0
   },
   closeButton: {
@@ -28,7 +28,7 @@ export const styles = {
     height: 'auto',
     padding: 'auto',
     objectFit: 'scale-down',
-    display: { xs: 'none', md: 'block' }
+    display: { xs: 'none', lg: 'block' }
   },
   formWrapper: {
     flex: 1,

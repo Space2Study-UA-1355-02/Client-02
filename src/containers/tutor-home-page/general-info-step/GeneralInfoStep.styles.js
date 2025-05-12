@@ -4,12 +4,13 @@ export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'space-around',
-    height: { sm: '485px' },
+    height: { xs: '485px' },
     paddingBottom: { xs: '30px', sm: '0' },
     ...fadeAnimation
   },
   inputs: {
     display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
     gap: 2,
     paddingBottom: '20px'
   },

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Modal, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -61,7 +61,13 @@ const UserStepsModal = ({ role = 'tutor' }) => {
     tempChildrenArr = childrenArrStud
     tempStepLabels = studentStepLabels
   }
-
+  useEffect(() => {
+    localStorage.removeItem('generalInfoForm')
+    localStorage.removeItem('interestsStepForm')
+    localStorage.removeItem('subjectsStepForm')
+    localStorage.removeItem('languageStepForm')
+    localStorage.removeItem('addPhotoStepForm')
+  }, [])
   const handleClose = () => {
     setOpenConfirm(true)
   }
@@ -98,6 +104,11 @@ const UserStepsModal = ({ role = 'tutor' }) => {
         onConfirm={() => {
           setOpenConfirm(false)
           setOpen(false)
+          localStorage.removeItem('generalInfoForm')
+          localStorage.removeItem('interestsStepForm')
+          localStorage.removeItem('subjectsStepForm')
+          localStorage.removeItem('languageStepForm')
+          localStorage.removeItem('addPhotoStepForm')
         }}
         onDismiss={() => {
           setOpenConfirm(false)
