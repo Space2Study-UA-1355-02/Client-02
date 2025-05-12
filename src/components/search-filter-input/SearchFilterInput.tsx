@@ -4,24 +4,34 @@ import { useTranslation } from 'react-i18next'
 import { InputBaseProps } from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Box from '@mui/material/Box'
+import { SxProps } from '@mui/material'
 
 import AppButton from '~/components/app-button/AppButton'
 import InputWithIcon from '~/components/input-with-icon/InputWithIcon'
 
 import { ButtonVariantEnum } from '~/types'
 import { styles } from '~/components/search-filter-input/SearchFilterInput.styles'
+import useBreakpoints from '~/hooks/use-breakpoints'
 
 interface SearchFilterInputProps {
   updateFilter: (value: string) => void
   textFieldProps: InputBaseProps
+  customStyles?: {
+    container?: SxProps
+    input?: SxProps
+    searchIcon?: SxProps
+    searchBtn?: SxProps
+  }
 }
 
 const SearchFilterInput = ({
   updateFilter,
-  textFieldProps
+  textFieldProps,
+  customStyles
 }: SearchFilterInputProps) => {
   const [search, setSearch] = useState<string>('')
   const { t } = useTranslation()
+  const { isMobile } = useBreakpoints()
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
@@ -50,23 +60,27 @@ const SearchFilterInput = ({
   }, [])
 
   return (
-    <Box sx={styles.container}>
+    <Box sx={{ ...styles.container, ...customStyles?.container }}>
       <InputWithIcon
         onChange={onChange}
         onClear={onClear}
-        onKeyPress={onEnterPress}
-        startIcon={<SearchIcon sx={styles.searchIcon} />}
-        sx={styles.input}
+        onKeyDown={onEnterPress}
+        startIcon={
+          <SearchIcon
+            sx={{ ...styles.searchIcon, ...customStyles?.searchIcon }}
+          />
+        }
+        sx={{ ...styles.input, ...customStyles?.input }}
         value={search}
         {...textFieldProps}
       />
 
       <AppButton
         onClick={onSearch}
-        sx={styles.searchBtn}
+        sx={{ ...styles.searchBtn, ...customStyles?.searchBtn }}
         variant={ButtonVariantEnum.ContainedLight}
       >
-        {t('common.search')}
+        {isMobile ? <SearchIcon /> : t('common.search')}
       </AppButton>
     </Box>
   )
