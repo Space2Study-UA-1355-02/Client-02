@@ -16,10 +16,16 @@ import { ButtonVariantEnum } from '~/types'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { categoriesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 const STORAGE_KEY = 'subjectsStepForm'
-const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
+const SubjectsStep = ({
+  btnsBox,
+  onSubjectsChange,
+  categoriesMainLabel = '',
+  storageKey = STORAGE_KEY
+}) => {
   const { t } = useTranslation()
-
-  const savedForm = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+  const categoriesSubjectMainLabel =
+    categoriesMainLabel || t('becomeTutor.categories.mainSubjectsLabel')
+  const savedForm = JSON.parse(localStorage.getItem(storageKey) || '{}')
 
   const [mainCategory, setMainCategory] = useState(
     savedForm.mainCategory || null
@@ -32,7 +38,8 @@ const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
 
   useEffect(() => {
     const formState = { mainCategory, selectedSubject, subjects }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formState))
+    localStorage.setItem(storageKey, JSON.stringify(formState))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainCategory, selectedSubject, subjects])
 
   const isAddDisabled =
@@ -78,7 +85,7 @@ const SubjectsStep = ({ btnsBox, onSubjectsChange }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t('becomeTutor.categories.mainSubjectsLabel')}
+                label={categoriesSubjectMainLabel}
                 variant='outlined'
               />
             )}

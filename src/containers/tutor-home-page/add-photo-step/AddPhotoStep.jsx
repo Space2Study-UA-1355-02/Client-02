@@ -30,6 +30,7 @@ const AddPhotoStep = ({ btnsBox }) => {
         URL.revokeObjectURL(imagePreview)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const readAndSaveFile = (file) => {
     const reader = new FileReader()
