@@ -32,7 +32,7 @@ const CategoryCardsList: React.FC<CategoryCardsListProps> = ({
     : items.slice(0, 6)
 
   return (
-    <Box sx={{ mt: 6 }}>
+    <Box sx={{ mt: 1 }}>
       {!hideTexts && !isOnCategoriesPage && (
         <TitleWithDescription
           description={t('studentHomePage.popularCategories.description')}

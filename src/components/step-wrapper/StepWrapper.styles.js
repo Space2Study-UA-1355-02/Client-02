@@ -1,9 +1,13 @@
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 
 const btnStyle = {
-  padding: '10px 20px',
   display: 'flex',
-  columnGap: 1
+  flex: 1,
+  justifyContent: 'space-between',
+  height: '5vh',
+  minHeight: '40px',
+  minWidth: '96px',
+  maxWidth: '120px'
 }
 
 export const styles = {
@@ -17,7 +21,8 @@ export const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: { xs: 'center', sm: 'flex-start' },
-    width: { sm: '107px' },
+    width: { sm: '6vw' },
+    minWidth: { sm: '80px' },
     borderBottom: { sm: '1px solid' },
     borderColor: { sm: 'primary.500' },
     cursor: 'pointer',
@@ -35,20 +40,28 @@ export const styles = {
   },
   steps: {
     display: 'flex',
-    justifyContent: { xs: 'center', md: 'end', sm: 'center' },
+    justifyContent: { xs: 'center', lg: 'end' },
+    mr: { xs: '0', lg: '60px' },
     flexWrap: 'wrap',
     columnGap: '1px'
   },
   stepContent: {
-    display: { xs: 'flex', sm: 'block' },
-    justifyContent: 'center',
-    flex: 1,
+    display: { xs: 'block' },
+    maxHeight: '100px',
     mt: { xs: '24px', sm: '30px' }
   },
   btnWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
-    mt: '10px'
+    mt: '10px',
+    maxHeight: '60px'
+  },
+  btnLeft: {
+    ...btnStyle,
+    marginRight: '15vw'
+  },
+  btnRight: {
+    ...btnStyle
   },
   btn: btnStyle,
   finishBtn: {

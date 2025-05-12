@@ -18,6 +18,14 @@ export const styles = {
     }
   },
   accordionItem: {
-    mb: '12px'
+    mb: '16px'
+  },
+  answerText: {
+    fontSize: '0.95rem',
+    color: 'primary.900',
+    marginBottom: '15px',
+    paragraph: true,
+    lineHeight: 1.7,
+    fontWeight: 400
   }
 }
