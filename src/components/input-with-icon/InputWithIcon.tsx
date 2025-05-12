@@ -1,7 +1,8 @@
 import { FC, ReactNode } from 'react'
-import IconButton from '@mui/material/IconButton'
+
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import InputBase, { InputBaseProps } from '@mui/material/InputBase'
 import { SxProps, Theme } from '@mui/material'
 
@@ -25,14 +26,7 @@ const InputWithIcon: FC<InputWithIconProps> = ({
     <Box sx={[styles.root, ...(Array.isArray(sx) ? sx : [sx])]}>
       {startIcon}
 
-      <InputBase
-        inputProps={{
-          className: value ? 'visible' : 'hidden'
-        }}
-        sx={styles.input}
-        value={value}
-        {...props}
-      />
+      <InputBase sx={styles.input} value={value} {...props} />
 
       {value && (
         <IconButton
