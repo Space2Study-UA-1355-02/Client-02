@@ -7,12 +7,15 @@ import Faq from '~/containers/student-home-page/faq/Faq'
 import InfoGeneralStep from '~/components/info-general-step/InfoGeneralStep'
 import { translationKey } from '~/components/find-block/find-tutor-constants'
 import { accordionItems } from '~/containers/student-home-page/faq/accordionItems'
+import CategoryCardsList from '~/components/category-cards-list/CategoryCardsList'
+import { allCategories } from '~/components/category-cards-list/category'
 
 const StudentHome = () => {
   const { isFirstLogin } = useAppSelector((state) => state.appMain)
   return (
     <Container data-testid='studentHome' sx={{ flex: 1 }}>
       <FindBlock translationKey={translationKey} />
+      <CategoryCardsList items={allCategories} />
       <HowItWorksBlock />
       <Faq accordionItems={accordionItems} />
       {isFirstLogin && <InfoGeneralStep role='student' />}
