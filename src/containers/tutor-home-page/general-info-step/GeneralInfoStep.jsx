@@ -1,26 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-
+import { locationsService } from '~/services/location-service'
+import PaginatedSelect from '~/components/paginated-select/PaginatedSelect'
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
-  const countries = ['USA', 'Canada', 'UK']
-  const cities = ['New York', 'Toronto', 'London']
+  const [countries, setCountries] = useState([])
+  const [cities, setCities] = useState([])
+
   const { t } = useTranslation()
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    country: '',
-    city: '',
-    description: '',
-    confirmAge: false
+  useEffect(() => {
+    locationsService.getCountries().then((response) => {
+      if (response.status === 200) {
+        setCountries(response.data.data.countries)
+      }
+    })
+  }, [])
+  const [form, setForm] = useState(() => {
+    const savedForm = localStorage.getItem('generalInfoForm')
+    return savedForm
+      ? JSON.parse(savedForm)
+      : {
+          firstName: '',
+          lastName: '',
+          country: '',
+          city: '',
+          description: '',
+          confirmAge: false
+        }
   })
+  useEffect(() => {
+    localStorage.setItem('generalInfoForm', JSON.stringify(form))
+  }, [form])
+  useEffect(() => {
+    if (!form.country) return
+    setCities(['waiting...'])
+    locationsService
+      .getCities(form.country)
+      .then((response) => {
+        if (response.status === 200) {
+          if (response.data.data.cities.length > 0) {
+            setCities(response.data.data.cities)
+          } else {
+            setCities(['No cities found'])
+          }
+        }
+      })
+      .catch(() => {
+        setCities(['No cities found'])
+      })
+  }, [form.country])
   const [errors, setErrors] = useState({
     firstName: false,
     lastName: false,
@@ -29,10 +63,13 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
+    const newForm = {
+      ...form,
+      [name]: type === 'checkbox' ? checked : value,
+      ...(name === 'country' ? { city: '' } : {})
+    }
+    setForm(newForm)
+    localStorage.setItem('generalInfoForm', JSON.stringify(newForm))
   }
 
   const validateForm = () => {
@@ -59,9 +96,12 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
+          autoFocus
           error={errors.firstName}
           fullWidth
-          helperText={errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')}
+          helperText={
+            errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
+          }
           label={t('common.labels.firstName')}
           name='firstName'
           onBlur={validateForm}
@@ -72,7 +112,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         <TextField
           error={errors.lastName}
           fullWidth
-          helperText={errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')}
+          helperText={
+            errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
+          }
           label={t('common.labels.lastName')}
           name='lastName'
           onBlur={validateForm}
@@ -82,34 +124,20 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         />
       </Box>
       <Box sx={styles.inputs}>
-        <TextField
-          fullWidth
+        <PaginatedSelect
           label={t('common.labels.country')}
           name='country'
           onChange={handleChange}
-          select
+          options={countries}
           value={form.country}
-        >
-          {countries.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          fullWidth
+        />
+        <PaginatedSelect
           label={t('common.labels.city')}
           name='city'
           onChange={handleChange}
-          select
+          options={cities}
           value={form.city}
-        >
-          {cities.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </TextField>
+        />
       </Box>
       <TextField
         error={errors.description}

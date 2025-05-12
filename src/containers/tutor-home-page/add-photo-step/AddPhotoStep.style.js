@@ -6,6 +6,7 @@ import { alpha } from '@mui/material/styles'
 export const style = {
   root: {
     display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
     justifyContent: 'space-between',
     gap: '40px',
     height: { sm: '485px' },

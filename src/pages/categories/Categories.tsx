@@ -1,11 +1,13 @@
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import NotFoundResults from '~/components/not-found-results/NotFoundResults'
+import SearchCategories from '~/containers/student-categories-page/search-categories/SearchCategories'
 
 const Categories = () => {
   const categories = []
 
   return (
     <PageWrapper>
+      <SearchCategories onSearch={() => {}} />
       {categories.length ? (
         <div>Category</div>
       ) : (
@@ -16,8 +18,5 @@ const Categories = () => {
           }
         />
       )}
-    </PageWrapper>
-  )
-}
 
 export default Categories

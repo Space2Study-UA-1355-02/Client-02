@@ -77,7 +77,11 @@ const useSteps = ({ steps }) => {
       mainSubjects: stepData.subjects,
       nativeLanguage: stepData.language ?? ''
     }
-
+    localStorage.removeItem('generalInfoForm')
+    localStorage.removeItem('interestsStepForm')
+    localStorage.removeItem('subjectsStepForm')
+    localStorage.removeItem('languageStepForm')
+    localStorage.removeItem('addPhotoStepForm')
     !hasErrors && fetchData(data)
   }
 

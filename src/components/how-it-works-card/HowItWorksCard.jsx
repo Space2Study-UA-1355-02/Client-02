@@ -15,7 +15,7 @@ const HowItWorksCard = ({ card }) => {
         img: {
           margin: '0 auto 16px auto'
         },
-        TitleWithDescription: {
+        titleWithDescription: {
           wrapper: {
             '&& .MuiTypography-root': {
               margin: '12px 0'
@@ -25,6 +25,12 @@ const HowItWorksCard = ({ card }) => {
             },
             '&& .MuiTypography-body1': {
               marginTop: '12px'
+            },
+            '&& .MuiTypography-root:first-of-type': {
+              fontWeight: 600
+            },
+            '&& .MuiTypography-root:not(:first-of-type)': {
+              fontWeight: 400
             }
           }
         }
