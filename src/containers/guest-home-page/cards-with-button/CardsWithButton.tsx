@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Transition, {
   TransitionChildren
@@ -16,6 +16,8 @@ import {
   UserRoleEnum
 } from '~/types'
 import { styles } from '~/containers/guest-home-page/cards-with-button/CardsWithButton.styles'
+import { useModalContext } from '~/context/modal-context'
+import SignUpDialog from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog'
 
 interface CardsWithButtonProps {
   array: AccordionWithImageItem[]
@@ -27,9 +29,18 @@ interface CardsWithButtonProps {
 const CardsWithButton: FC<CardsWithButtonProps> = ({
   array,
   btnText,
-  isTutor
+  isTutor,
+  role
 }) => {
   const { t } = useTranslation()
+  const { openModal } = useModalContext()
+
+  const openSignUpDialog = useCallback(
+    (role: UserRoleEnum) => {
+      openModal({ component: <SignUpDialog role={role} /> })
+    },
+    [openModal]
+  )
 
   const cards = (state: TransitionChildren) =>
     array.map((item, key) => {
@@ -50,7 +61,7 @@ const CardsWithButton: FC<CardsWithButtonProps> = ({
             <Box className='dots' component='img' src={dots} />
           </Box>
           <TitleWithDescription
-            description={t(item.description)}
+            description={t(item.description || '')}
             style={styles[boxSide]}
             title={t(item.title)}
           />
@@ -63,7 +74,11 @@ const CardsWithButton: FC<CardsWithButtonProps> = ({
       <Transition in={isTutor} timeout={300}>
         {(state) => cards(state)}
       </Transition>
-      <AppButton size={SizeEnum.ExtraLarge} sx={styles.button}>
+      <AppButton
+        onClick={() => openSignUpDialog(role)}
+        size={SizeEnum.ExtraLarge}
+        sx={styles.button}
+      >
         {btnText}
       </AppButton>
     </>

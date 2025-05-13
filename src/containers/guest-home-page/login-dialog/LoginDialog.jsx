@@ -1,20 +1,26 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
-import LoginForm from '~/containers/guest-home-page/login-form/LoginForm'
-import useForm from '~/hooks/use-form'
-import { useLoginMutation } from '~/services/auth-service'
-import { useModalContext } from '~/context/modal-context'
-import { useSnackBarContext } from '~/context/snackbar-context'
-import { email } from '~/utils/validations/login'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+
 import loginImg from '~/assets/img/login-dialog/login.svg'
-import { login, snackbarVariants } from '~/constants'
+
+import { snackbarVariants } from '~/constants'
+
+import LoginForm from '~/containers/guest-home-page/login-form/LoginForm'
 
 import styles from '~/containers/guest-home-page/login-dialog/LoginDialog.styles'
-import { useEffect } from 'react'
+
+import { useModalContext } from '~/context/modal-context'
+import { useSnackBarContext } from '~/context/snackbar-context'
+
 import useConfirm from '~/hooks/use-confirm'
+import useForm from '~/hooks/use-form'
+
+import { useLoginMutation } from '~/services/auth-service'
+
+import { email } from '~/utils/validations/login'
 
 const LoginDialog = () => {
   const { t } = useTranslation()
@@ -62,7 +68,6 @@ const LoginDialog = () => {
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
           />
-          <GoogleLogin buttonWidth={styles.form.maxWidth} type={login} />
         </Box>
       </Box>
     </Box>
