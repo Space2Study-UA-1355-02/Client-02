@@ -9,13 +9,14 @@ import IconButton from '@mui/material/IconButton'
 import useUpload from '~/hooks/use-upload'
 import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
 
+const MAX_SIZE_MB = 10
+const STORAGE_KEY = 'addPhotoStepForm'
+
 const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
   const { t } = useTranslation()
   const [imagePreview, setImagePreview] = useState(null)
   const [fileError, setFileError] = useState('')
   const prevErrorRef = useRef(false)
-
-  const MAX_SIZE_MB = 10
 
   const validateFile = (file) => {
     if (!file) return 'required'
@@ -24,7 +25,31 @@ const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
     return ''
   }
 
-  const { dragStart, dragLeave, isDrag } = useUpload({
+  useEffect(() => {
+    const savedImage = localStorage.getItem(STORAGE_KEY)
+    if (savedImage) {
+      setImagePreview(savedImage)
+    }
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const readAndSaveFile = (file) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const base64 = reader.result
+      setImagePreview(base64)
+      localStorage.setItem(STORAGE_KEY, base64)
+    }
+    reader.readAsDataURL(file)
+    addFiles({ target: { files: [file] } }) // Simulate native input event
+  }
+
+  const { dragStart, dragLeave, isDrag, addFiles } = useUpload({
     files: [],
     validationData: {},
     emitter: ({ files: updatedFiles, error }) => {
@@ -37,9 +62,13 @@ const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
 
       const file = updatedFiles?.[0]
       if (file) {
+        const error = validateFile(file)
+        if (error) {
+          setFileError(error)
+          return
+        }
         if (imagePreview) URL.revokeObjectURL(imagePreview)
-        const fileURL = URL.createObjectURL(file)
-        setImagePreview(fileURL)
+        readAndSaveFile(file)
         setFileError('')
       }
     }
@@ -50,12 +79,23 @@ const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
     const error = validateFile(file)
     setFileError(error)
     if (file && !error) {
-      if (imagePreview) URL.revokeObjectURL(imagePreview)
-      const fileURL = URL.createObjectURL(file)
-      setImagePreview(fileURL)
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
+      readAndSaveFile(file)
     } else {
-      if (imagePreview) URL.revokeObjectURL(imagePreview)
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
       setImagePreview(null)
+      localStorage.removeItem(STORAGE_KEY)
+      if (!file) {
+        setFileError('required')
+      }
     }
   }
 
@@ -64,19 +104,34 @@ const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
     const file = e.dataTransfer.files[0]
     const error = validateFile(file)
     setFileError(error)
+
     if (file && !error) {
-      if (imagePreview) URL.revokeObjectURL(imagePreview)
-      const fileURL = URL.createObjectURL(file)
-      setImagePreview(fileURL)
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
+      readAndSaveFile(file)
     } else {
-      if (imagePreview) URL.revokeObjectURL(imagePreview)
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
       setImagePreview(null)
+      localStorage.removeItem(STORAGE_KEY)
+      if (!file) {
+        setFileError('required')
+      }
     }
   }
 
   const handleDelete = () => {
-    if (imagePreview) URL.revokeObjectURL(imagePreview)
+    if (imagePreview?.startsWith('blob:')) {
+      URL.revokeObjectURL(imagePreview)
+    }
     setImagePreview(null)
+    localStorage.removeItem(STORAGE_KEY)
     setFileError('required')
   }
 
@@ -95,7 +150,9 @@ const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
 
   useEffect(() => {
     return () => {
-      if (imagePreview) URL.revokeObjectURL(imagePreview)
+      if (imagePreview?.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview)
+      }
     }
   }, [imagePreview])
 

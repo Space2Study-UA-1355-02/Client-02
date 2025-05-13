@@ -9,16 +9,23 @@ import MenuItem from '@mui/material/MenuItem'
 import { languagesMock } from '~/containers/tutor-home-page/subjects-step/constants'
 const LanguageStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const [form, setForm] = useState({
-    nativeLang: 'Ukrainian'
+  const [form, setForm] = useState(() => {
+    const savedForm = localStorage.getItem('languageStepForm')
+    return savedForm
+      ? JSON.parse(savedForm)
+      : {
+          nativeLang: 'Ukrainian'
+        }
   })
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setForm((prev) => ({
-      ...prev,
+    const newForm = {
+      ...form,
       [name]: value
-    }))
+    }
+    setForm(newForm)
+    localStorage.setItem('languageStepForm', JSON.stringify(newForm))
   }
 
   return (

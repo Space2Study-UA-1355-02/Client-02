@@ -10,7 +10,7 @@ const HowItWorksBlockTutor = () => {
   const { t } = useTranslation()
 
   return (
-    <Box sx={styles.container}>
+    <Box id='how-it-works' sx={styles.container}>
       <Typography gutterBottom sx={styles.title} variant='h4'>
         {t('tutorHomePage.howItWorks.title')}
       </Typography>

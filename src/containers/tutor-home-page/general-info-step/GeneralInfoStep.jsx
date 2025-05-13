@@ -1,19 +1,39 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
+import AppTextField from '~/components/app-text-field/AppTextField'
+
 import { useForm } from '~/hooks/use-form'
+
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 
+import { locationsService } from '~/services/location-service'
+
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
-  const countries = ['USA', 'Canada', 'UK']
-  const cities = ['New York', 'Toronto', 'London']
   const { t } = useTranslation()
+  const [countries, setCountries] = useState([])
+  const [cities, setCities] = useState([])
+
+  // Load saved form data from localStorage (if available)
+  const saved = localStorage.getItem('generalInfoForm')
+  const initialValues = saved
+    ? JSON.parse(saved)
+    : {
+        firstName: '',
+        lastName: '',
+        country: '',
+        city: '',
+        description: '',
+        confirmAge: false
+      }
+
+  // useForm hook for form state and validation
   const {
     data,
     errors,
@@ -21,14 +41,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
     handleNonInputValueChange,
     handleBlur
   } = useForm({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      country: '',
-      city: '',
-      description: '',
-      confirmAge: false
-    },
+    initialValues,
     validations: {
       firstName: (val) =>
         !val ? t('becomeTutor.generalInfo.firstNameLabelReq') : undefined,
@@ -41,10 +54,46 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
     }
   })
 
+  // Persist to localStorage when data changes
+  useEffect(() => {
+    localStorage.setItem('generalInfoForm', JSON.stringify(data))
+  }, [data])
+
+  // Fetch list of countries once on mount
+  useEffect(() => {
+    locationsService.getCountries().then((response) => {
+      if (response.status === 200) {
+        const rawCountries = response.data.data.countries
+        const uniqueCountries = Array.from(new Set(rawCountries))
+        setCountries(uniqueCountries)
+      }
+    })
+  }, [])
+
+  // Fetch cities when country changes
+  useEffect(() => {
+    if (!data.country) return
+    setCities(['waiting...'])
+
+    locationsService
+      .getCities(data.country)
+      .then((response) => {
+        if (response.status === 200) {
+          const cityList = response.data.data.cities
+          setCities(cityList.length ? cityList : ['No cities found'])
+        }
+      })
+      .catch(() => {
+        setCities(['No cities found'])
+      })
+  }, [data.country])
+
+  // Notify parent if firstName or lastName has errors
   useEffect(() => {
     onErrorChange(Boolean(errors.firstName || errors.lastName))
   }, [errors, onErrorChange])
 
+  // Autofocus first input on mount
   useEffect(() => {
     const input = document.querySelector('input[name="firstName"]')
     input?.focus()
@@ -56,10 +105,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         {t('becomeTutor.generalInfo.title')}
       </Typography>
       <Box sx={styles.inputs}>
-        <TextField
-          error={Boolean(errors.firstName)}
+        <AppTextField
+          errorMsg={errors.firstName}
           fullWidth
-          helperText={errors.firstName}
           label={t('common.labels.firstName')}
           name='firstName'
           onBlur={handleBlur('firstName')}
@@ -67,10 +115,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
           required
           value={data.firstName}
         />
-        <TextField
-          error={Boolean(errors.lastName)}
+        <AppTextField
+          errorMsg={errors.lastName}
           fullWidth
-          helperText={errors.lastName}
           label={t('common.labels.lastName')}
           name='lastName'
           onBlur={handleBlur('lastName')}
@@ -80,7 +127,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         />
       </Box>
       <Box sx={styles.inputs}>
-        <TextField
+        <AppTextField
           fullWidth
           label={t('common.labels.country')}
           name='country'
@@ -93,8 +140,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
               {c}
             </MenuItem>
           ))}
-        </TextField>
-        <TextField
+        </AppTextField>
+
+        <AppTextField
           fullWidth
           label={t('common.labels.city')}
           name='city'
@@ -107,10 +155,10 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
               {c}
             </MenuItem>
           ))}
-        </TextField>
+        </AppTextField>
       </Box>
-      <TextField
-        error={Boolean(errors.description)}
+      <AppTextField
+        errorMsg={errors.description}
         fullWidth
         helperText={`${data.description.length}/100`}
         inputProps={{ maxLength: 100 }}
@@ -120,6 +168,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         onChange={handleInputChange('description')}
         rows={3}
         value={data.description}
+        withHelperText
       />
       <FormControlLabel
         control={

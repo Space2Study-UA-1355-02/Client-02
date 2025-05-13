@@ -21,7 +21,8 @@ export const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: { xs: 'center', sm: 'flex-start' },
-    width: { sm: '107px' },
+    width: { sm: '6vw' },
+    minWidth: { sm: '80px' },
     borderBottom: { sm: '1px solid' },
     borderColor: { sm: 'primary.500' },
     cursor: 'pointer',
@@ -39,13 +40,13 @@ export const styles = {
   },
   steps: {
     display: 'flex',
-    justifyContent: { xs: 'center', md: 'end', sm: 'center' },
+    justifyContent: { xs: 'center', lg: 'end' },
+    mr: { xs: '0', lg: '60px' },
     flexWrap: 'wrap',
     columnGap: '1px'
   },
   stepContent: {
-    display: { xs: 'flex', sm: 'block' },
-    justifyContent: 'space-between',
+    display: { xs: 'block' },
     maxHeight: '100px',
     mt: { xs: '24px', sm: '30px' }
   },

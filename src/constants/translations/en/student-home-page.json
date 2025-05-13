@@ -11,6 +11,7 @@
   "popularCategories": {
     "title": "Popular Categories",
     "description": "Explore learning categories you're passionate about.",
+    "showAllCategories": "Show all categories",
     "viewMore": "View more"
   },
   "howItWorks": {
