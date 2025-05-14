@@ -50,15 +50,14 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
         try {
           await signUpUser(data).unwrap()
           closeModal()
+          openModal({
+            component: <EmailVerificationModal email={data.email} />
+          })
         } catch (e) {
           const error = e as FetchBaseQueryError & { data: ErrorResponse }
           setAlert({
             severity: snackbarVariants.error,
             message: `errors.${error.data.code}`
-          })
-        } finally {
-          openModal({
-            component: <EmailVerificationModal email={data.email} />
           })
         }
       },

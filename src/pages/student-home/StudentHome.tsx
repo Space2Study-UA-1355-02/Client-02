@@ -1,25 +1,26 @@
-import Container from '@mui/material/Container'
+import PopularCategoriesBlock from '~/containers/student-home-page/popular-categories-block/PopularCategoriesBlock'
+import FindBlock from '~/components/find-block/FindBlock'
+import { translationKey } from '~/components/find-block/find-tutor-constants'
+import InfoGeneralStep from '~/components/info-general-step/InfoGeneralStep'
+import PageWrapper from '~/components/page-wrapper/PageWrapper'
+
+import Faq from '~/containers/student-home-page/faq/Faq'
+import { accordionItems } from '~/containers/student-home-page/faq/accordionItems'
+import HowItWorksBlock from '~/containers/student-home-page/how-it-works-block/HowItWorksBlock'
 
 import { useAppSelector } from '~/hooks/use-redux'
-import FindBlock from '~/components/find-block/FindBlock'
-import HowItWorksBlock from '~/containers/student-home-page/how-it-works-block/HowItWorksBlock'
-import Faq from '~/containers/student-home-page/faq/Faq'
-import InfoGeneralStep from '~/components/info-general-step/InfoGeneralStep'
-import { translationKey } from '~/components/find-block/find-tutor-constants'
-import { accordionItems } from '~/containers/student-home-page/faq/accordionItems'
-import CategoryCardsList from '~/components/category-cards-list/CategoryCardsList'
-import { allCategories } from '~/components/category-cards-list/category'
 
 const StudentHome = () => {
-  const { isFirstLogin } = useAppSelector((state) => state.appMain)
+  const { isFirstLogin, userRole } = useAppSelector((state) => state.appMain)
+
   return (
-    <Container data-testid='studentHome' sx={{ flex: 1 }}>
+    <PageWrapper data-testid='studentHome'>
       <FindBlock translationKey={translationKey} />
-      <CategoryCardsList items={allCategories} />
+      <PopularCategoriesBlock />
       <HowItWorksBlock />
       <Faq accordionItems={accordionItems} />
-      {isFirstLogin && <InfoGeneralStep role='student' />}
-    </Container>
+      {isFirstLogin && <InfoGeneralStep role={userRole} />}
+    </PageWrapper>
   )
 }
 

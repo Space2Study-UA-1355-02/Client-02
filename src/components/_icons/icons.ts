@@ -38,4 +38,8 @@ export const icons = {
   Engineering: EngineeringIcon,
   Geography: PublicIcon,
   Cooking: LocalDiningIcon
-}
+} as const
+
+export type IconMap = typeof icons
+export type IconName = keyof IconMap
+export type IconComponent = IconMap[IconName]

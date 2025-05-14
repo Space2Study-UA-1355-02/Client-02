@@ -1,28 +1,55 @@
+import React, { useCallback, useMemo, useState } from 'react'
+
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
-import NotFoundResults from '~/components/not-found-results/NotFoundResults'
-import SearchCategories from '~/containers/student-categories-page/search-categories/SearchCategories'
 
-import CategoryCardsList from '~/components/category-cards-list/CategoryCardsList'
-import { allCategories } from '~/components/category-cards-list/category'
+import CategoryCardsList from '~/containers/categories-page/category-cards-list/CategoryCardsList'
+import SearchCategories from '~/containers/categories-page/search-categories/SearchCategories'
+import OfferRequestBlock from '~/containers/find-offer/offer-request-block/OfferRequestBlock'
 
-const Categories = () => {
-  const categories: any[] = []
+import useBreakpoints from '~/hooks/use-breakpoints'
+import useLoadMore from '~/hooks/use-load-more'
+
+import { itemsLoadLimit } from '~/constants'
+import { categoryService } from '~/services/category-service'
+import { CategoriesParams, CategoryInterface } from '~/types'
+import { getScreenBasedLimit } from '~/utils/helper-functions'
+
+const Categories: React.FC = () => {
+  const [match, setMatch] = useState<string>('')
+  const params = useMemo(() => ({ name: match }), [match])
+  const breakpoints = useBreakpoints()
+  const cardsLimit = getScreenBasedLimit(breakpoints, itemsLoadLimit)
+
+  const getCategories = useCallback(
+    (params?: Partial<CategoriesParams>) =>
+      categoryService.getCategories(params),
+    []
+  )
+
+  const { data, loading, resetData, loadMore, isExpandable } = useLoadMore<
+    CategoryInterface,
+    Partial<CategoriesParams>
+  >({
+    service: getCategories,
+    limit: cardsLimit,
+    params
+  })
+
   return (
     <PageWrapper>
-      <SearchCategories onSearch={() => {}} />
-      {categories.length ? (
-        <div>Category</div>
-      ) : (
-        <>
-          <NotFoundResults
-            buttonText={'Request a new category'}
-            description={
-              "We couldn't find what you were searching for. Please try again or suggest a new category that you were looking for."
-            }
-          />
-          <CategoryCardsList hideTexts items={allCategories} />
-        </>
-      )}
+      <OfferRequestBlock />
+
+      <SearchCategories
+        resetData={resetData}
+        setValue={setMatch}
+        value={match}
+      />
+      <CategoryCardsList
+        isExpandable={isExpandable}
+        items={data}
+        loadMore={loadMore}
+        loading={loading}
+      />
     </PageWrapper>
   )
 }
