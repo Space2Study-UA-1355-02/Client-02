@@ -5,15 +5,23 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { ErrorResponse, SignupParams, UserRole, UserRoleEnum } from '~/types'
+import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
+import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
+
+import { snackbarVariants } from '~/constants'
+
+import EmailVerificationModal from '~/containers/guest-home-page/email-verification-modal/EmailVerificationModal'
+import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
+
+import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
 
 import { useModalContext } from '~/context/modal-context'
 import { useSnackBarContext } from '~/context/snackbar-context'
 
+import useConfirm from '~/hooks/use-confirm'
 import useForm from '~/hooks/use-form'
-import { useSignUpMutation } from '~/services/auth-service'
 
-import { signup, snackbarVariants } from '~/constants'
+import { useSignUpMutation } from '~/services/auth-service'
 
 import {
   confirmPassword,
@@ -23,16 +31,7 @@ import {
   password
 } from '~/utils/validations/login'
 
-import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
-import SignUpForm from '~/containers/guest-home-page/sign-up-form/SignUpForm'
-import EmailVerificationModal from '~/containers/guest-home-page/email-verification-modal/EmailVerificationModal'
-
-import useConfirm from '~/hooks/use-confirm'
-
-import styles from '~/containers/guest-home-page/sign-up-dialog/SignUpDialog.styles'
-
-import studentSignUpImg from '~/assets/img/signup-dialog/student.svg'
-import tutorSignUpImg from '~/assets/img/signup-dialog/tutor.svg'
+import { ErrorResponse, SignupParams, UserRole, UserRoleEnum } from '~/types'
 
 interface SignUpDialogProps {
   role: UserRole
@@ -106,11 +105,6 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ role }) => {
             handleBlur={handleBlur}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
-          />
-          <GoogleLogin
-            buttonWidth={styles.form.maxWidth}
-            role={role}
-            type={signup}
           />
         </Box>
       </Box>

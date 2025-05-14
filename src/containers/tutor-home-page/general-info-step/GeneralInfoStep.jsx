@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
 import AppTextField from '~/components/app-text-field/AppTextField'
+import PaginatedSelect from '~/components/paginated-select/PaginatedSelect'
 
 import { useForm } from '~/hooks/use-form'
 
@@ -127,35 +128,20 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         />
       </Box>
       <Box sx={styles.inputs}>
-        <AppTextField
-          fullWidth
+        <PaginatedSelect
           label={t('common.labels.country')}
           name='country'
           onChange={(e) => handleNonInputValueChange('country', e.target.value)}
-          select
+          options={countries}
           value={data.country}
-        >
-          {countries.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </AppTextField>
-
-        <AppTextField
-          fullWidth
+        />
+        <PaginatedSelect
           label={t('common.labels.city')}
           name='city'
           onChange={(e) => handleNonInputValueChange('city', e.target.value)}
-          select
+          options={cities}
           value={data.city}
-        >
-          {cities.map((c) => (
-            <MenuItem key={c} value={c}>
-              {c}
-            </MenuItem>
-          ))}
-        </AppTextField>
+        />
       </Box>
       <AppTextField
         errorMsg={errors.description}

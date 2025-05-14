@@ -16,7 +16,7 @@ const UserProfile = ({
         {name}
       </Typography>
       <Box alignItems='center' display='flex' gap={1} sx={styles.rating}>
-        <Rating name='read-only' readOnly size='small' value={5} />
+        <Rating name='read-only' readOnly size='small' value={rating} />
         <Typography variant='body2'>{rating}</Typography>
       </Box>
       <Typography sx={styles.ratingCaption} variant='caption'>
