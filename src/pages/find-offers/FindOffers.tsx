@@ -1,12 +1,11 @@
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
-import OfferCardSquare from '~/components/offer-card/offer-card-square/OfferCardSquare'
+import OffersBlock from '~/containers/find-offer/offers-block/OffersBlock'
 
 const FindOffers = () => {
   return (
-    <>
-      <PageWrapper>Find offers</PageWrapper>
-      <OfferCardSquare />
-    </>
+    <PageWrapper>
+      <OffersBlock />
+    </PageWrapper>
   )
 }
 

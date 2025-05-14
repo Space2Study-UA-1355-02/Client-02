@@ -38,9 +38,10 @@ const PriceSectionSquare = ({
               <Rating
                 max={1}
                 name='read-only'
+                precision={0.1}
                 readOnly
                 size='large'
-                value={rating > 0 ? 1 : 0}
+                value={parseFloat(rating)}
               />
               <Typography sx={styles.ratingNumber} variant='h6'>
                 {rating}
