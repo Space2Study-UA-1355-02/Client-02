@@ -32,6 +32,7 @@ import myResourcesPage from './my-resources-page.json'
 import questionPage from './question-page.json'
 import subjectsPage from './subjects-page.json'
 import question from './questions.json'
+import createRequest from './create-request.json'
 const en = {
   translations: {
     common,
@@ -67,7 +68,8 @@ const en = {
     myResourcesPage,
     questionPage,
     subjectsPage,
-    question
+    question,
+    createRequest
   }
 }
 
