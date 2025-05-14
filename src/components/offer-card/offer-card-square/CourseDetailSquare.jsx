@@ -4,7 +4,7 @@ import { styles } from '~/components/offer-card/offer-card-square/OfferCardSquar
 
 const CourseDetailsSquare = ({
   title = 'Advanced Quantum Mechanics: Theoretical Mathematics...',
-  subject = 'Ukrainian',
+  language = 'Ukrainian',
   level = 'Beginner - Professional'
 }) => {
   return (
@@ -16,7 +16,7 @@ const CourseDetailsSquare = ({
       <Box sx={styles.infoRow}>
         <Typography sx={styles.label}>Subject:</Typography>
         <Typography sx={styles.subject} variant='body2'>
-          {subject}
+          {language}
         </Typography>
       </Box>
       <Box sx={{ ...styles.infoRow, mt: 1 }}>
