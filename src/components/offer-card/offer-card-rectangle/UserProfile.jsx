@@ -1,17 +1,17 @@
 import { Box, Typography, Avatar, Rating } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import avatar from '~/assets/img/tutor-profile-page/avatar.png'
 import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const UserProfile = ({
   name = 'Jennifer W.',
-  avatarSrc = '/src/assets/img/tutor-profile-page/avatar.png',
   rating = 5,
   reviewCount = 10
 }) => {
   const { t } = useTranslation()
   return (
     <Box sx={styles.leftColumn}>
-      <Avatar src={avatarSrc} sx={styles.avatar} />
+      <Avatar src={avatar} sx={styles.avatar} />
       <Typography color='primary.500' fontWeight='500' variant='subtitle1'>
         {name}
       </Typography>

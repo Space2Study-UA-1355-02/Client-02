@@ -2,15 +2,16 @@ import { lightGreen } from '@mui/material/colors'
 
 export const styles = {
   card: {
-    width: 360,
-    p: 2,
+    width: '100%',
+    height: '100%',
+    boxSizing: 'border-box',
+    p: 4,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     gap: 2,
     borderRadius: 3,
     boxShadow: 4,
-    mx: 'auto',
     my: 4
   },
   topRow: {

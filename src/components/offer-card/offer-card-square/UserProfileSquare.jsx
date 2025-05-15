@@ -3,18 +3,19 @@ import { Box, Avatar, Typography, IconButton } from '@mui/material'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import LanguageIcon from '@mui/icons-material/Language'
 
+import avatar from '~/assets/img/tutor-profile-page/avatar.png'
+
 import { styles } from '~/components/offer-card/offer-card-square/OfferCardSquare.styles'
 
 const UserProfileSquare = ({
   name = 'Jennifer Wilsonsontelberg',
-  avatarSrc = '/src/assets/img/tutor-profile-page/avatar.png',
   spokenLanguages = 'Ukrainian',
   onAddToWishlist
 }) => {
   return (
     <Box sx={styles.topRow}>
       <Box sx={styles.profileLeft}>
-        <Avatar src={avatarSrc} sx={styles.avatar} />
+        <Avatar src={avatar} sx={styles.avatar} />
         <Box sx={styles.nameSection}>
           <Typography sx={styles.name} variant='subtitle1'>
             {name}
