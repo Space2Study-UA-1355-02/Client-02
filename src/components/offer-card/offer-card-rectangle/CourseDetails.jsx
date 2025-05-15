@@ -3,11 +3,11 @@ import LanguageIcon from '@mui/icons-material/Language'
 import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const CourseDetails = ({
-  title = 'Advanced Quantum Mechanics: Theoretical Concepts, Mathematical Formulations in Modern Physics',
-  language = 'German',
-  level = 'Beginner - Advanced',
-  description = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, consectetur ex totam libero cum odit et, ullam corrupti corrupti corrupti doloribus optio esse reiciendis iusto fugit.',
-  spokenLanguages = 'Ukrainian, English'
+  title,
+  language,
+  level,
+  description,
+  spokenLanguages
 }) => {
   return (
     <>

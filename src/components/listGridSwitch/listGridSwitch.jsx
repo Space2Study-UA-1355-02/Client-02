@@ -3,16 +3,13 @@ import ListIcon from '@mui/icons-material/List'
 import GridViewIcon from '@mui/icons-material/GridView'
 
 const ListGridSwitch = ({ isGrid, setIsGrid }) => {
-  const handleChange = (_, newValue) => {
-    if (newValue !== null) {
-      setIsGrid(newValue)
-    }
-  }
+  const handleSwitch = () => setIsGrid((prev) => !prev)
+
   return (
     <ToggleButtonGroup
       aria-label='View toggle'
       exclusive
-      onChange={handleChange}
+      onChange={handleSwitch}
       size='small'
       value={isGrid}
     >
