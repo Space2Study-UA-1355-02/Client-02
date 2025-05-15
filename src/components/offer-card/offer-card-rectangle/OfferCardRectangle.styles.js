@@ -5,12 +5,11 @@ export const styles = {
     p: { xs: 1, sm: 2, md: 3 },
     borderRadius: 3,
     boxShadow: 3,
+    boxSizing: 'border-box',
     width: '100%',
-    maxWidth: { xs: '100%', sm: '95%', md: '900px' },
-    ml: 'auto',
-    mr: '100px',
+    maxWidth: '100%',
     mb: { xs: 4, sm: 5 },
-    overflowX: 'visible'
+    overflowX: 'hidden'
   },
   leftColumn: {
     display: 'flex',
