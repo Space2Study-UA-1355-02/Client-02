@@ -8,7 +8,8 @@ import {
   Faq,
   UserRoleEnum,
   CategoryInterface,
-  StatusEnum
+  StatusEnum,
+  RequestParams
 } from '~/types'
 
 export interface Offer extends CommonEntityFields {
@@ -34,6 +35,10 @@ export interface Offer extends CommonEntityFields {
   category: CategoryInterface
   FAQ: Faq[]
   status: StatusEnum
+}
+
+export interface OffersParams extends RequestParams {
+  search: string
 }
 
 export interface ButtonActions {

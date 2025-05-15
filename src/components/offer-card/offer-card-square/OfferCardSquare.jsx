@@ -9,7 +9,7 @@ import SendMessageModal from '~/components/send-message-modal/SendMessageModal'
 
 import { styles } from './OfferCardSquare.styles'
 
-const OfferCardSquare = ({ author, offer }) => {
+const OfferCardSquare = ({ offer }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpenMessage = () => setIsModalOpen(true)
@@ -23,15 +23,12 @@ const OfferCardSquare = ({ author, offer }) => {
   return (
     <Paper sx={styles.card}>
       <UserProfileSquare
-        avatarSrc={author.avatarSrc}
-        name={author.name}
-        rating={author.rating}
-        reviewCount={author.reviewCount}
+        name={`${offer.author.firstName} ${offer.author.lastName}`}
+        spokenLanguages={offer.author.nativeLanguage}
       />
       <CourseDetailsSquare
-        language={offer.subject}
-        level={offer.level}
-        spokenLanguages={author.spokenLanguages}
+        language={offer.languages.join(', ')}
+        level={offer.proficiencyLevel}
         title={offer.title}
       />
       <PriceSectionSquare

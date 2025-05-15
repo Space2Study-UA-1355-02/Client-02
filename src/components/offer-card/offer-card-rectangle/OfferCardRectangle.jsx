@@ -9,7 +9,7 @@ import SendMessageModal from '~/components/send-message-modal/SendMessageModal'
 
 import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
-const OfferCardRectangle = ({ author, offer }) => {
+const OfferCardRectangle = ({ offer }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpenMessage = () => setIsModalOpen(true)
@@ -25,17 +25,17 @@ const OfferCardRectangle = ({ author, offer }) => {
           <Grid alignItems='flex-start' container spacing={2}>
             <Grid item md={2} sm={4} sx={{ height: '100%' }} xs={12}>
               <UserProfile
-                avatarSrc={author.avatarSrc}
-                name={author.name}
-                rating={author.rating}
-                reviewCount={author.reviewCount}
+                name={`${offer.author.firstName} ${offer.author.lastName}`}
+                rating={offer.author.averageRating.student}
+                reviewCount={offer.author.totalReviews.student}
               />
             </Grid>
             <Grid item md={7} sm={8} sx={{ height: '100%' }} xs={12}>
               <CourseDetails
-                language={offer.subject}
-                level={offer.level}
-                spokenLanguages={author.spokenLanguages}
+                description={offer.description}
+                language={offer.languages.join(', ')}
+                level={offer.proficiencyLevel}
+                spokenLanguages={offer.author.nativeLanguage}
                 title={offer.title}
               />
             </Grid>

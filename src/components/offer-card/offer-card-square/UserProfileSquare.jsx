@@ -3,13 +3,13 @@ import { Box, Avatar, Typography, IconButton } from '@mui/material'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import LanguageIcon from '@mui/icons-material/Language'
 
-import avatar from '~/assets/img/tutor-profile-page/avatar.png'
+import avatar from '~/assets/img/tutor-profile-page/default-avatar.png'
 
 import { styles } from '~/components/offer-card/offer-card-square/OfferCardSquare.styles'
 
 const UserProfileSquare = ({
-  name = 'Jennifer Wilsonsontelberg',
-  spokenLanguages = 'Ukrainian',
+  name,
+  spokenLanguages = 'English',
   onAddToWishlist
 }) => {
   return (

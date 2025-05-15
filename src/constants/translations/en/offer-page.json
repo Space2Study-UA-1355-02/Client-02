@@ -1,4 +1,5 @@
 {
+  "offer": "offer",
   "createOffer": {
     "title": {
       "tutor": "Create a New Offer",

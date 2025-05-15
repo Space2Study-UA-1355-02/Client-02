@@ -1,6 +1,6 @@
 import { Box, Typography, Avatar, Rating } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import avatar from '~/assets/img/tutor-profile-page/avatar.png'
+import avatar from '~/assets/img/tutor-profile-page/default-avatar.png'
 import { styles } from '~/components/offer-card/offer-card-rectangle/OfferCardRectangle.styles'
 
 const UserProfile = ({

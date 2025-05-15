@@ -2,11 +2,7 @@ import { Box, Typography, Divider } from '@mui/material'
 
 import { styles } from '~/components/offer-card/offer-card-square/OfferCardSquare.styles'
 
-const CourseDetailsSquare = ({
-  title = 'Advanced Quantum Mechanics: Theoretical Mathematics...',
-  language = 'Ukrainian',
-  level = 'Beginner - Professional'
-}) => {
+const CourseDetailsSquare = ({ title, language, level }) => {
   return (
     <Box sx={styles.middle}>
       <Typography gutterBottom sx={styles.title} variant='h6'>
