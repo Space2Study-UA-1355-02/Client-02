@@ -9,8 +9,8 @@ export const styles = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: 2,
-    width: '80vw',
-    height: '80vh',
+    width: { xs: '90vw', sm: '80vw' },
+    height: '82vh',
     maxHeight: '95vh',
     maxWidth: '95vw',
     overflowY: { xs: 'auto', md: 'hidden' },
@@ -18,15 +18,15 @@ export const styles = {
   },
   closeButton: {
     position: 'absolute',
-    top: 12,
-    right: 12,
+    top: { xs: 1, sm: 12 },
+    right: { xs: 1, sm: 12 },
     zIndex: 1
   },
   imageBox: {
     flex: 1,
     width: '30vw',
     height: 'auto',
-    padding: 'auto',
+    padding: { lg: '25px', xl: '50px' },
     objectFit: 'scale-down',
     display: { xs: 'none', lg: 'block' }
   },

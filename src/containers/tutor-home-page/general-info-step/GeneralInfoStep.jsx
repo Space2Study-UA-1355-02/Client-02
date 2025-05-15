@@ -91,7 +91,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
 
   return (
     <>
-      <Typography variant='body1'>
+      <Typography sx={styles.describe} variant='body1'>
         {t('becomeTutor.generalInfo.title')}
       </Typography>
       <Box sx={styles.inputs}>
