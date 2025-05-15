@@ -1,25 +1,30 @@
+import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import { Box, Typography, Button } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
-import { useTranslation } from 'react-i18next'
-import { useState, useEffect } from 'react'
-import useUpload from '~/hooks/use-upload'
-import { validationData } from './constants'
-import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
-const STORAGE_KEY = 'addPhotoStepForm'
-const AddPhotoStep = ({ btnsBox }) => {
-  const { t } = useTranslation()
-  const [files, setFiles] = useState([])
-  const [imagePreview, setImagePreview] = useState(null)
 
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview)
-      }
-    }
-  }, [imagePreview])
+import useUpload from '~/hooks/use-upload'
+import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
+
+const MAX_SIZE_MB = 10
+const STORAGE_KEY = 'addPhotoStepForm'
+
+const AddPhotoStep = ({ btnsBox, onErrorChange }) => {
+  const { t } = useTranslation()
+  const [imagePreview, setImagePreview] = useState(null)
+  const [fileError, setFileError] = useState('')
+  const prevErrorRef = useRef(false)
+
+  const validateFile = (file) => {
+    if (!file) return 'required'
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) return 'size'
+    if (!file.type.startsWith('image/')) return 'type'
+    return ''
+  }
+
   useEffect(() => {
     const savedImage = localStorage.getItem(STORAGE_KEY)
     if (savedImage) {
@@ -32,6 +37,7 @@ const AddPhotoStep = ({ btnsBox }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   const readAndSaveFile = (file) => {
     const reader = new FileReader()
     reader.onloadend = () => {
@@ -42,47 +48,113 @@ const AddPhotoStep = ({ btnsBox }) => {
     reader.readAsDataURL(file)
     addFiles({ target: { files: [file] } }) // Simulate native input event
   }
-  const { dragStart, dragLeave, addFiles, isDrag } = useUpload({
-    files,
-    validationData,
+
+  const { dragStart, dragLeave, isDrag, addFiles } = useUpload({
+    files: [],
+    validationData: {},
     emitter: ({ files: updatedFiles, error }) => {
       if (error) {
-        console.log(error)
+        setFileError(error)
+        if (imagePreview) URL.revokeObjectURL(imagePreview)
+        setImagePreview(null)
+        return
       }
-      setFiles(updatedFiles)
+
+      const file = updatedFiles?.[0]
+      if (file) {
+        const error = validateFile(file)
+        if (error) {
+          setFileError(error)
+          return
+        }
+        if (imagePreview) URL.revokeObjectURL(imagePreview)
+        readAndSaveFile(file)
+        setFileError('')
+      }
     }
   })
+
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    if (file) readAndSaveFile(file)
-    if (file) {
+    const error = validateFile(file)
+    setFileError(error)
+    if (file && !error) {
       if (imagePreview) {
-        URL.revokeObjectURL(imagePreview)
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
       }
-      const fileURL = URL.createObjectURL(file)
-      setImagePreview(fileURL)
-      addFiles(e)
+      readAndSaveFile(file)
+    } else {
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
+      setImagePreview(null)
+      localStorage.removeItem(STORAGE_KEY)
+      if (!file) {
+        setFileError('required')
+      }
     }
   }
 
   const handleDrop = (e) => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
-    if (file) readAndSaveFile(file)
-    if (file) {
+    const error = validateFile(file)
+    setFileError(error)
+
+    if (file && !error) {
       if (imagePreview) {
-        URL.revokeObjectURL(imagePreview)
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
       }
-      const fileURL = URL.createObjectURL(file)
-      setImagePreview(fileURL)
-      addFiles(e)
+      readAndSaveFile(file)
+    } else {
+      if (imagePreview) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview)
+        }
+      }
+      setImagePreview(null)
+      localStorage.removeItem(STORAGE_KEY)
+      if (!file) {
+        setFileError('required')
+      }
     }
   }
 
   const handleDelete = () => {
+    if (imagePreview?.startsWith('blob:')) {
+      URL.revokeObjectURL(imagePreview)
+    }
     setImagePreview(null)
-    setFiles([])
+    localStorage.removeItem(STORAGE_KEY)
+    setFileError('required')
   }
+
+  useEffect(() => {
+    const hasError =
+      fileError === 'size' ||
+      fileError === 'type' ||
+      fileError === 'required' ||
+      !imagePreview
+
+    if (hasError !== prevErrorRef.current) {
+      onErrorChange?.(hasError)
+      prevErrorRef.current = hasError
+    }
+  }, [fileError, imagePreview, onErrorChange])
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview?.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+  }, [imagePreview])
 
   return (
     <Box sx={style.root}>
@@ -96,19 +168,18 @@ const AddPhotoStep = ({ btnsBox }) => {
           onDrop={handleDrop}
           sx={{
             ...style.uploadBox,
-            ...(isDrag && style.activeDrag),
-            position: 'relative'
+            position: 'relative',
+            ...(isDrag && style.activeDrag)
           }}
         >
           {imagePreview ? (
             <>
               <Box
-                alt='Profile preview'
+                alt='Preview'
                 component='img'
                 src={imagePreview}
                 sx={style.img}
               />
-
               <IconButton
                 aria-label='delete'
                 onClick={handleDelete}
@@ -132,10 +203,8 @@ const AddPhotoStep = ({ btnsBox }) => {
 
         <Button
           component='label'
-          role={undefined}
           startIcon={<CloudUploadIcon />}
           sx={style.uploadButton}
-          tabIndex={-1}
           variant='contained'
         >
           {t('becomeTutor.photo.button')}
@@ -147,7 +216,13 @@ const AddPhotoStep = ({ btnsBox }) => {
           />
         </Button>
 
-        <Typography sx={style.fileSizeText} variant='caption'>
+        <Typography
+          sx={{
+            ...style.fileSizeText,
+            color: fileError === 'size' ? 'error.main' : 'text.secondary'
+          }}
+          variant='caption'
+        >
           {t('errorMessages.fileSize', { size: '10 MB' })}
         </Typography>
 

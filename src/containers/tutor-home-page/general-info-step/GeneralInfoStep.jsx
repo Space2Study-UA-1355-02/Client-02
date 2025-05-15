@@ -1,93 +1,104 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
+import MenuItem from '@mui/material/MenuItem'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
-import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-import { locationsService } from '~/services/location-service'
+import AppTextField from '~/components/app-text-field/AppTextField'
 import PaginatedSelect from '~/components/paginated-select/PaginatedSelect'
+
+import { useForm } from '~/hooks/use-form'
+
+import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
+
+import { locationsService } from '~/services/location-service'
+
 const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
+  const { t } = useTranslation()
   const [countries, setCountries] = useState([])
   const [cities, setCities] = useState([])
 
-  const { t } = useTranslation()
+  // Load saved form data from localStorage (if available)
+  const saved = localStorage.getItem('generalInfoForm')
+  const initialValues = saved
+    ? JSON.parse(saved)
+    : {
+        firstName: '',
+        lastName: '',
+        country: '',
+        city: '',
+        description: '',
+        confirmAge: false
+      }
+
+  // useForm hook for form state and validation
+  const {
+    data,
+    errors,
+    handleInputChange,
+    handleNonInputValueChange,
+    handleBlur
+  } = useForm({
+    initialValues,
+    validations: {
+      firstName: (val) =>
+        !val ? t('becomeTutor.generalInfo.firstNameLabelReq') : undefined,
+      lastName: (val) =>
+        !val ? t('becomeTutor.generalInfo.lastNameLabelReq') : undefined,
+      description: (val) =>
+        typeof val === 'string' && val.length > 100
+          ? t('becomeTutor.generalInfo.descriptionMaxLength')
+          : undefined
+    }
+  })
+
+  // Persist to localStorage when data changes
+  useEffect(() => {
+    localStorage.setItem('generalInfoForm', JSON.stringify(data))
+  }, [data])
+
+  // Fetch list of countries once on mount
   useEffect(() => {
     locationsService.getCountries().then((response) => {
       if (response.status === 200) {
-        setCountries(response.data.data.countries)
+        const rawCountries = response.data.data.countries
+        const uniqueCountries = Array.from(new Set(rawCountries))
+        setCountries(uniqueCountries)
       }
     })
   }, [])
-  const [form, setForm] = useState(() => {
-    const savedForm = localStorage.getItem('generalInfoForm')
-    return savedForm
-      ? JSON.parse(savedForm)
-      : {
-          firstName: '',
-          lastName: '',
-          country: '',
-          city: '',
-          description: '',
-          confirmAge: false
-        }
-  })
+
+  // Fetch cities when country changes
   useEffect(() => {
-    localStorage.setItem('generalInfoForm', JSON.stringify(form))
-  }, [form])
-  useEffect(() => {
-    if (!form.country) return
+    if (!data.country) return
     setCities(['waiting...'])
+
     locationsService
-      .getCities(form.country)
+      .getCities(data.country)
       .then((response) => {
         if (response.status === 200) {
-          if (response.data.data.cities.length > 0) {
-            setCities(response.data.data.cities)
-          } else {
-            setCities(['No cities found'])
-          }
+          const cityList = response.data.data.cities
+          setCities(cityList.length ? cityList : ['No cities found'])
         }
       })
       .catch(() => {
         setCities(['No cities found'])
       })
-  }, [form.country])
-  const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    description: false
-  })
+  }, [data.country])
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    const newForm = {
-      ...form,
-      [name]: type === 'checkbox' ? checked : value,
-      ...(name === 'country' ? { city: '' } : {})
-    }
-    setForm(newForm)
-    localStorage.setItem('generalInfoForm', JSON.stringify(newForm))
-  }
+  // Notify parent if firstName or lastName has errors
+  useEffect(() => {
+    onErrorChange(Boolean(errors.firstName || errors.lastName))
+  }, [errors, onErrorChange])
 
-  const validateForm = () => {
-    const newErrors = {
-      firstName: form.firstName === '',
-      lastName: form.lastName === '',
-      description: form.description.length > 100
-    }
-    setErrors(newErrors)
-    onErrorChange(Object.values(newErrors).includes(true))
-  }
-
-  const handleDescriptionChange = (e) => {
-    const { value } = e.target
-    if (value.length <= 100) {
-      setForm((prev) => ({ ...prev, description: value }))
-    }
-  }
+  // Autofocus first input on mount
+  useEffect(() => {
+    const input = document.querySelector('input[name="firstName"]')
+    input?.focus()
+  }, [])
 
   return (
     <>
@@ -95,68 +106,64 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         {t('becomeTutor.generalInfo.title')}
       </Typography>
       <Box sx={styles.inputs}>
-        <TextField
-          autoFocus
-          error={errors.firstName}
+        <AppTextField
+          errorMsg={errors.firstName}
           fullWidth
-          helperText={
-            errors.firstName && t('becomeTutor.generalInfo.firstNameLabelReq')
-          }
           label={t('common.labels.firstName')}
           name='firstName'
-          onBlur={validateForm}
-          onChange={handleChange}
+          onBlur={handleBlur('firstName')}
+          onChange={handleInputChange('firstName')}
           required
-          value={form.firstName}
+          value={data.firstName}
         />
-        <TextField
-          error={errors.lastName}
+        <AppTextField
+          errorMsg={errors.lastName}
           fullWidth
-          helperText={
-            errors.lastName && t('becomeTutor.generalInfo.lastNameLabelReq')
-          }
           label={t('common.labels.lastName')}
           name='lastName'
-          onBlur={validateForm}
-          onChange={handleChange}
+          onBlur={handleBlur('lastName')}
+          onChange={handleInputChange('lastName')}
           required
-          value={form.lastName}
+          value={data.lastName}
         />
       </Box>
       <Box sx={styles.inputs}>
         <PaginatedSelect
           label={t('common.labels.country')}
           name='country'
-          onChange={handleChange}
+          onChange={(e) => handleNonInputValueChange('country', e.target.value)}
           options={countries}
-          value={form.country}
+          value={data.country}
         />
         <PaginatedSelect
           label={t('common.labels.city')}
           name='city'
-          onChange={handleChange}
+          onChange={(e) => handleNonInputValueChange('city', e.target.value)}
           options={cities}
-          value={form.city}
+          value={data.city}
         />
       </Box>
-      <TextField
-        error={errors.description}
+      <AppTextField
+        errorMsg={errors.description}
         fullWidth
-        helperText={`${form.description.length}/100`}
+        helperText={`${data.description.length}/100`}
         inputProps={{ maxLength: 100 }}
         label={t('becomeTutor.generalInfo.textFieldLabel')}
         multiline
         name='description'
-        onChange={handleDescriptionChange}
+        onChange={handleInputChange('description')}
         rows={3}
-        value={form.description}
+        value={data.description}
+        withHelperText
       />
       <FormControlLabel
         control={
           <Checkbox
-            checked={form.confirmAge}
+            checked={data.confirmAge}
             name='confirmAge'
-            onChange={handleChange}
+            onChange={(e) =>
+              handleNonInputValueChange('confirmAge', e.target.checked)
+            }
           />
         }
         label={t('becomeTutor.generalInfo.ageComfir')}

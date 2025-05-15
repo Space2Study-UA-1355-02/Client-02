@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from 'react'
+import { cloneElement, useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Container from '@mui/material/Container'
@@ -25,7 +25,8 @@ const StepWrapper = ({ children, steps, onStepChange }) => {
     }
   }, [activeStep, onStepChange])
 
-  const isNextDisabled = stepErrorState || stepErrors[activeStep]
+  const isNextDisabled = false
+  const isFinishDisabled = stepErrorState || stepErrors.some(Boolean)
 
   const stepLabels = steps.map((step, index) => (
     <Box
@@ -41,7 +42,7 @@ const StepWrapper = ({ children, steps, onStepChange }) => {
 
   const nextButton = isLastStep ? (
     <AppButton
-      disabled={loading}
+      disabled={isFinishDisabled}
       loading={loading}
       onClick={handleSubmit}
       size='small'
@@ -79,6 +80,14 @@ const StepWrapper = ({ children, steps, onStepChange }) => {
     </Box>
   )
 
+  const handleStepErrorChange = useCallback(
+    (hasError) => {
+      setStepErrorState(hasError)
+      stepOperation.setStepError(steps[activeStep], { file: hasError })
+    },
+    [activeStep, stepOperation, steps]
+  )
+
   return (
     <Container sx={styles.root}>
       <Box sx={styles.steps}>{stepLabels}</Box>
@@ -86,7 +95,7 @@ const StepWrapper = ({ children, steps, onStepChange }) => {
         {cloneElement(children[activeStep], {
           btnsBox,
           stepLabel: steps[activeStep],
-          onErrorChange: setStepErrorState
+          onErrorChange: handleStepErrorChange
         })}
       </Box>
     </Container>
