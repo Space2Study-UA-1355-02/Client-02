@@ -25,6 +25,7 @@ import { categoryService } from '~/services/category-service'
 import { offerService } from '~/services/offer-service'
 import { subjectService } from '~/services/subject-service'
 import {
+  ButtonVariantEnum,
   CategoryNameInterface,
   OffersParams,
   SizeEnum,
@@ -35,6 +36,7 @@ import { FiltersButton } from '~/components/filter-button/FilterButton'
 import { Switcher } from '~/components/switcher/Switcher'
 import { SortSelect } from '~/components/sort-select/SortSelect'
 import ViewSwitcher from '~/components/view-switcher/ViewSwitcher'
+import AppButton from '~/components/app-button/AppButton'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -53,7 +55,7 @@ const FindOffers = () => {
     []
   )
 
-  const { data, loading, resetData } = useLoadMore({
+  const { data, loading, resetData, loadMore, isExpandable } = useLoadMore({
     service: getOffers,
     limit: cardsLimit,
     params
@@ -66,7 +68,6 @@ const FindOffers = () => {
     searchParams.set('categoryId', value?._id ?? '')
     searchParams.set('subjectId', '')
     setSearchParams(searchParams)
-    resetData()
   }
 
   const autoCompleteCategories = (
@@ -89,7 +90,6 @@ const FindOffers = () => {
   ) => {
     searchParams.set('subjectId', value?._id ?? '')
     setSearchParams(searchParams)
-    resetData()
   }
 
   const autoCompleteSubjects = (
@@ -160,6 +160,28 @@ const FindOffers = () => {
       </Box>
 
       <OffersContainer isGrid={isGrid} loading={loading} offers={data} />
+
+      {isExpandable && (
+        <Box
+          sx={{
+            pt: '30px'
+          }}
+        >
+          <AppButton
+            loading={loading}
+            onClick={loadMore}
+            size={SizeEnum.ExtraLarge}
+            sx={{
+              minWidth: '148px',
+              display: 'block',
+              m: '32px auto 0'
+            }}
+            variant={ButtonVariantEnum.Tonal}
+          >
+            {t('categoriesPage.viewMore')}
+          </AppButton>
+        </Box>
+      )}
     </PageWrapper>
   )
 }
