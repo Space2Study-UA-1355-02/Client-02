@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import { mockOffers } from '~/containers/find-offer/offers-block/__mocks__/mockOffers'
 
-import ListGridSwitcher from '~/components/listGridSwitch/listGridSwitch'
+import ListGridSwitcher from '~/components/list-grid-switch/listGridSwitch'
 import OffersContainer from '~/components/offers-container/OffersContainer'
 
 const OffersBlock = () => {
