@@ -1,18 +1,14 @@
-import { ToggleButtonGroup, ToggleButton } from '@mui/material'
+import React from 'react'
+import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import ListIcon from '@mui/icons-material/List'
 import GridViewIcon from '@mui/icons-material/GridView'
 
-const ListGridSwitch = ({ isGrid, setIsGrid }) => {
-  const handleChange = (_, newValue) => {
-    if (newValue !== null) {
-      setIsGrid(newValue)
-    }
-  }
+const ViewSwitcher = ({ isGrid, setIsGrid }) => {
   return (
     <ToggleButtonGroup
       aria-label='View toggle'
       exclusive
-      onChange={handleChange}
+      onChange={setIsGrid}
       size='small'
       value={isGrid}
     >
@@ -26,4 +22,4 @@ const ListGridSwitch = ({ isGrid, setIsGrid }) => {
   )
 }
 
-export default ListGridSwitch
+export default ViewSwitcher

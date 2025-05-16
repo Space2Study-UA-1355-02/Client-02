@@ -1,7 +1,12 @@
 export const styles = {
   container: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontFamily: 'Rubik',
+    fontWeight: 500,
+    fontSize: '20px',
+    lineHeight: '28px',
+    letterSpacing: '0.15px'
   },
   counter: {
     display: 'flex',
