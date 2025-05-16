@@ -20,7 +20,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
   const [countries, setCountries] = useState([])
   const [cities, setCities] = useState([])
 
-  // Load saved form data from localStorage (if available)
   const saved = localStorage.getItem('generalInfoForm')
   const initialValues = saved
     ? JSON.parse(saved)
@@ -33,7 +32,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         confirmAge: false
       }
 
-  // useForm hook for form state and validation
   const {
     data,
     errors,
@@ -54,12 +52,10 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
     }
   })
 
-  // Persist to localStorage when data changes
   useEffect(() => {
     localStorage.setItem('generalInfoForm', JSON.stringify(data))
   }, [data])
 
-  // Fetch list of countries once on mount
   useEffect(() => {
     locationsService.getCountries().then((response) => {
       if (response.status === 200) {
@@ -70,7 +66,6 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
     })
   }, [])
 
-  // Fetch cities when country changes
   useEffect(() => {
     if (!data.country) return
     setCities(['waiting...'])
@@ -87,17 +82,9 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
         setCities(['No cities found'])
       })
   }, [data.country])
-
-  // Notify parent if firstName or lastName has errors
   useEffect(() => {
     onErrorChange(Boolean(errors.firstName || errors.lastName))
   }, [errors, onErrorChange])
-
-  // Autofocus first input on mount
-  useEffect(() => {
-    const input = document.querySelector('input[name="firstName"]')
-    input?.focus()
-  }, [])
 
   return (
     <>
@@ -106,6 +93,7 @@ const GeneralInfoStep = ({ btnsBox, onErrorChange }) => {
       </Typography>
       <Box sx={styles.inputs}>
         <AppTextField
+          autoFocus
           errorMsg={errors.firstName}
           fullWidth
           label={t('common.labels.firstName')}
