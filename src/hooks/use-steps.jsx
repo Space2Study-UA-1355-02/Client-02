@@ -61,28 +61,26 @@ const useSteps = ({ steps }) => {
 
   const handleSubmit = () => {
     const hasErrors = stepErrors.find((error) => error)
-
-    const { firstName, lastName, country, city, professionalSummary } =
-      stepData.generalInfo.data
+    const generalInfoForm = JSON.parse(localStorage.getItem('generalInfoForm'))
+    const addPhotoStepForm = localStorage.getItem('addPhotoStepForm')
 
     const data = {
-      photo: stepData.photo[0] ? stepData.photo[0] : '',
-      firstName,
-      lastName,
+      photo: addPhotoStepForm || 'photo',
+      firstName: generalInfoForm.firstName || 'firstName',
+      lastName: generalInfoForm.lastName || 'lastName',
       address: {
-        country: country ?? '',
-        city: city ?? ''
+        country: generalInfoForm.country || 'country',
+        city: generalInfoForm.city || 'city'
       },
-      professionalSummary: professionalSummary,
-      mainSubjects: stepData.subjects,
-      nativeLanguage: stepData.language ?? ''
+      nativeLanguage: 'English',
+      appLanguage: 'en'
     }
+    !hasErrors && fetchData(data)
     localStorage.removeItem('generalInfoForm')
     localStorage.removeItem('interestsStepForm')
     localStorage.removeItem('subjectsStepForm')
     localStorage.removeItem('languageStepForm')
     localStorage.removeItem('addPhotoStepForm')
-    !hasErrors && fetchData(data)
   }
 
   const stepOperation = {

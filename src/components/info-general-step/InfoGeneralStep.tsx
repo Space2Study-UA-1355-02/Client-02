@@ -93,7 +93,11 @@ const UserStepsModal = ({ role = 'tutor' }) => {
             initialValues={initialValues}
             stepLabels={tempStepLabels}
           >
-            <StepWrapper onStepChange={setActiveStep} steps={tempStepLabels}>
+            <StepWrapper
+              onStepChange={setActiveStep}
+              setOpen={setOpen}
+              steps={tempStepLabels}
+            >
               {tempChildrenArr}
             </StepWrapper>
           </StepProvider>

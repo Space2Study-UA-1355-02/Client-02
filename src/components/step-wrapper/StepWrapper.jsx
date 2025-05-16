@@ -11,7 +11,7 @@ import AppButton from '~/components/app-button/AppButton'
 import useSteps from '~/hooks/use-steps'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 
-const StepWrapper = ({ children, steps, onStepChange }) => {
+const StepWrapper = ({ children, steps, onStepChange, setOpen }) => {
   const { activeStep, stepErrors, isLastStep, loading, stepOperation } =
     useSteps({
       steps
@@ -44,7 +44,10 @@ const StepWrapper = ({ children, steps, onStepChange }) => {
     <AppButton
       disabled={isFinishDisabled}
       loading={loading}
-      onClick={handleSubmit}
+      onClick={() => {
+        handleSubmit()
+        setOpen(false)
+      }}
       size='small'
       sx={styles.finishBtn}
       variant='contained'
