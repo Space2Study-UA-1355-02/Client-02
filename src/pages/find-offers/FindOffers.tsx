@@ -8,7 +8,6 @@ import { useSearchParams } from 'react-router-dom'
 import AppToolbar from '~/components/app-toolbar/AppToolbar'
 import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import DirectionLink from '~/components/direction-link/DirectionLink'
-import ListGridSwitcher from '~/components/list-grid-switch/listGridSwitch'
 import OffersContainer from '~/components/offers-container/OffersContainer'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import SearchAutocomplete from '~/components/search-autocomplete/SearchAutocomplete'
@@ -32,6 +31,10 @@ import {
   SubjectNameInterface
 } from '~/types'
 import { getScreenBasedLimit } from '~/utils/helper-functions'
+import { FiltersButton } from '~/components/filter-button/FilterButton'
+import { Switcher } from '~/components/switcher/Switcher'
+import { SortSelect } from '~/components/sort-select/SortSelect'
+import ViewSwitcher from '~/components/view-switcher/ViewSwitcher'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -43,6 +46,7 @@ const FindOffers = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const categoryId = searchParams.get('categoryId') ?? ''
   const subjectId = searchParams.get('subjectId') ?? ''
+  const [sort, setSort] = useState('')
 
   const getOffers = useCallback(
     (params?: Partial<OffersParams>) => offerService.getOffers(params),
@@ -138,11 +142,21 @@ const FindOffers = () => {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}
       >
-        {/*other filters*/}
-        <ListGridSwitcher isGrid={isGrid} setIsGrid={setIsGrid} />
+        <FiltersButton activeCount={0} onClick={() => {}} />
+        <Switcher
+          onChange={() => {}}
+          switchOptionLeft={t('findOffers.topMenu.tutorsOffers')}
+          switchOptionRight={t('findOffers.topMenu.studentsRequests')}
+        />
+        <SortSelect onChange={setSort} value={sort} />
+        <ViewSwitcher
+          isGrid={isGrid}
+          setIsGrid={() => setIsGrid((prev) => !prev)}
+        />
       </Box>
 
       <OffersContainer isGrid={isGrid} loading={loading} offers={data} />
