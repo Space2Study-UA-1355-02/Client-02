@@ -1,5 +1,3 @@
-//Add pphoto step container styles
-
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 import { alpha } from '@mui/material/styles'
 
@@ -19,8 +17,7 @@ export const style = {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    borderRadius: '20px',
-    mt: { xs: '20px', md: '0px' }
+    borderRadius: '20px'
   },
   imgContainer: {
     display: 'flex',
@@ -54,19 +51,14 @@ export const style = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    maxWidth: '440px',
     width: '100%',
     flex: 1,
-    //height: '100%',
     m: { md: 0, xs: '0 auto' },
     pt: 0,
     pb: { xs: '30px', sm: '0' }
-    //gap: '20px'
   },
   description: {
-    mb: '20px',
-    fontSize: '14px',
-    lineHeight: '1.3'
+    mb: '20px'
   },
   fileUploader: {
     button: {

@@ -19,5 +19,8 @@ export const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: '20px'
+  },
+  describe: {
+    paddingBottom: '10px'
   }
 }
